@@ -1,0 +1,1371 @@
+[
+	{
+		"index": 1,
+		"title": "Cozy Cabin Retreat",
+		"description": "A charming cabin nestled in the woods for a peaceful getaway.",
+		"country": "FRANCE",
+		"location": "Forest Grove, Oregon",
+		"price": 9500,
+		"photos": [
+			"https://media.istockphoto.com/id/1387191535/photo/sunrise-on-two-empty-adirondack-chairs.jpg?s=612x612&w=0&k=20&c=BgMN84sAeuJ4USxcf66Bf4pJlvD-zNWl-JMHo4gnimY=",
+			"https://media.istockphoto.com/id/693806460/photo/portsmouth-new-hampshire-usa.jpg?s=612x612&w=0&k=20&c=9Xy4cDf6tPPjrvvDXrqG4Fe6ee06NofW2z7J3t8t24o="
+		],
+		"availability": [
+			{
+				"startDate": "2024-08-01T00:00:00.000Z",
+				"endDate": "2024-08-07T00:00:00.000Z"
+			},
+			{
+				"startDate": "2024-08-15T00:00:00.000Z",
+				"endDate": "2024-08-20T00:00:00.000Z"
+			}
+		],
+		"placeTypes": "cabins",
+		"totalGuests": 4,
+		"bedrooms": 2,
+		"bathrooms": 1,
+
+		"averageRating": 4.5
+	},
+	{
+		"index": 2,
+		"title": "Seaside Villa",
+		"description": "Luxurious villa overlooking the ocean, perfect for a beach vacation.",
+		"country": "UK",
+		"location": "Malibu, California",
+		"price": 1100,
+		"photos": [
+			"https://media.istockphoto.com/id/1319453433/photo/modern-luxury-house-with-private-infinity-pool-in-dusk.jpg?s=612x612&w=0&k=20&c=WDWGyEZfDp8Qi2OI6m9RrNPHdnj5EPVBLvVi0IP7K74=",
+			"https://media.istockphoto.com/id/1359985372/photo/3d-rendering-of-modern-house-in-luxurious-style-by-the-sea-or-ocean-on-sunset.jpg?s=612x612&w=0&k=20&c=qeBUIHe5ugsm7JKl7eND-Ip0iX2osagSBXGHzcEsYMM="
+		],
+		"availability": [
+			{
+				"startDate": "2024-07-10T00:00:00.000Z",
+				"endDate": "2024-07-15T00:00:00.000Z"
+			},
+			{
+				"startDate": "2024-08-01T00:00:00.000Z",
+				"endDate": "2024-08-10T00:00:00.000Z"
+			}
+		],
+		"placeTypes": "beachfront",
+		"totalGuests": 8,
+		"bedrooms": 4,
+		"bathrooms": 3,
+
+		"averageRating": 4.8
+	},
+	{
+		"index": 3,
+		"title": "Country Farmhouse",
+		"description": "Experience country living in a traditional farmhouse.",
+		"country": "THAILAND",
+		"location": "Nashville, Tennessee",
+		"price": 9250,
+		"photos": [
+			"https://media.istockphoto.com/id/1284634579/photo/sunrise-at-the-farmhouse.jpg?s=612x612&w=0&k=20&c=0DONWjrDi2DDk6_f5h4fhpyahiLUe_-TjhFkO-GCQhY=",
+			"https://media.istockphoto.com/id/170006998/photo/rural-scene-in-sweden.jpg?s=612x612&w=0&k=20&c=Xdk1Jyk8etZKYIRhagg2Er2oZKqBKjI9k1fKyDEsBf8="
+		],
+		"availability": [
+			{
+				"startDate": "2024-09-01T00:00:00.000Z",
+				"endDate": "2024-09-05T00:00:00.000Z"
+			},
+			{
+				"startDate": "2024-09-20T00:00:00.000Z",
+				"endDate": "2024-09-25T00:00:00.000Z"
+			}
+		],
+		"placeTypes": "countryside",
+		"totalGuests": 6,
+		"bedrooms": 3,
+		"bathrooms": 2,
+
+		"averageRating": 4.7
+	},
+	{
+		"index": 4,
+		"title": "Mountain Hideaway",
+		"description": "Escape to a secluded mountain hideaway with stunning views.",
+		"country": "France",
+		"location": "Aspen, Colorado",
+		"price": 5850,
+		"photos": [
+			"https://media.istockphoto.com/id/1334912013/photo/modern-triangle-forest-house.jpg?s=612x612&w=0&k=20&c=0Cfk52o7qdhhjs6zNd3WppxHvXE3PyxMGVtC9Nl7AgI=",
+			"https://media.istockphoto.com/id/1372009235/photo/view-from-an-open-wooden-deck-at-a-rural-rustic-home-overlooking-fernan-and-coeur-dalene-lake.jpg?s=612x612&w=0&k=20&c=Ck09zGy80dzS-5f9oYV3GHmMlZjAGaYLSHSK9C5Ip0s="
+		],
+		"availability": [
+			{
+				"startDate": "2024-07-20T00:00:00.000Z",
+				"endDate": "2024-07-25T00:00:00.000Z"
+			},
+			{
+				"startDate": "2024-08-05T00:00:00.000Z",
+				"endDate": "2024-08-15T00:00:00.000Z"
+			}
+		],
+		"placeTypes": "cabins",
+		"totalGuests": 5,
+		"bedrooms": 2,
+		"bathrooms": 2,
+
+		"averageRating": 4.6
+	},
+	{
+		"index": 5,
+		"title": "Beachside Bungalow",
+		"description": "A cozy bungalow right on the beach.",
+		"country": "USA",
+		"location": "Miami, Florida",
+		"price": 2199,
+		"photos": [
+			"https://media.istockphoto.com/id/504645942/photo/large-luxury-bungalows-on-the-islands.jpg?s=612x612&w=0&k=20&c=ToIcm7h998w0HI6ZWn4dKp17BfDgzJ4g-JMidgED7gc=",
+			"https://media.istockphoto.com/id/160906153/photo/cafe-and-swimming-pool-at-a-tropical-beach.jpg?s=612x612&w=0&k=20&c=CmVVm-xyLbAvt3PcwYvo_nN5sw-YrJtG55tD7GsX1rc="
+		],
+		"availability": [
+			{
+				"startDate": "2024-07-05T00:00:00.000Z",
+				"endDate": "2024-07-10T00:00:00.000Z"
+			},
+			{
+				"startDate": "2024-08-15T00:00:00.000Z",
+				"endDate": "2024-08-25T00:00:00.000Z"
+			}
+		],
+		"placeTypes": "beachfront",
+		"totalGuests": 3,
+		"bedrooms": 1,
+		"bathrooms": 1,
+
+		"averageRating": 4.4
+	},
+	{
+		"index": 6,
+		"title": "Historic Castle Stay",
+		"description": "Stay in a historic castle and feel like royalty.",
+		"country": "UK",
+		"location": "Edinburgh, Scotland",
+		"price": 3299,
+		"photos": [
+			"https://media.istockphoto.com/id/492959422/photo/dunluce-castle.jpg?s=612x612&w=0&k=20&c=xSSiEv8PpCSQKXdOxg4r82QiMk7doXbrBD-SrZkxWWY=",
+			"https://media.istockphoto.com/id/525739804/photo/kilchurn-castle.jpg?s=612x612&w=0&k=20&c=RnM0zGlVOEEumg_lk57P7aoWXhv9kiesM6oR_rKuDcE="
+		],
+		"availability": [
+			{
+				"startDate": "2024-10-01T00:00:00.000Z",
+				"endDate": "2024-10-10T00:00:00.000Z"
+			},
+			{
+				"startDate": "2024-11-01T00:00:00.000Z",
+				"endDate": "2024-11-15T00:00:00.000Z"
+			}
+		],
+		"placeTypes": "castles",
+		"totalGuests": 10,
+		"bedrooms": 5,
+		"bathrooms": 5,
+
+		"averageRating": 4.9
+	},
+	{
+		"index": 7,
+		"title": "Lakeside Cottage",
+		"description": "Relax in a cozy cottage by the lake.",
+		"country": "USA",
+		"location": "Lake Tahoe, California",
+		"price": 1800,
+		"photos": [
+			"https://media.istockphoto.com/id/2136051167/photo/private-residential-houses-in-lakeside-suburban-sprawl-area-in-rochester-new-york-upscale.jpg?s=612x612&w=0&k=20&c=Wzq8r9LRspZpzSYVDCFu9Z_DxBDakyj1A6W-YvU7zlA=",
+			"https://media.istockphoto.com/id/970199866/photo/rorbuer-traditional-norwegian-red-wooden-house-to-stand-at-the-lakeside-and-mountains-in-the.jpg?s=612x612&w=0&k=20&c=EWAaU9v3bprR5zj5yYzAn6a8I3rCZYz4r_1sckkhTNY="
+		],
+		"availability": [
+			{
+				"startDate": "2024-07-15T00:00:00.000Z",
+				"endDate": "2024-07-20T00:00:00.000Z"
+			},
+			{
+				"startDate": "2024-08-10T00:00:00.000Z",
+				"endDate": "2024-08-20T00:00:00.000Z"
+			}
+		],
+		"placeTypes": "lakefront",
+		"totalGuests": 4,
+		"bedrooms": 2,
+		"bathrooms": 2,
+
+		"averageRating": 4.3
+	},
+	{
+		"index": 8,
+		"title": "Charming Cave House",
+		"description": "Unique cave house experience in a beautiful setting.",
+		"country": "GREECE",
+		"location": "Santorini, Greece",
+		"price": 2700,
+		"photos": [
+			"https://media.istockphoto.com/id/613759200/photo/cave-houses-guadix-spain.jpg?s=612x612&w=0&k=20&c=UaeCxX4N2esXi_UFzxePlXV_Xbx5eRqcdvE1dHF2Y3c=",
+			"https://media.istockphoto.com/id/157682135/photo/living-room-in-a-turkish-cave.jpg?s=612x612&w=0&k=20&c=iF2xGIKbqjJD-daUIXflQ8Mbdilu1wiic7QZZjNdKSQ="
+		],
+		"availability": [
+			{
+				"startDate": "2024-09-01T00:00:00.000Z",
+				"endDate": "2024-09-10T00:00:00.000Z"
+			},
+			{
+				"startDate": "2024-10-01T00:00:00.000Z",
+				"endDate": "2024-10-10T00:00:00.000Z"
+			}
+		],
+		"placeTypes": "caves",
+		"totalGuests": 3,
+		"bedrooms": 1,
+		"bathrooms": 1,
+
+		"averageRating": 4.7
+	},
+	{
+		"index": 9,
+		"title": "Forest Camping Site",
+		"description": "Enjoy nature at its best at this forest camping site.",
+		"country": "THAILAND",
+		"location": "Yosemite National Park, California",
+		"price": 3990,
+		"photos": [
+			"https://media.istockphoto.com/id/1377841262/photo/the-beautiful-scenery-of-a-tent-in-a-pine-tree-forest-at-pang-oung-mae-hong-son-province.jpg?s=612x612&w=0&k=20&c=1JvDx-16zTIeytdcC-Fa27nVJ_8SveP-omNKKlUJ-lQ=",
+			"https://media.istockphoto.com/id/1059448246/photo/camping-life.jpg?s=612x612&w=0&k=20&c=pgsaiW-sEsnJ4BHmVKOiuWIJohneW__BRYEWk1EjRmA="
+		],
+		"availability": [
+			{
+				"startDate": "2024-07-01T00:00:00.000Z",
+				"endDate": "2024-07-05T00:00:00.000Z"
+			},
+			{
+				"startDate": "2024-08-01T00:00:00.000Z",
+				"endDate": "2024-08-07T00:00:00.000Z"
+			}
+		],
+		"placeTypes": "camp",
+		"totalGuests": 8,
+		"bedrooms": 0,
+		"bathrooms": 1,
+
+		"averageRating": 4.2
+	},
+	{
+		"index": 10,
+		"title": "City Center Room",
+		"description": "Conveniently located room in the city center.",
+		"country": "USA",
+		"location": "New York, New York",
+		"price": 4150,
+		"photos": [
+			"https://media.istockphoto.com/id/1405333027/photo/interior-of-an-open-plan-office-space.jpg?s=612x612&w=0&k=20&c=SWMjr9JHs-ql7hvkHvygH1kpRQn60JoxLzWbK-Gn6Kw=",
+			"https://media.istockphoto.com/id/484678754/photo/panoramic-conference-room-in-modern-office.jpg?s=612x612&w=0&k=20&c=X1vqtdh5LSZkPSVVp7PtEdjcHOP6Mf85IrV1NUHFvoU="
+		],
+		"availability": [
+			{
+				"startDate": "2024-07-20T00:00:00.000Z",
+				"endDate": "2024-07-25T00:00:00.000Z"
+			},
+			{
+				"startDate": "2024-08-15T00:00:00.000Z",
+				"endDate": "2024-08-20T00:00:00.000Z"
+			}
+		],
+		"placeTypes": "rooms",
+		"totalGuests": 2,
+		"bedrooms": 1,
+		"bathrooms": 1,
+
+		"averageRating": 4.3
+	},
+	{
+		"index": 11,
+		"title": "Riverfront Apartment",
+		"description": "Modern apartment with stunning river views.",
+		"country": "FRANCE",
+		"location": "Paris, France",
+		"price": 3250,
+		"photos": [
+			"https://t4.ftcdn.net/jpg/02/96/15/35/240_F_296153501_B34baBHDkFXbl5RmzxpiOumF4LHGCvAE.jpg",
+			"https://media.istockphoto.com/id/1202455118/photo/chicago-skyline-aerial-drone-view-from-above-city-of-chicago-downtown-skyscrapers-and-lake.jpg?s=612x612&w=0&k=20&c=BNOwfvF11Q__0ecB5DDSQ1Ob7y4wlW5HJPEHx3e4-UQ="
+		],
+		"availability": [
+			{
+				"startDate": "2024-09-10T00:00:00.000Z",
+				"endDate": "2024-09-20T00:00:00.000Z"
+			},
+			{
+				"startDate": "2024-10-05T00:00:00.000Z",
+				"endDate": "2024-10-15T00:00:00.000Z"
+			}
+		],
+		"placeTypes": "lakefront",
+		"totalGuests": 4,
+		"bedrooms": 2,
+		"bathrooms": 2,
+
+		"averageRating": 4.5
+	},
+	{
+		"index": 12,
+		"title": "Luxury Penthouse",
+		"description": "Enjoy breathtaking views from this luxury penthouse.",
+		"country": "UAE",
+		"location": "Dubai, UAE",
+		"price": 1799,
+		"photos": [
+			"https://media.istockphoto.com/id/1127417417/photo/modern-luxurious-bedroom-in-a-seaside-villa-with-black-stone-wall.jpg?s=612x612&w=0&k=20&c=xmT4JSzLQtztPcVgQXI-3BX2BPBEutTi8RCt1f_suN0=",
+			"https://media.istockphoto.com/id/591404458/photo/modern-contemporary-bedroom.jpg?s=612x612&w=0&k=20&c=UvZBiVjnl5bKnqCbcFMwGF-w3ZA5mj4NARJOcU7-qXg="
+		],
+		"availability": [
+			{
+				"startDate": "2024-08-01T00:00:00.000Z",
+				"endDate": "2024-08-10T00:00:00.000Z"
+			},
+			{
+				"startDate": "2024-09-01T00:00:00.000Z",
+				"endDate": "2024-09-10T00:00:00.000Z"
+			}
+		],
+		"placeTypes": "rooms",
+		"totalGuests": 6,
+		"bedrooms": 3,
+		"bathrooms": 3,
+
+		"averageRating": 4.9
+	},
+	{
+		"index": 13,
+		"title": "Rustic Farm Stay",
+		"description": "Get a taste of farm life in this rustic stay.",
+		"country": "UAE",
+		"location": "Lancaster, Pennsylvania",
+		"price": 1930,
+		"photos": [
+			"https://media.istockphoto.com/id/857789544/photo/landscape-nature-view-background-view-from-window-at-a-wonderful-landscape-nature-view-with.jpg?s=612x612&w=0&k=20&c=BbXSsEEfwLZca4l1PWZeHE4kejANs7orMnGgG_EPuiE=",
+			"https://media.istockphoto.com/id/863542630/photo/summer-sunset-with-a-red-barn-in-rural-montana-and-rocky-mountains.jpg?s=612x612&w=0&k=20&c=c0-_YxwHBEbwL0SpzPrF_mWGlEtX2GQzPaezpn_o0EY="
+		],
+		"availability": [
+			{
+				"startDate": "2024-09-05T00:00:00.000Z",
+				"endDate": "2024-09-15T00:00:00.000Z"
+			},
+			{
+				"startDate": "2024-10-01T00:00:00.000Z",
+				"endDate": "2024-10-10T00:00:00.000Z"
+			}
+		],
+		"placeTypes": "countryside",
+		"totalGuests": 4,
+		"bedrooms": 2,
+		"bathrooms": 1,
+
+		"averageRating": 4.6
+	},
+	{
+		"index": 14,
+		"title": "Elegant Beach House",
+		"description": "Modern beach house with all amenities.",
+		"country": "AUSTRALIA",
+		"location": "Sydney, Australia",
+		"price": 3675,
+		"photos": [
+			"https://media.istockphoto.com/id/1249282824/photo/outdoor-patio-with-living-and-eating-area.jpg?s=612x612&w=0&k=20&c=VfB6LxCYxcIFYoNlHRnNzQ6IvBa1a5j8IO5KZzv7_60=",
+			"https://media.istockphoto.com/id/1424381479/photo/3d-renders-of-luxurious-house-along-the-sea.jpg?s=612x612&w=0&k=20&c=Ol_FeNrk_4GhclzwTL9oUhegqP3xq-d9QjpuwA2PaZw="
+		],
+		"availability": [
+			{
+				"startDate": "2024-07-01T00:00:00.000Z",
+				"endDate": "2024-07-10T00:00:00.000Z"
+			},
+			{
+				"startDate": "2024-08-05T00:00:00.000Z",
+				"endDate": "2024-08-15T00:00:00.000Z"
+			}
+		],
+		"placeTypes": "beachfront",
+		"totalGuests": 6,
+		"bedrooms": 3,
+		"bathrooms": 2,
+
+		"averageRating": 4.8
+	},
+	{
+		"index": 15,
+		"title": "Romantic Treehouse",
+		"description": "Perfect romantic getaway in a treehouse.",
+		"country": "UAE",
+		"location": "Asheville, North Carolina",
+		"price": 1790,
+		"photos": [
+			"https://media.istockphoto.com/id/1503226956/photo/young-couple-traveler-enjoying-and-looking-beautiful-sunrise-at-the-tree-house-in-nusa-penida.jpg?s=612x612&w=0&k=20&c=-dWbotHsN_mG6ISU7Ryi6r7fTq4tW2YjaGMjMBEt9FI=",
+			"https://media.istockphoto.com/id/1439017397/photo/outnabout-treehouse-treesort-near-cave-junction-oregon.jpg?s=612x612&w=0&k=20&c=Xt2pnpR6vt2T1T7UPVs9f1s0i4_R_p1H-mZmqLImlaY="
+		],
+		"availability": [
+			{
+				"startDate": "2024-07-20T00:00:00.000Z",
+				"endDate": "2024-07-25T00:00:00.000Z"
+			},
+			{
+				"startDate": "2024-08-20T00:00:00.000Z",
+				"endDate": "2024-08-30T00:00:00.000Z"
+			}
+		],
+		"placeTypes": "countryside",
+		"totalGuests": 2,
+		"bedrooms": 1,
+		"bathrooms": 1,
+
+		"averageRating": 4.9
+	},
+	{
+		"index": 16,
+		"title": "Lake House Escape",
+		"description": "Beautiful lake house for family vacations.",
+		"country": "GREECE",
+		"location": "Lake Placid, New York",
+		"price": 2980,
+		"photos": [
+			"https://media.istockphoto.com/id/108219206/photo/log-cabin-hidden-in-the-trees-by-the-lake-ohara-in-canada.jpg?s=612x612&w=0&k=20&c=3rt_fpgh6Be9f2M4GLoGDSteHA4BuEIV9fTiShPJWoM=",
+			"https://media.istockphoto.com/id/94323282/photo/lakeshore-lodge.jpg?s=612x612&w=0&k=20&c=sG5pe1UfTIEk3fjCkSu-WsBX2Gt8_crUx-cmkdxpkts="
+		],
+		"availability": [
+			{
+				"startDate": "2024-08-01T00:00:00.000Z",
+				"endDate": "2024-08-10T00:00:00.000Z"
+			},
+			{
+				"startDate": "2024-09-01T00:00:00.000Z",
+				"endDate": "2024-09-10T00:00:00.000Z"
+			}
+		],
+		"placeTypes": "lakefront",
+		"totalGuests": 6,
+		"bedrooms": 3,
+		"bathrooms": 2,
+
+		"averageRating": 4.7
+	},
+	{
+		"index": 17,
+		"title": "Desert Oasis",
+		"description": "An oasis in the desert for a serene experience.",
+		"country": "UAE",
+		"location": "Phoenix, Arizona",
+		"price": 2100,
+		"photos": [
+			"https://media.istockphoto.com/id/547521820/photo/oasis-huachina-village-in-peru.jpg?s=612x612&w=0&k=20&c=CZOrLpW2-aaboFM5zrL6xVigrWCxGXR3rFWjmmm1_Dw=",
+			"https://media.istockphoto.com/id/1397179740/photo/farm-worker-walking-to-agricultural-fields-in-al-ula-oasis.jpg?s=612x612&w=0&k=20&c=0YsWibTzo58FnHxGUlx2NTb00VsS8eqJasnmCWpV_x8="
+		],
+		"availability": [
+			{
+				"startDate": "2024-09-01T00:00:00.000Z",
+				"endDate": "2024-09-10T00:00:00.000Z"
+			},
+			{
+				"startDate": "2024-10-01T00:00:00.000Z",
+				"endDate": "2024-10-10T00:00:00.000Z"
+			}
+		],
+		"placeTypes": "countryside",
+		"totalGuests": 5,
+		"bedrooms": 2,
+		"bathrooms": 2,
+
+		"averageRating": 4.6
+	},
+	{
+		"index": 18,
+		"title": "Urban Loft",
+		"description": "Modern loft in the heart of the city.",
+		"country": "THAILAND",
+		"location": "Chicago, Illinois",
+		"price": 1880,
+		"photos": [
+			"https://media.istockphoto.com/id/1127580796/photo/3d-illustration-of-a-new-modern-city-loft-apartment.jpg?s=612x612&w=0&k=20&c=fnA4265CyfboDls6iEP8azUGyDxlPgnno9EHkORu-0w=",
+			"https://media.istockphoto.com/id/1138529881/photo/cozy-loft-apartment-interior-in-downtown-los-angeles.jpg?s=612x612&w=0&k=20&c=eUk3DwQhxjbGtYw_2rJbo0MvnfsrxR2xB7ga2TCJhqk="
+		],
+		"availability": [
+			{
+				"startDate": "2024-07-01T00:00:00.000Z",
+				"endDate": "2024-07-05T00:00:00.000Z"
+			},
+			{
+				"startDate": "2024-08-01T00:00:00.000Z",
+				"endDate": "2024-08-05T00:00:00.000Z"
+			}
+		],
+		"placeTypes": "rooms",
+		"totalGuests": 4,
+		"bedrooms": 2,
+		"bathrooms": 1,
+		"averageRating": 4.5
+	},
+	{
+		"index": 19,
+		"title": "Luxury Tent",
+		"description": "Experience glamping in a luxury tent.",
+		"country": "AUSTRALIA",
+		"location": "Moab, Utah",
+		"price": 1590,
+		"photos": [
+			"https://media.istockphoto.com/id/1280006515/photo/glamping-interior.jpg?s=612x612&w=0&k=20&c=gNEyQs1obv1K1aau2zNqlQXXWjI8cJHCjgKmAgaPH78=",
+			"https://media.istockphoto.com/id/183863559/photo/luxury-safari-bedroom.jpg?s=612x612&w=0&k=20&c=oQUmNzM43TqIgFIjIp8mbySROnYFE6nTbD7tZ1tCoBU="
+		],
+		"availability": [
+			{
+				"startDate": "2024-09-01T00:00:00.000Z",
+				"endDate": "2024-09-10T00:00:00.000Z"
+			},
+			{
+				"startDate": "2024-10-01T00:00:00.000Z",
+				"endDate": "2024-10-05T00:00:00.000Z"
+			}
+		],
+		"placeTypes": "camp",
+		"totalGuests": 4,
+		"bedrooms": 1,
+		"bathrooms": 1,
+
+		"averageRating": 4.5
+	},
+	{
+		"index": 20,
+		"title": "Historic Downtown Apartment",
+		"description": "Apartment with historic charm in the downtown area.",
+		"country": "USA",
+		"location": "Boston, Massachusetts",
+		"price": 2520,
+		"photos": [
+			"https://media.istockphoto.com/id/1424668659/photo/aerial-view-of-barcelona-city-skyline-and-sagrada-familia-cathedral-at-sunrise-eixample.jpg?s=612x612&w=0&k=20&c=yoNtfD6CoGVnFKAcshXdILacEGUjONTlmFgEjM1ZKUw=",
+			"https://media.istockphoto.com/id/1870200825/photo/bell-tower-of-the-valencia-cathedral.jpg?s=612x612&w=0&k=20&c=h1KP6HbffjD7Mmmgej3kw28qxONirK6f-qhuRm1DQKw="
+		],
+		"availability": [
+			{
+				"startDate": "2024-07-10T00:00:00.000Z",
+				"endDate": "2024-07-20T00:00:00.000Z"
+			},
+			{
+				"startDate": "2024-08-01T00:00:00.000Z",
+				"endDate": "2024-08-10T00:00:00.000Z"
+			}
+		],
+		"placeTypes": "rooms",
+		"totalGuests": 2,
+		"bedrooms": 1,
+		"bathrooms": 1,
+
+		"averageRating": 4.4
+	},
+	{
+		"index": 21,
+		"title": "Mediterranean Villa",
+		"description": "Beautiful villa with Mediterranean charm.",
+		"country": "FRANCE",
+		"location": "Nice, France",
+		"price": 3450,
+		"photos": [
+			"https://media.istockphoto.com/id/1405967253/photo/luxury-beach-sea-view-hotel-and-resort-santorini-style-3d-rendering.jpg?s=612x612&w=0&k=20&c=7T3CyJWl24xNGgf4Kf2-TUJKSEen5XmwdgDUk8UgFKk=",
+			"https://media.istockphoto.com/id/915665092/photo/private-swimming-pool-and-patio-area.jpg?s=612x612&w=0&k=20&c=1peyf85P_A2nhbwTdnnCWHK8isBNWwRFLzBsWmanaMI="
+		],
+		"availability": [
+			{
+				"startDate": "2024-08-01T00:00:00.000Z",
+				"endDate": "2024-08-10T00:00:00.000Z"
+			},
+			{
+				"startDate": "2024-09-01T00:00:00.000Z",
+				"endDate": "2024-09-10T00:00:00.000Z"
+			}
+		],
+		"placeTypes": "beachfront",
+		"totalGuests": 6,
+		"bedrooms": 3,
+		"bathrooms": 2,
+		"averageRating": 4.8
+	},
+	{
+		"index": 22,
+		"title": "Rustic Lakeside Cottage",
+		"description": "Quaint cottage by the lake with stunning views.",
+		"country": "AUSTRALIA",
+		"location": "Lake Placid, New York",
+		"price": 1899,
+		"photos": [
+			"https://t3.ftcdn.net/jpg/08/40/57/58/240_F_840575812_DYsjAV7NQc6Bfycs9r0Gw77ZonA3OfTH.jpg",
+			"https://t4.ftcdn.net/jpg/08/36/11/09/240_F_836110923_6UFhdfTUw8uOwpl81DwZ9y88z9vanGQq.jpg"
+		],
+		"availability": [
+			{
+				"startDate": "2024-09-01T00:00:00.000Z",
+				"endDate": "2024-09-07T00:00:00.000Z"
+			},
+			{
+				"startDate": "2024-09-15T00:00:00.000Z",
+				"endDate": "2024-09-20T00:00:00.000Z"
+			}
+		],
+		"placeTypes": "cottages",
+		"totalGuests": 3,
+		"bedrooms": 1,
+		"bathrooms": 1,
+		"averageRating": 4.8
+	},
+	{
+		"index": 23,
+		"title": "Modern City Loft",
+		"description": "Sleek and stylish loft apartment in the heart of the city.",
+		"country": "GREECE",
+		"location": "New York City, New York",
+		"price": 2250,
+		"photos": [
+			"https://t3.ftcdn.net/jpg/03/56/06/90/240_F_356069095_rDF37on1acNzLKxmFL9liPdwyRsLm6rT.jpg",
+			"https://t3.ftcdn.net/jpg/08/35/01/10/240_F_835011017_SdQF7PZjni9lWQbITAWytKo3Uff8TKj7.jpg"
+		],
+		"availability": [
+			{
+				"startDate": "2024-08-10T00:00:00.000Z",
+				"endDate": "2024-08-15T00:00:00.000Z"
+			},
+			{
+				"startDate": "2024-08-25T00:00:00.000Z",
+				"endDate": "2024-09-01T00:00:00.000Z"
+			}
+		],
+		"placeTypes": "apartments",
+		"totalGuests": 2,
+		"bedrooms": 1,
+		"bathrooms": 1,
+		"averageRating": 4.9
+	},
+	{
+		"index": 24,
+		"title": "Seaside Villa Paradise",
+		"description": "Luxurious villa overlooking the ocean with private beach access.",
+		"country": "GREECE",
+		"location": "Maui, Hawaii",
+		"price": 7500,
+		"photos": [
+			"https://t3.ftcdn.net/jpg/07/63/96/08/240_F_763960828_gtvBkvpZmwnbqALoSQBabvWiDxJ8Hwyl.jpg",
+			"https://t3.ftcdn.net/jpg/07/33/70/06/240_F_733700618_77ap7nk8Xu50T5xtJuNhhuehqcVAjrf4.jpg"
+		],
+		"availability": [
+			{
+				"startDate": "2024-09-05T00:00:00.000Z",
+				"endDate": "2024-09-10T00:00:00.000Z"
+			},
+			{
+				"startDate": "2024-09-20T00:00:00.000Z",
+				"endDate": "2024-09-25T00:00:00.000Z"
+			}
+		],
+		"placeTypes": "villas",
+		"totalGuests": 6,
+		"bedrooms": 3,
+		"bathrooms": 3,
+		"averageRating": 5
+	},
+	{
+		"index": 25,
+		"title": "Historic Townhouse",
+		"description": "Charming historic townhouse in a quiet neighborhood.",
+		"country": "USA",
+		"location": "Boston, Massachusetts",
+		"price": 1040,
+		"photos": [
+			"https://t3.ftcdn.net/jpg/08/60/84/30/240_F_860843050_poupPaCeNvjvtC46MNUoZkCr8g12wuKu.jpg",
+			"https://t3.ftcdn.net/jpg/08/62/84/20/240_F_862842074_GAyCASpk1SiZPgz59E9rg9JuPZNzeOtJ.jpg"
+		],
+		"availability": [
+			{
+				"startDate": "2024-08-05T00:00:00.000Z",
+				"endDate": "2024-08-12T00:00:00.000Z"
+			},
+			{
+				"startDate": "2024-08-20T00:00:00.000Z",
+				"endDate": "2024-08-27T00:00:00.000Z"
+			}
+		],
+		"placeTypes": "townhouses",
+		"totalGuests": 4,
+		"bedrooms": 2,
+		"bathrooms": 1,
+		"averageRating": 4.7
+	},
+	{
+		"index": 26,
+		"title": "Mountain Chalet Retreat",
+		"description": "Cozy chalet with breathtaking mountain views.",
+		"country": "USA",
+		"location": "Aspen, Colorado",
+		"price": 3300,
+		"photos": [
+			"https://t3.ftcdn.net/jpg/08/01/07/32/240_F_801073239_EQFtkrZ0A5c1NCnYC9M8H01MCMPw7cEE.jpg",
+			"https://t3.ftcdn.net/jpg/06/51/06/66/240_F_651066638_FwzN2aWA5sBOp3VrW1CTAhAmYG8DjqTk.jpg"
+		],
+		"availability": [
+			{
+				"startDate": "2024-09-10T00:00:00.000Z",
+				"endDate": "2024-09-17T00:00:00.000Z"
+			},
+			{
+				"startDate": "2024-09-25T00:00:00.000Z",
+				"endDate": "2024-10-01T00:00:00.000Z"
+			}
+		],
+		"placeTypes": "chalets",
+		"totalGuests": 5,
+		"bedrooms": 3,
+		"bathrooms": 2,
+		"averageRating": 4.9
+	},
+	{
+		"index": 27,
+		"title": "Elegant Beachfront Condo",
+		"description": "Luxurious condo with direct access to the beach.",
+		"country": "UK",
+		"location": "Miami Beach, Florida",
+		"price": 4900,
+		"photos": [
+			"https://t3.ftcdn.net/jpg/08/43/05/96/240_F_843059697_hViNScwidX8je6SsRmvwn1xsx6noICiw.jpg",
+			"https://t4.ftcdn.net/jpg/08/22/12/65/240_F_822126521_IVnmPF1YPepTWKccPf6zCaLuCPSpTQkB.jpg"
+		],
+		"availability": [
+			{
+				"startDate": "2024-08-15T00:00:00.000Z",
+				"endDate": "2024-08-22T00:00:00.000Z"
+			},
+			{
+				"startDate": "2024-09-05T00:00:00.000Z",
+				"endDate": "2024-09-12T00:00:00.000Z"
+			}
+		],
+		"placeTypes": "condos",
+		"totalGuests": 4,
+		"bedrooms": 2,
+		"bathrooms": 2,
+		"averageRating": 4.8
+	},
+	{
+		"index": 28,
+		"title": "Coastal Cottage Getaway",
+		"description": "Charming cottage near the coast with serene ocean views.",
+		"country": "UK",
+		"location": "Cape Cod, Massachusetts",
+		"price": 2920,
+		"photos": [
+			"https://t3.ftcdn.net/jpg/08/65/64/26/240_F_865642601_VQ6jC5g9UzP9MpE4cTy9MNqtvU52ennn.jpg",
+			"https://t3.ftcdn.net/jpg/08/29/27/64/240_F_829276460_ruIQnp51NcolcYBr45eTV3Y6A4aXfM8P.jpg"
+		],
+		"availability": [
+			{
+				"startDate": "2024-08-20T00:00:00.000Z",
+				"endDate": "2024-08-27T00:00:00.000Z"
+			},
+			{
+				"startDate": "2024-09-10T00:00:00.000Z",
+				"endDate": "2024-09-17T00:00:00.000Z"
+			}
+		],
+		"placeTypes": "cottages",
+		"totalGuests": 3,
+		"bedrooms": 1,
+		"bathrooms": 1,
+		"averageRating": 4.6
+	},
+	{
+		"index": 29,
+		"title": "Urban Loft Oasis",
+		"description": "Modern loft in a bustling city neighborhood.",
+		"country": "UK",
+		"location": "San Francisco, California",
+		"price": 1280,
+		"photos": [
+			"https://t4.ftcdn.net/jpg/08/60/79/95/240_F_860799553_5uHhDelecELL8tHChWcT8512ZHp1nyZm.jpg",
+			"https://t3.ftcdn.net/jpg/08/33/87/40/240_F_833874013_8rRjl16vQPuKMKYfQy4UTRaYZzi9EJkN.jpg"
+		],
+		"availability": [
+			{
+				"startDate": "2024-08-25T00:00:00.000Z",
+				"endDate": "2024-09-01T00:00:00.000Z"
+			},
+			{
+				"startDate": "2024-09-15T00:00:00.000Z",
+				"endDate": "2024-09-22T00:00:00.000Z"
+			}
+		],
+		"placeTypes": "lofts",
+		"totalGuests": 2,
+		"bedrooms": 1,
+		"bathrooms": 1,
+		"averageRating": 4.7
+	},
+	{
+		"index": 30,
+		"title": "Luxury Lakeside Villa",
+		"description": "Spacious villa overlooking a serene lake.",
+		"country": "UK",
+		"location": "Lake Tahoe, Nevada",
+		"price": 3500,
+		"photos": [
+			"https://t4.ftcdn.net/jpg/08/62/97/23/240_F_862972365_DvMaGTICcVuEFntnf50QR35HEm1XpyCZ.jpg",
+			"https://t4.ftcdn.net/jpg/08/02/27/91/240_F_802279188_zVqgNQuhLF5TDqvsntAN2e9iGpv8aRxT.jpg"
+		],
+		"availability": [
+			{
+				"startDate": "2024-09-01T00:00:00.000Z",
+				"endDate": "2024-09-08T00:00:00.000Z"
+			},
+			{
+				"startDate": "2024-09-20T00:00:00.000Z",
+				"endDate": "2024-09-27T00:00:00.000Z"
+			}
+		],
+		"placeTypes": "villas",
+		"totalGuests": 8,
+		"bedrooms": 4,
+		"bathrooms": 3,
+		"averageRating": 5
+	},
+	{
+		"index": 31,
+		"title": "Charming Mountain Lodge",
+		"description": "A cozy lodge nestled in the mountains.",
+		"country": "THAILAND",
+		"location": "Jackson Hole, Wyoming",
+		"price": 4350,
+		"photos": [
+			"https://t3.ftcdn.net/jpg/07/14/63/78/240_F_714637826_XLASx2sZxBjYvDEqlgSAfKs4pOtRCnMW.jpg",
+			"https://t3.ftcdn.net/jpg/07/14/63/78/240_F_714637826_XLASx2sZxBjYvDEqlgSAfKs4pOtRCnMW.jpg"
+		],
+		"availability": [
+			{
+				"startDate": "2024-09-10T00:00:00.000Z",
+				"endDate": "2024-09-17T00:00:00.000Z"
+			},
+			{
+				"startDate": "2024-09-25T00:00:00.000Z",
+				"endDate": "2024-10-02T00:00:00.000Z"
+			}
+		],
+		"placeTypes": "lodges",
+		"totalGuests": 6,
+		"bedrooms": 3,
+		"bathrooms": 2,
+		"averageRating": 4.8
+	},
+	{
+		"index": 32,
+		"title": "Seaside Retreat Bungalow",
+		"description": "Tranquil bungalow steps away from the beach.",
+		"country": "THAILAND",
+		"location": "Hilton Head Island, South Carolina",
+		"price": 5200,
+		"photos": [
+			"https://t4.ftcdn.net/jpg/07/41/48/91/240_F_741489104_3LlgyKLZCvjKYsRwvKnEtGQsBdgr50X3.jpg",
+			"https://t4.ftcdn.net/jpg/08/49/86/99/240_F_849869986_DkZoOuwjFo3bsC8uFIKHCreUjCiGvEAY.jpg"
+		],
+		"availability": [
+			{
+				"startDate": "2024-08-15T00:00:00.000Z",
+				"endDate": "2024-08-22T00:00:00.000Z"
+			},
+			{
+				"startDate": "2024-09-05T00:00:00.000Z",
+				"endDate": "2024-09-12T00:00:00.000Z"
+			}
+		],
+		"placeTypes": "bungalows",
+		"totalGuests": 3,
+		"bedrooms": 1,
+		"bathrooms": 1,
+		"averageRating": 4.6
+	},
+	{
+		"index": 33,
+		"title": "Elegant Country Estate",
+		"description": "Grand estate surrounded by picturesque countryside.",
+		"country": "THAILAND",
+		"location": "Lexington, Kentucky",
+		"price": 7400,
+		"photos": [
+			"https://t4.ftcdn.net/jpg/07/82/93/21/240_F_782932123_N3CeGWUxrbrld6y153C4yDZ5ZIcell7K.jpg",
+			"https://t4.ftcdn.net/jpg/08/45/18/87/240_F_845188745_dBHAfh7wH6gOhu3u5hB2tEmgCTad6KCf.jpg"
+		],
+		"availability": [
+			{
+				"startDate": "2024-09-01T00:00:00.000Z",
+				"endDate": "2024-09-10T00:00:00.000Z"
+			},
+			{
+				"startDate": "2024-09-20T00:00:00.000Z",
+				"endDate": "2024-09-30T00:00:00.000Z"
+			}
+		],
+		"placeTypes": "estates",
+		"totalGuests": 10,
+		"bedrooms": 5,
+		"bathrooms": 4,
+		"averageRating": 4.9
+	},
+	{
+		"index": 34,
+		"title": "Lakefront Log Cabin",
+		"description": "Rustic log cabin with stunning lake views.",
+		"country": "GREECE",
+		"location": "Lake George, New York",
+		"price": 2720,
+		"photos": [
+			"https://t4.ftcdn.net/jpg/08/52/48/73/240_F_852487361_OLkSda4PTT0udKmgk3YAR8156AnCDBJf.jpg",
+			"https://t4.ftcdn.net/jpg/08/52/48/73/240_F_852487361_OLkSda4PTT0udKmgk3YAR8156AnCDBJf.jpg"
+		],
+		"availability": [
+			{
+				"startDate": "2024-08-10T00:00:00.000Z",
+				"endDate": "2024-08-17T00:00:00.000Z"
+			},
+			{
+				"startDate": "2024-08-25T00:00:00.000Z",
+				"endDate": "2024-09-01T00:00:00.000Z"
+			}
+		],
+		"placeTypes": "cabins",
+		"totalGuests": 4,
+		"bedrooms": 2,
+		"bathrooms": 1,
+		"averageRating": 4.7
+	},
+	{
+		"index": 35,
+		"title": "Cityscape Penthouse",
+		"description": "Luxury penthouse with panoramic city views.",
+		"country": "AUSTRALIA",
+		"location": "Chicago, Illinois",
+		"price": 4000,
+		"photos": [
+			"https://t4.ftcdn.net/jpg/08/56/30/95/240_F_856309559_hS1JNoiWZwrrYBUAUPT8Ps43h4Rbe3w7.jpg",
+			"https://t4.ftcdn.net/jpg/08/56/30/95/240_F_856309559_hS1JNoiWZwrrYBUAUPT8Ps43h4Rbe3w7.jpg"
+		],
+		"availability": [
+			{
+				"startDate": "2024-08-15T00:00:00.000Z",
+				"endDate": "2024-08-22T00:00:00.000Z"
+			},
+			{
+				"startDate": "2024-09-05T00:00:00.000Z",
+				"endDate": "2024-09-12T00:00:00.000Z"
+			}
+		],
+		"placeTypes": "penthouses",
+		"totalGuests": 4,
+		"bedrooms": 2,
+		"bathrooms": 2,
+		"averageRating": 4.8
+	},
+	{
+		"index": 36,
+		"title": "Tranquil Mountain View Retreat",
+		"description": "Peaceful retreat with stunning mountain vistas.",
+		"country": "AUSTRALIA",
+		"location": "Breckenridge, Colorado",
+		"price": 3270,
+		"photos": [
+			"https://t3.ftcdn.net/jpg/08/54/57/12/240_F_854571272_SwDGbiZHUNxMrC0BOBOFCAAlNWM0PEoi.jpg",
+			"https://t3.ftcdn.net/jpg/08/54/57/12/240_F_854571272_SwDGbiZHUNxMrC0BOBOFCAAlNWM0PEoi.jpg"
+		],
+		"availability": [
+			{
+				"startDate": "2024-09-01T00:00:00.000Z",
+				"endDate": "2024-09-08T00:00:00.000Z"
+			},
+			{
+				"startDate": "2024-09-20T00:00:00.000Z",
+				"endDate": "2024-09-27T00:00:00.000Z"
+			}
+		],
+		"placeTypes": "retreats",
+		"totalGuests": 4,
+		"bedrooms": 2,
+		"bathrooms": 2,
+		"averageRating": 4.9
+	},
+	{
+		"index": 37,
+		"title": "Sunny Coastal Cottage",
+		"description": "Bright and sunny cottage near the coast.",
+		"country": "AUSTRALIA",
+		"location": "Santa Barbara, California",
+		"price": 3240,
+		"photos": [
+			"https://t4.ftcdn.net/jpg/08/73/36/69/240_F_873366979_vL5tA5eVQgTA8e5cutvYTGPOTqgnZeRQ.jpg",
+			"https://t4.ftcdn.net/jpg/08/37/07/21/240_F_837072108_p7SYQiTbmslMGAreQRR0rSY1nfO8y7Me.jpg"
+		],
+		"availability": [
+			{
+				"startDate": "2024-08-10T00:00:00.000Z",
+				"endDate": "2024-08-17T00:00:00.000Z"
+			},
+			{
+				"startDate": "2024-08-25T00:00:00.000Z",
+				"endDate": "2024-09-01T00:00:00.000Z"
+			}
+		],
+		"placeTypes": "cottages",
+		"totalGuests": 3,
+		"bedrooms": 1,
+		"bathrooms": 1,
+		"averageRating": 4.7
+	},
+	{
+		"index": 38,
+		"title": "Urban Chic Apartment",
+		"description": "Stylish apartment in the heart of a vibrant city.",
+		"country": "FRANCE",
+		"location": "Los Angeles, California",
+		"price": 4280,
+		"photos": [
+			"https://t4.ftcdn.net/jpg/07/97/23/29/240_F_797232931_6Ej73UYs20fIb5wMu5EvowZ3e96yjYcO.jpg",
+			"https://t3.ftcdn.net/jpg/07/04/26/48/240_F_704264822_1qEihZRRArigEr0cibT2CZyurvVhJ1eC.jpg"
+		],
+		"availability": [
+			{
+				"startDate": "2024-08-15T00:00:00.000Z",
+				"endDate": "2024-08-22T00:00:00.000Z"
+			},
+			{
+				"startDate": "2024-09-05T00:00:00.000Z",
+				"endDate": "2024-09-12T00:00:00.000Z"
+			}
+		],
+		"placeTypes": "apartments",
+		"totalGuests": 2,
+		"bedrooms": 1,
+		"bathrooms": 1,
+		"averageRating": 4.7
+	},
+	{
+		"index": 39,
+		"title": "Secluded Beachfront Retreat",
+		"description": "Private retreat with direct access to a secluded beach.",
+		"country": "UAE",
+		"location": "Key West, Florida",
+		"price": 1450,
+		"photos": [
+			"https://t4.ftcdn.net/jpg/08/69/50/05/240_F_869500542_eBubP3Nt2LyqqT3ozuwpylJn21k2bMmG.jpg",
+			"https://t3.ftcdn.net/jpg/08/38/96/88/240_F_838968863_hjdn30BT7r4nOTGvSvpT2nfzgqCDoVw2.jpg"
+		],
+		"availability": [
+			{
+				"startDate": "2024-08-20T00:00:00.000Z",
+				"endDate": "2024-08-27T00:00:00.000Z"
+			},
+			{
+				"startDate": "2024-09-10T00:00:00.000Z",
+				"endDate": "2024-09-17T00:00:00.000Z"
+			}
+		],
+		"placeTypes": "retreats",
+		"totalGuests": 6,
+		"bedrooms": 3,
+		"bathrooms": 2,
+		"averageRating": 4.9
+	},
+	{
+		"index": 40,
+		"title": "Lakeside Cabin Hideaway",
+		"description": "Cozy cabin tucked away by a tranquil lake.",
+		"country": "GREECE",
+		"location": "Lake Arrowhead, California",
+		"price": 3180,
+		"photos": [
+			"https://t4.ftcdn.net/jpg/08/40/61/25/240_F_840612543_HQQZ4k1UbiOZuAkC2sdEcIKCcutU3Dhr.jpg",
+			"https://t4.ftcdn.net/jpg/08/76/61/39/240_F_876613963_DmSaNJfFY0ITY7LcRIjEICeDhX0nPL7b.jpg"
+		],
+		"availability": [
+			{
+				"startDate": "2024-08-25T00:00:00.000Z",
+				"endDate": "2024-09-01T00:00:00.000Z"
+			},
+			{
+				"startDate": "2024-09-15T00:00:00.000Z",
+				"endDate": "2024-09-22T00:00:00.000Z"
+			}
+		],
+		"placeTypes": "cabins",
+		"totalGuests": 4,
+		"bedrooms": 2,
+		"bathrooms": 1,
+		"averageRating": 4.8
+	},
+	{
+		"index": 41,
+		"title": "Coastal Cottage Retreat",
+		"description": "Quaint cottage retreat steps away from the beach.",
+		"country": "THAILAND",
+		"location": "Monterey, California",
+		"price": 2222,
+		"photos": [
+			"https://t4.ftcdn.net/jpg/00/85/61/37/240_F_85613749_VA2O2HwUSCAlpMi7XtZxSRHpJghuRRQm.jpg",
+			"https://t4.ftcdn.net/jpg/08/66/23/79/240_F_866237928_GI68jteP62rf42akJ30UhvrYcrws23cP.jpg"
+		],
+		"availability": [
+			{
+				"startDate": "2024-08-10T00:00:00.000Z",
+				"endDate": "2024-08-17T00:00:00.000Z"
+			},
+			{
+				"startDate": "2024-08-25T00:00:00.000Z",
+				"endDate": "2024-09-01T00:00:00.000Z"
+			}
+		],
+		"placeTypes": "cottages",
+		"totalGuests": 3,
+		"bedrooms": 1,
+		"bathrooms": 1,
+		"averageRating": 4.6
+	},
+	{
+		"index": 42,
+		"title": "Downtown Urban Retreat",
+		"description": "Chic retreat in the heart of downtown.",
+		"country": "FRANCE",
+		"location": "Seattle, Washington",
+		"price": 3700,
+		"photos": [
+			"https://t4.ftcdn.net/jpg/08/52/71/43/240_F_852714312_bisSKgWylBdYpZdhcdTmJmUidkwL2Z8K.jpg",
+			"https://t4.ftcdn.net/jpg/07/36/66/89/240_F_736668938_tZNSSFZj2Fmu9qXzMLFlWdDcxkjyB5C1.jpg"
+		],
+		"availability": [
+			{
+				"startDate": "2024-08-15T00:00:00.000Z",
+				"endDate": "2024-08-22T00:00:00.000Z"
+			},
+			{
+				"startDate": "2024-09-05T00:00:00.000Z",
+				"endDate": "2024-09-12T00:00:00.000Z"
+			}
+		],
+		"placeTypes": "apartments",
+		"totalGuests": 3,
+		"bedrooms": 2,
+		"bathrooms": 1,
+		"averageRating": 4.8
+	},
+	{
+		"index": 43,
+		"title": "Secluded Mountain Cabin",
+		"description": "Private cabin retreat nestled in the mountains.",
+		"country": "AUSTRALIA",
+		"location": "Asheville, North Carolina",
+		"price": 3950,
+		"photos": [
+			"https://t3.ftcdn.net/jpg/06/39/16/68/240_F_639166864_E7vWhX0JfEBlb9OwnMTgs6fvZssrKLxT.jpg",
+			"https://t3.ftcdn.net/jpg/08/16/01/36/240_F_816013699_W8sxbdm5JPVhbEkOrYYvRv16hVeI4ubX.jpg"
+		],
+		"availability": [
+			{
+				"startDate": "2024-08-20T00:00:00.000Z",
+				"endDate": "2024-08-27T00:00:00.000Z"
+			},
+			{
+				"startDate": "2024-09-10T00:00:00.000Z",
+				"endDate": "2024-09-17T00:00:00.000Z"
+			}
+		],
+		"placeTypes": "cabins",
+		"totalGuests": 4,
+		"bedrooms": 2,
+		"bathrooms": 1,
+		"averageRating": 4.7
+	},
+	{
+		"index": 44,
+		"title": "Cozy Countryside Cottage",
+		"description": "Charming cottage in a serene countryside setting.",
+		"country": "UAE",
+		"location": "Carmel Valley, California",
+		"price": 8230,
+		"photos": [
+			"https://t3.ftcdn.net/jpg/05/58/13/70/240_F_558137076_1MOL5pJejGqXrz0AVNPjNpWU67GLkPrc.jpg",
+			"https://t3.ftcdn.net/jpg/08/44/61/96/240_F_844619615_ATfjloCaNdFBVIYnNPUlEAu4Wv3zpUQr.jpg"
+		],
+		"availability": [
+			{
+				"startDate": "2024-08-10T00:00:00.000Z",
+				"endDate": "2024-08-17T00:00:00.000Z"
+			},
+			{
+				"startDate": "2024-08-25T00:00:00.000Z",
+				"endDate": "2024-09-01T00:00:00.000Z"
+			}
+		],
+		"placeTypes": "cottages",
+		"totalGuests": 3,
+		"bedrooms": 1,
+		"bathrooms": 1,
+		"averageRating": 4.8
+	},
+	{
+		"index": 45,
+		"title": "Downtown Luxury Loft",
+		"description": "Luxurious loft in the heart of downtown.",
+		"country": "UK",
+		"location": "New York City, New York",
+		"price": 5999,
+		"photos": [
+			"https://t3.ftcdn.net/jpg/06/45/22/26/240_F_645222668_lcqiL2LyiFdBGWCINeZPL1ULqw1mPVzn.jpg",
+			"https://t3.ftcdn.net/jpg/08/17/66/64/240_F_817666444_IpgXaRsQ8RWE6OwPqFTavvQfq4JsTPkg.jpg"
+		],
+		"availability": [
+			{
+				"startDate": "2024-08-15T00:00:00.000Z",
+				"endDate": "2024-08-22T00:00:00.000Z"
+			},
+			{
+				"startDate": "2024-09-05T00:00:00.000Z",
+				"endDate": "2024-09-12T00:00:00.000Z"
+			}
+		],
+		"placeTypes": "lofts",
+		"totalGuests": 4,
+		"bedrooms": 2,
+		"bathrooms": 2,
+		"averageRating": 4.9
+	},
+	{
+		"index": 46,
+		"title": "Rustic Mountain Chalet",
+		"description": "Charming chalet with panoramic mountain views.",
+		"country": "UK",
+		"location": "Lake Placid, New York",
+		"price": 6300,
+		"photos": [
+			"https://t4.ftcdn.net/jpg/02/67/21/91/240_F_267219153_5zo2EvKLo0IPrhiIInb21H0StKTmoHOj.jpg",
+			"https://t3.ftcdn.net/jpg/05/79/69/48/240_F_579694825_XakFBcxBh91B0ByAMtJ6FwquDh2LvQU4.jpg"
+		],
+		"availability": [
+			{
+				"startDate": "2024-08-20T00:00:00.000Z",
+				"endDate": "2024-08-27T00:00:00.000Z"
+			},
+			{
+				"startDate": "2024-09-10T00:00:00.000Z",
+				"endDate": "2024-09-17T00:00:00.000Z"
+			}
+		],
+		"placeTypes": "chalets",
+		"totalGuests": 5,
+		"bedrooms": 3,
+		"bathrooms": 2,
+		"averageRating": 4.8
+	},
+	{
+		"index": 47,
+		"title": "Seaside Villa Paradise",
+		"description": "Luxury villa with breathtaking seaside views.",
+		"country": "UAE",
+		"location": "Malibu, California",
+		"price": 7800,
+		"photos": [
+			"https://t4.ftcdn.net/jpg/06/05/97/83/240_F_605978375_208XoUXAd9ZaUYUzoRdp6vl2ayY4bsbr.jpg",
+			"https://t3.ftcdn.net/jpg/08/17/32/52/240_F_817325283_HSsJ0DYTZbFWdL6NHIVuIQiqikWIMIUm.jpg"
+		],
+		"availability": [
+			{
+				"startDate": "2024-08-25T00:00:00.000Z",
+				"endDate": "2024-09-01T00:00:00.000Z"
+			},
+			{
+				"startDate": "2024-09-15T00:00:00.000Z",
+				"endDate": "2024-09-22T00:00:00.000Z"
+			}
+		],
+		"placeTypes": "villas",
+		"totalGuests": 10,
+		"bedrooms": 5,
+		"bathrooms": 4,
+		"averageRating": 5
+	},
+	{
+		"index": 48,
+		"title": "Historic City Center Apartment",
+		"description": "Historic apartment in the heart of the city center.",
+		"country": "GREECE",
+		"location": "Boston, Massachusetts",
+		"price": 2320,
+		"photos": [
+			"https://t3.ftcdn.net/jpg/08/14/15/30/240_F_814153027_8r1MFllB0CncxDe1gj0husOZ3ohjD52G.jpg",
+			"https://t3.ftcdn.net/jpg/08/48/56/58/240_F_848565836_BDxBD5m8Gmn7bLnb5TNO8AyyRVaMHzC8.jpg"
+		],
+		"availability": [
+			{
+				"startDate": "2024-08-20T00:00:00.000Z",
+				"endDate": "2024-08-27T00:00:00.000Z"
+			},
+			{
+				"startDate": "2024-09-10T00:00:00.000Z",
+				"endDate": "2024-09-17T00:00:00.000Z"
+			}
+		],
+		"placeTypes": "apartments",
+		"totalGuests": 4,
+		"bedrooms": 2,
+		"bathrooms": 2,
+		"averageRating": 4.9
+	},
+	{
+		"index": 49,
+		"title": "Chic City View Loft",
+		"description": "Stylish loft with stunning city views.",
+		"country": "THAILAND",
+		"location": "San Francisco, California",
+		"price": 2450,
+		"photos": [
+			"https://t3.ftcdn.net/jpg/08/48/13/06/240_F_848130697_ULQWMIzAEc7TarKAgveyLHrqxz5qsz3G.jpg",
+			"https://t4.ftcdn.net/jpg/06/88/65/45/240_F_688654577_rG3XfEN39a0YdKQHEQ3hpOdoVqY89jZZ.jpg"
+		],
+		"availability": [
+			{
+				"startDate": "2024-08-15T00:00:00.000Z",
+				"endDate": "2024-08-22T00:00:00.000Z"
+			},
+			{
+				"startDate": "2024-09-05T00:00:00.000Z",
+				"endDate": "2024-09-12T00:00:00.000Z"
+			}
+		],
+		"placeTypes": "lofts",
+		"totalGuests": 4,
+		"bedrooms": 2,
+		"bathrooms": 2,
+		"averageRating": 4.8
+	},
+	{
+		"index": 50,
+		"title": "Riverside Cabin Retreat",
+		"description": "Cozy cabin retreat overlooking a peaceful river.",
+		"country": "UAE",
+		"location": "Bend, Oregon",
+		"price": 2440,
+		"photos": [
+			"https://t3.ftcdn.net/jpg/07/92/83/28/240_F_792832864_dOdeFXC98YGH4inu80SCxaPvxA3lh6eo.jpg",
+			"https://t4.ftcdn.net/jpg/06/92/28/35/240_F_692283596_YZB1HPMcRBs5iEQE7DLiGbRBY8dX7IWK.jpg"
+		],
+		"availability": [
+			{
+				"startDate": "2024-08-25T00:00:00.000Z",
+				"endDate": "2024-09-01T00:00:00.000Z"
+			},
+			{
+				"startDate": "2024-09-15T00:00:00.000Z",
+				"endDate": "2024-09-22T00:00:00.000Z"
+			}
+		],
+		"placeTypes": "cabins",
+		"totalGuests": 4,
+		"bedrooms": 2,
+		"bathrooms": 1,
+		"averageRating": 4.7
+	}
+]
