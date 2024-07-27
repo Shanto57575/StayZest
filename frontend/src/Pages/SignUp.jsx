@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import toast, { Toaster } from "react-hot-toast";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
 	userSignUpFailed,
@@ -14,6 +14,7 @@ import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 
 const SignUp = () => {
 	const dispatch = useDispatch();
+	const { loading } = useSelector((state) => state.auth);
 	const [showPassword, setShowPassword] = useState(false);
 	const navigate = useNavigate();
 	const location = useLocation();
@@ -35,18 +36,23 @@ const SignUp = () => {
 				userdata,
 				{ withCredentials: true }
 			);
-			if (response.data) {
+
+			if (response && response.data && response.data.userData) {
 				dispatch(userSignUpSuccess(response.data.userData));
-				toast.success("Signed Up Successfully!");
+				toast.success(response.data.message || "Signed Up Successfully!");
 				setTimeout(() => {
 					navigate(from, { replace: true });
 					reset();
 				}, 500);
+			} else {
+				throw new Error("Invalid response structure");
 			}
 		} catch (error) {
-			dispatch(userSignUpFailed(error.response.data.error));
-			toast.error(error.response.data.error);
-			console.error(error.response.data.error);
+			const errorMessage =
+				error.response?.data?.error || error.message || "Signup failed";
+			dispatch(userSignUpFailed(errorMessage));
+			toast.error(errorMessage);
+			console.error(errorMessage);
 		}
 	};
 
@@ -185,7 +191,10 @@ const SignUp = () => {
 					<section className="text-center">
 						<input
 							type="submit"
-							className="bg-gray-900 cursor-pointer text-white hover:bg-slate-700 duration-300 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+							disabled={loading}
+							className={`bg-gray-900 cursor-pointer text-white hover:bg-slate-700 duration-300 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline ${
+								loading ? "opacity-50 cursor-not-allowed" : ""
+							}`}
 						/>
 						<p className="text-sm text-white mt-2">
 							Already have an account?
@@ -193,15 +202,12 @@ const SignUp = () => {
 								className="text-purple-500 hover:text-blue-500 ml-2 underline"
 								to="/signin"
 							>
-								Sign In
+								Log in
 							</Link>
 						</p>
 					</section>
 					<Toaster />
 				</form>
-				<p className="text-center text-xs">
-					©{new Date().getFullYear()} St@yZest. All rights reserved.
-				</p>
 			</div>
 		</div>
 	);

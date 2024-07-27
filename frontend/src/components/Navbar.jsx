@@ -10,14 +10,14 @@ import DashboardIcon from "@mui/icons-material/Dashboard";
 import PortraitIcon from "@mui/icons-material/Portrait";
 import LoginIcon from "@mui/icons-material/Login";
 import EmailIcon from "@mui/icons-material/Email";
-import toast from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 import { userLogOut } from "../features/auth/authSlice";
 
 const Navbar = () => {
 	const dispatch = useDispatch();
 	const [isOpen, setIsOpen] = useState(false);
 	const darkMode = useSelector((state) => state.theme.darkMode);
-	const user = useSelector((state) => state.auth.user);
+	const user = useSelector((state) => state.auth.currentUser);
 
 	const navigate = useNavigate();
 
@@ -83,7 +83,7 @@ const Navbar = () => {
 							<img
 								alt="Profile"
 								src={user.profilePicture}
-								className="w-full h-full object-cover"
+								className="w-full h-full object-cover border-2 border-gray-300 p-2"
 							/>
 						) : (
 							<img
@@ -126,10 +126,13 @@ const Navbar = () => {
 										<Link onClick={handleLogOut}>Sign Out</Link>
 									</p>
 								) : (
-									<p className="py-1 flex items-center gap-x-2 hover:bg-gray-100 dark:hover:bg-gray-600">
-										<LoginIcon />
-										<Link to="/signin">SignIn</Link>
-									</p>
+									<>
+										<p className="py-1 flex items-center gap-x-2 hover:bg-gray-100 dark:hover:bg-gray-600">
+											<LoginIcon />
+											<Link to="/signin">SignIn</Link>
+										</p>
+										<Toaster />
+									</>
 								)}
 							</div>
 						</div>

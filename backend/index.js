@@ -7,7 +7,6 @@ import { errorHandler, notFound } from './middlewares/errorHandler.js';
 import authRoutes from './routes/auth.routes.js';
 import userRoutes from './routes/user.routes.js';
 import placeRoutes from './routes/place.routes.js';
-import isAdmin from './utils/protectedRoutes.js';
 import bookingRoutes from './routes/booking.routes.js';
 
 dotenv.config();

@@ -93,7 +93,7 @@ const PlaceDetails = () => {
 							<img
 								key={index}
 								src={photo}
-								alt={`${viewDetails.title} ${index + 2}`}
+								alt={viewDetails.title}
 								className="w-full h-48 object-cover rounded-xl shadow-md transition-transform duration-300 hover:scale-105"
 							/>
 						))}

@@ -27,7 +27,7 @@ const signUp = async (req, res) => {
 
         await newUser.save();
 
-        generateToken(res, newUser._id);
+        generateToken(res, newUser);
 
         const { password: pass, ...userData } = { ...newUser._doc };
 
@@ -41,7 +41,6 @@ const signUp = async (req, res) => {
 
 const login = async (req, res) => {
     const { email, password } = req.body;
-    console.log(req.body)
 
     if (!email || !password) {
         return res.status(404).json({ error: 'All Fields are required!' })
@@ -51,7 +50,7 @@ const login = async (req, res) => {
         const user = await User.findOne({ email })
 
         if (!user) {
-            return res.status(404).json({ error: "User not found" })
+            return res.status(404).json({ error: "Wrong Email or Password" })
         }
 
         const isPasswordValid = await bcrypt.compare(password, user.password)
@@ -60,7 +59,7 @@ const login = async (req, res) => {
             return res.status(401).json({ error: "Invalid credentials" })
         }
 
-        generateToken(res, user._id);
+        generateToken(res, user);
 
         const { password: pass, ...userData } = { ...user._doc };
 

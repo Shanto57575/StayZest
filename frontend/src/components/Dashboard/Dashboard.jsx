@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, Routes, Route, Outlet } from "react-router-dom";
+import { Link, Routes, Route, Outlet, useNavigate } from "react-router-dom";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import Button from "@mui/material/Button";
@@ -16,9 +16,9 @@ import PlaceIcon from "@mui/icons-material/Place";
 import HomeIcon from "@mui/icons-material/Home";
 import PeopleIcon from "@mui/icons-material/People";
 import BookIcon from "@mui/icons-material/Book";
+import LogoutIcon from "@mui/icons-material/Logout";
 import RateReviewIcon from "@mui/icons-material/RateReview";
 import PaymentIcon from "@mui/icons-material/Payment";
-import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
 import AdminHome from "./Admin/AdminHome";
 import ProfilePage from "./ProfilePage";
@@ -31,10 +31,13 @@ import UserHome from "./User/UserHome";
 import ManageReviews from "./Admin/ManageReviews";
 import ManagePayments from "./Admin/ManagePayments";
 import { toggleDarkMode } from "../../features/theme/themeSlice";
+import axios from "axios";
+import { userLogOut } from "../../features/auth/authSlice";
+import toast, { Toaster } from "react-hot-toast";
 
 const Dashboard = () => {
 	const [open, setOpen] = useState(false);
-	const userTypes = useSelector((state) => state.auth.user?.role);
+	const userTypes = useSelector((state) => state.auth.currentUser?.role);
 
 	const toggleDrawer = (newOpen) => () => {
 		setOpen(newOpen);
@@ -45,6 +48,25 @@ const Dashboard = () => {
 
 	const handleDarkModeToggle = () => {
 		dispatch(toggleDarkMode());
+	};
+
+	const navigate = useNavigate();
+
+	const handleLogOut = async () => {
+		try {
+			const response = await axios.post(
+				"http://localhost:5000/api/auth/logout"
+			);
+			if (response.status === 200) {
+				dispatch(userLogOut());
+				toast.success(response?.data.message);
+				setOpen(false);
+				navigate("/signin");
+			}
+		} catch (error) {
+			toast.error(error?.message);
+			console.log(error?.message);
+		}
 	};
 
 	const DrawerList = (
@@ -135,18 +157,26 @@ const Dashboard = () => {
 					</ListItemIcon>
 					<ListItemText primary="Back To Home" />
 				</ListItem>
-				<ListItem component={Link} to="/signout">
+
+				<ListItem
+					className="cursor-pointer"
+					onClick={() => {
+						handleLogOut();
+						toggleDrawer(false)();
+					}}
+				>
 					<ListItemIcon>
-						<ExitToAppIcon />
+						<LogoutIcon />
 					</ListItemIcon>
-					<ListItemText primary="Sign Out" />
+					Sign Out
 				</ListItem>
+				<Toaster />
 			</List>
 		</Box>
 	);
 
 	return (
-		<div className="h-screen">
+		<div>
 			<Button onClick={toggleDrawer(true)}>
 				<svg
 					xmlns="http://www.w3.org/2000/svg"
@@ -167,6 +197,7 @@ const Dashboard = () => {
 			<Drawer open={open} onClose={toggleDrawer(false)}>
 				{DrawerList}
 			</Drawer>
+
 			<div className="w-full">
 				<Routes>
 					<Route path="/profile" element={<ProfilePage />} />

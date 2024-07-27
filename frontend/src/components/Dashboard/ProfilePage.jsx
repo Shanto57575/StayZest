@@ -14,6 +14,7 @@ import Loader from "../Loader";
 const ProfilePage = () => {
 	const dispatch = useDispatch();
 	const user = useSelector((state) => state.auth.user);
+	console.log(user);
 	const [isEditing, setIsEditing] = useState(false);
 	const [newImage, setNewImage] = useState(null);
 	const navigate = useNavigate();
@@ -99,7 +100,7 @@ const ProfilePage = () => {
 	if (!user) return <Loader />;
 
 	return (
-		<div className="max-w-96 mx-auto mt-10 p-6 bg-white rounded-lg shadow-md shadow-black">
+		<div className="max-w-96 mx-auto mt-10 p-6 bg-white rounded-lg shadow-md shadow-black h-full">
 			<form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
 				<div className="flex justify-between items-center">
 					<h2 className="text-3xl font-bold text-gray-800 font-serif">

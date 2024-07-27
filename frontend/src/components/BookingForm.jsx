@@ -8,7 +8,7 @@ import toast, { Toaster } from "react-hot-toast";
 
 const BookingForm = ({ placeId, checkIn, checkOut, price, totalGuests }) => {
 	const [open, setOpen] = useState(false);
-	const user = useSelector((state) => state.auth.user);
+	const user = useSelector((state) => state.auth.currentUser);
 
 	const {
 		control,
@@ -30,9 +30,10 @@ const BookingForm = ({ placeId, checkIn, checkOut, price, totalGuests }) => {
 				}
 			);
 			if (response.status === 200) {
-				toast.success(
-					"Your booking has been added! Wait for the confirmation."
-				);
+				toast.success("Booking Added! Wait for the confirmation!", {
+					duration: 3000,
+					className: "text-center",
+				});
 				pending = true;
 				console.log(response);
 				reset();

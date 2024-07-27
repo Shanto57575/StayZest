@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import toast, { Toaster } from "react-hot-toast";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
 	userSignInFailed,
 	userSignInStart,
@@ -14,6 +14,7 @@ import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 
 const SignIn = () => {
 	const dispatch = useDispatch();
+	const { loading } = useSelector((state) => state.auth);
 	const [showPassword, setShowPassword] = useState(false);
 	const navigate = useNavigate();
 	const location = useLocation();
@@ -141,8 +142,12 @@ const SignIn = () => {
 					<section className="text-center">
 						<input
 							type="submit"
-							className="bg-gray-900 cursor-pointer text-white hover:bg-slate-700 duration-300 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+							disabled={loading}
+							className={`bg-gray-900 cursor-pointer text-white hover:bg-slate-700 duration-300 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline ${
+								loading ? "opacity-50 cursor-not-allowed" : ""
+							}`}
 						/>
+
 						<p className="text-sm text-white mt-2">
 							Don't have an account ?
 							<Link

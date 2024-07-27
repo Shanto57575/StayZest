@@ -9,7 +9,7 @@ bookingRoutes.post('/add-booking', verifyToken, createBooking);
 bookingRoutes.get('/all-Bookings', verifyToken, isAdmin, getAllBookings);
 bookingRoutes.get('/:id', verifyToken, getBookingById);
 bookingRoutes.get('/user-bookings', verifyToken, getBookingByEmail);
-bookingRoutes.put('/:id', verifyToken, updateBooking);
+bookingRoutes.put('/:id', verifyToken, isAdmin, updateBooking);
 bookingRoutes.delete('/:id', verifyToken, cancelBooking);
 
 export default bookingRoutes;

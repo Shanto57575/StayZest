@@ -2,9 +2,8 @@ import User from "../models/user.model.js";
 
 const getAllUsers = async (req, res) => {
     try {
-        const users = await User.find();
-        const { password: pass, ...allUsers } = { ...users };
-        res.status(200).json(allUsers)
+        const users = await User.find().select('-password');
+        res.status(200).json(users)
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: error.message });
@@ -41,9 +40,6 @@ const updateUser = async (req, res) => {
         if (userData?.email !== findEmail.email) {
             emailChanged = true;
         }
-
-        console.log(userData.email)
-        console.log(findEmail.email)
 
         const user = await User.findByIdAndUpdate(userId, userData, { new: true });
 
