@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import WbSunnyIcon from "@mui/icons-material/WbSunny";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
@@ -12,6 +12,7 @@ import LoginIcon from "@mui/icons-material/Login";
 import EmailIcon from "@mui/icons-material/Email";
 import toast, { Toaster } from "react-hot-toast";
 import { userLogOut } from "../features/auth/authSlice";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
 const Navbar = () => {
 	const dispatch = useDispatch();
@@ -74,17 +75,12 @@ const Navbar = () => {
 					{darkMode ? <WbSunnyIcon /> : <DarkModeIcon />}
 				</button>
 				<div className="relative inline-block text-left">
-					<button
-						onClick={toggleDropdown}
-						className="w-10 h-10 rounded-full overflow-hidden focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-						type="button"
-					>
+					<button onClick={toggleDropdown} type="button">
 						{user ? (
-							<img
-								alt="Profile"
-								src={user.profilePicture}
-								className="w-full h-full object-cover border-2 border-gray-300 p-2"
-							/>
+							<div className="flex items-center gap-x-2 font-serif">
+								<AccountCircleIcon />
+								{user.username}
+							</div>
 						) : (
 							<img
 								alt=""
@@ -95,7 +91,6 @@ const Navbar = () => {
 					</button>
 					{isOpen && (
 						<div className="absolute right-0 z-50 mt-2 w-56 origin-top-right rounded-md bg-white dark:bg-slate-800 font-serif p-3 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-							<p className="text-xl my-1">{user && user.username}</p>
 							<>
 								{user && (
 									<p className="flex items-center gap-x-2">

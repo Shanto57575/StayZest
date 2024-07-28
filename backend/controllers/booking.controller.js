@@ -108,11 +108,12 @@ const cancelBooking = async (req, res) => {
     }
 };
 
+
 export {
     createBooking,
     getAllBookings,
     getBookingById,
     getBookingByEmail,
     updateBooking,
-    cancelBooking
+    cancelBooking,
 };

@@ -4,6 +4,7 @@ import { format } from "date-fns";
 import Loader from "../../Loader";
 import { convertToMDY } from "../../converter";
 import toast, { Toaster } from "react-hot-toast";
+import ClearIcon from "@mui/icons-material/Clear";
 
 const ManageBookings = () => {
 	const [bookings, setBookings] = useState([]);
@@ -125,7 +126,7 @@ const ManageBookings = () => {
 										onClick={() => handleCancelBooking(booking._id)}
 										className="px-6 py-4 whitespace-nowrap font-mono text-rose-600 text-xl cursor-pointer"
 									>
-										X
+										<ClearIcon />
 									</td>
 									<Toaster />
 									<td className="px-6 py-4 flex items-center gap-x-2 whitespace-nowrap">

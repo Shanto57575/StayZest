@@ -1,5 +1,12 @@
 import express from 'express';
-import { cancelBooking, createBooking, getAllBookings, getBookingByEmail, getBookingById, updateBooking } from '../controllers/booking.controller.js';
+import {
+    cancelBooking,
+    createBooking,
+    getAllBookings,
+    getBookingByEmail,
+    getBookingById,
+    updateBooking
+} from '../controllers/booking.controller.js';
 import { verifyToken } from '../utils/jwtUtils.js';
 import isAdmin from '../utils/protectedRoutes.js';
 

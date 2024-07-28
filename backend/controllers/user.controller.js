@@ -69,7 +69,41 @@ const deleteUser = async (req, res) => {
     }
 }
 
+const getAllUsersWithBookingCount = async (req, res) => {
+    try {
+        const users = await User.aggregate([
+            {
+                $lookup: {
+                    from: 'bookings',
+                    localField: '_id',
+                    foreignField: 'user',
+                    as: 'bookings'
+                }
+            },
+            {
+                $addFields: {
+                    bookingCount: { $size: '$bookings' }
+                }
+            },
+            {
+                $project: {
+                    _id: 1,
+                    username: 1,
+                    email: 1,
+                    role: 1,
+                    bookingCount: 1
+                }
+            }
+        ]);
+        res.status(200).json(users);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Failed to fetch users' });
+    }
+};
+
 export {
+    getAllUsersWithBookingCount,
     getAllUsers,
     getUserById,
     updateUser,

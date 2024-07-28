@@ -30,9 +30,13 @@ const userSchema = new mongoose.Schema({
         type: String,
         enum: ["ADMIN", "HOST", "GUEST"],
         default: "GUEST",
+    },
+    bookingsCount: {
+        type: Number,
+        default: 0
     }
-}, { timeStamps: true })
+}, { timestamps: true });
 
-const User = mongoose.model("User", userSchema)
+const User = mongoose.model("User", userSchema);
 
 export default User;
