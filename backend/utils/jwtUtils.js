@@ -1,5 +1,4 @@
 import jwt from "jsonwebtoken"
-import User from "../models/user.model.js"
 
 const generateToken = (res, user) => {
     const token = jwt.sign(
@@ -8,13 +7,13 @@ const generateToken = (res, user) => {
             role: user.role
         },
         process.env.JWT_SECRET_KEY,
-        { expiresIn: '6h' }
+        { expiresIn: '3d' }
     )
     res.cookie('token', token, {
         httpOnly: true,
         secure: true,
         sameSite: 'strict',
-        maxAge: 30 * 24 * 60 * 60 * 1000,
+        maxAge: 3 * 24 * 60 * 60 * 1000,
     })
 }
 

@@ -13,12 +13,15 @@ import EmailIcon from "@mui/icons-material/Email";
 import toast, { Toaster } from "react-hot-toast";
 import { userLogOut } from "../features/auth/authSlice";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 
 const Navbar = () => {
 	const dispatch = useDispatch();
 	const [isOpen, setIsOpen] = useState(false);
+	const [isClicked, setIsClicked] = useState(false);
 	const darkMode = useSelector((state) => state.theme.darkMode);
 	const user = useSelector((state) => state.auth.currentUser);
+	console.log(user);
 
 	const navigate = useNavigate();
 
@@ -28,6 +31,10 @@ const Navbar = () => {
 
 	const toggleDropdown = () => {
 		setIsOpen(!isOpen);
+	};
+
+	const handleCliked = () => {
+		setIsClicked(!isClicked);
 	};
 
 	const handleLogOut = async () => {
@@ -77,9 +84,15 @@ const Navbar = () => {
 				<div className="relative inline-block text-left">
 					<button onClick={toggleDropdown} type="button">
 						{user ? (
-							<div className="flex items-center gap-x-2 font-serif">
-								<AccountCircleIcon />
-								{user.username}
+							<div onClick={handleCliked}>
+								{isClicked ? (
+									<HighlightOffIcon />
+								) : (
+									<div className="flex items-center gap-x-2 font-serif">
+										<AccountCircleIcon />
+										{user.username}
+									</div>
+								)}
 							</div>
 						) : (
 							<img
@@ -111,7 +124,9 @@ const Navbar = () => {
 								role="none"
 							>
 								<DashboardIcon />
-								<Link to={`/dashboard`}>Dashboard</Link>
+								<Link to={`/dashboard/${user?.role?.toLowerCase()}`}>
+									Dashboard
+								</Link>
 							</p>
 
 							<div className="py-1 flex items-center gap-x-2 hover:bg-gray-100 dark:hover:bg-gray-600">

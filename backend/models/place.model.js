@@ -10,6 +10,10 @@ const placeSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    country: {
+        type: String,
+        required: true,
+    },
     location: {
         type: String,
         required: true,

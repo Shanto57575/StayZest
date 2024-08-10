@@ -2,11 +2,12 @@ import { useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
 
 const RoleBasedRoute = ({ roles, children }) => {
-	const userRole = useSelector((state) => state.auth.user.role);
+	const userRole = useSelector((state) => state.auth.currentUser?.role);
 
-	if (!roles.includes(userRole)) {
+	if (!roles || !userRole || !roles.includes(userRole)) {
 		return <Navigate to="/" replace={true} />;
 	}
+
 	return children;
 };
 

@@ -1,8 +1,31 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
-import Loader from "../../Loader";
+import { ThreeDots } from "react-loader-spinner";
 import toast, { Toaster } from "react-hot-toast";
+import { Fade } from "react-awesome-reveal";
+import {
+	Person,
+	Book,
+	SupervisorAccount,
+	Home,
+	Group,
+} from "@mui/icons-material";
 
+const API_BASE_URL = "http://localhost:5000/api";
+
+const StatCard = ({ icon: Icon, title, value, bgColor, color }) => (
+	<Fade>
+		<div
+			className={`${bgColor} ${color} rounded-lg shadow-md shadow-white hover:shadow-xl p-4 font-serif`}
+		>
+			<div className="flex flex-col items-center justify-center">
+				<Icon className="mb-2 text-4xl" />
+				<h3 className="text-lg font-semibold mb-1">{title}</h3>
+				<p className="text-2xl font-bold">{value}</p>
+			</div>
+		</div>
+	</Fade>
+);
 const ManageUsers = () => {
 	const [users, setUsers] = useState([]);
 	const [loading, setLoading] = useState(true);
@@ -12,13 +35,10 @@ const ManageUsers = () => {
 		const fetchAllUsers = async () => {
 			try {
 				const response = await axios.get(
-					"http://localhost:5000/api/user/alluserswithbookingcount",
-					{
-						withCredentials: true,
-					}
+					`${API_BASE_URL}/user/alluserswithbookingcount`,
+					{ withCredentials: true }
 				);
 				setUsers(response.data);
-				console.log(response);
 				setLoading(false);
 			} catch (err) {
 				setError("Failed to fetch Users. Please try again later.");
@@ -31,45 +51,96 @@ const ManageUsers = () => {
 
 	const handleRoleChange = async (username, userId, newRole) => {
 		try {
-			// await axios.put(
-			// 	`http://localhost:5000/api/user/${userId}`,
-			// 	{ role: newRole },
-			// 	{
-			// 		withCredentials: true,
-			// 	}
-			// );
-
-			const updatedUsers = users.map((user) =>
-				user._id === userId ? { ...user, role: newRole } : user
+			await axios.put(
+				`${API_BASE_URL}/user/${userId}`,
+				{ role: newRole },
+				{ withCredentials: true }
 			);
-			setUsers(updatedUsers);
-			toast.success(`${username} is an ${newRole} Now!`, {
-				iconTheme: {
-					primary: "#ffffff",
-					secondary: "blue",
-				},
+
+			setUsers((prevUsers) =>
+				prevUsers.map((user) =>
+					user._id === userId ? { ...user, role: newRole } : user
+				)
+			);
+
+			toast.success(`${username} is now an ${newRole}!`, {
 				duration: 3000,
-				position: "bottom-right",
-				className: "bg-sky-600 text-white",
+				position: "top-right",
 			});
 		} catch (err) {
-			setError("Failed to update user role. Please try again later.");
+			toast.error("Failed to update user role. Please try again later.");
 		}
 	};
 
-	if (loading) return <Loader />;
+	const totalUsers = users.length;
+	const totalAdmin = users.filter((user) => user.role === "ADMIN").length;
+	const totalHost = users.filter((user) => user.role === "HOST").length;
+	const totalGuest = users.filter((user) => user.role === "GUEST").length;
+	const totalBookings = users.reduce(
+		(total, user) => total + user.bookingCount,
+		0
+	);
+
+	if (loading)
+		return (
+			<div className="flex justify-center items-center h-screen">
+				<ThreeDots color="#00BFFF" height={80} width={80} />
+			</div>
+		);
+
 	if (error)
 		return (
-			<div className="text-center mt-8 text-red-500 font-serif h-screen">
-				{error}
+			<div className="container mx-auto mt-8">
+				<p className="text-center text-red-500 text-xl">{error}</p>
 			</div>
 		);
 
 	return (
-		<div className="container mx-auto p-4 h-screen">
-			<h1 className="text-2xl font-bold mb-4 font-serif text-center underline">
-				Total Users : {users?.length}
-			</h1>
+		<div className="container mx-auto p-4">
+			<Fade cascade>
+				<h1 className="text-3xl font-bold mb-8 font-serif">
+					User Management Dashboard
+				</h1>
+			</Fade>
+
+			<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-4 mb-8">
+				<StatCard
+					icon={Group}
+					title="Total Users"
+					value={totalUsers}
+					bgColor="bg-blue-200"
+					color="text-blue-600"
+				/>
+				<StatCard
+					icon={Book}
+					title="Total Bookings"
+					value={totalBookings}
+					bgColor="bg-pink-200"
+					color="text-pink-600"
+				/>
+				<StatCard
+					icon={SupervisorAccount}
+					title="Total Admin"
+					value={totalAdmin}
+					bgColor="bg-cyan-200"
+					color="text-cyan-600"
+				/>
+				<StatCard
+					icon={Home}
+					title="Total Host"
+					value={totalHost}
+					bgColor="bg-green-200"
+					color="text-green-600"
+				/>
+				<StatCard
+					icon={Person}
+					title="Total Guest"
+					value={totalGuest}
+					bgColor="bg-orange-200"
+					color="text-orange-600"
+				/>
+			</div>
+
 			<div className="overflow-x-auto font-serif">
 				<table className="min-w-full shadow-2xl shadow-black">
 					<thead className="text-center">

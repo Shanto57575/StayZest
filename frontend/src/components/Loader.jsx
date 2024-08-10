@@ -1,10 +1,10 @@
-import { Bars } from "react-loader-spinner";
+import { ThreeDots } from "react-loader-spinner";
 
 const Loader = () => {
 	return (
 		<div className="flex flex-col items-center justify-center h-screen">
 			<>
-				<Bars
+				<ThreeDots
 					height={100}
 					width={100}
 					radius={5}

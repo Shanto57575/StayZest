@@ -1,10 +1,22 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { format } from "date-fns";
-import Loader from "../../Loader";
-import { convertToMDY } from "../../converter";
+import { Fade } from "react-awesome-reveal";
+import { ThreeDots } from "react-loader-spinner";
 import toast, { Toaster } from "react-hot-toast";
-import ClearIcon from "@mui/icons-material/Clear";
+import HighlightOffIcon from "@mui/icons-material/HighlightOff";
+import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
+import PendingIcon from "@mui/icons-material/Pending";
+
+const StatCard = ({ title, value, icon: Icon, bgColor }) => (
+	<div className={`${bgColor} text-white rounded-lg shadow-md p-4`}>
+		<div className="flex justify-between items-center mb-2">
+			<h3 className="text-sm font-medium">{title}</h3>
+			<Icon className="h-5 w-5 opacity-70" />
+		</div>
+		<p className="text-2xl font-bold">{value}</p>
+	</div>
+);
 
 const ManageBookings = () => {
 	const [bookings, setBookings] = useState([]);
@@ -16,12 +28,9 @@ const ManageBookings = () => {
 			try {
 				const response = await axios.get(
 					"http://localhost:5000/api/booking/all-Bookings",
-					{
-						withCredentials: true,
-					}
+					{ withCredentials: true }
 				);
 				setBookings(response.data);
-				console.log(response.data);
 				setLoading(false);
 			} catch (err) {
 				setError("Failed to fetch bookings. Please try again later.");
@@ -37,19 +46,20 @@ const ManageBookings = () => {
 			await axios.put(
 				`http://localhost:5000/api/booking/${bookingId}`,
 				{ status: "CONFIRMED" },
-				{
-					withCredentials: true,
-				}
+				{ withCredentials: true }
 			);
 
-			const updatedBookings = bookings.map((booking) =>
-				booking._id === bookingId
-					? { ...booking, status: "CONFIRMED" }
-					: booking
+			setBookings(
+				bookings.map((booking) =>
+					booking._id === bookingId
+						? { ...booking, status: "CONFIRMED" }
+						: booking
+				)
 			);
-			setBookings(updatedBookings);
+
+			toast.success("Booking confirmed successfully");
 		} catch (err) {
-			setError("Failed to fetch bookings. Please try again later.");
+			toast.error("Failed to confirm booking");
 		}
 	};
 
@@ -59,24 +69,23 @@ const ManageBookings = () => {
 				withCredentials: true,
 			});
 
-			const otherBookings = bookings.filter(
-				(booking) => booking._id !== bookingId
-			);
-			setBookings(otherBookings);
-			toast.success("Booking has been Cancelled", {
-				iconTheme: {
-					primary: "#ffffff",
-					secondary: "red",
-				},
+			setBookings(bookings.filter((booking) => booking._id !== bookingId));
+			toast.success("Booking has been cancelled", {
+				icon: "🗑️",
 				duration: 3000,
 				className: "bg-rose-600 text-white",
 			});
 		} catch (err) {
-			setError("Failed to fetch bookings. Please try again later.");
+			toast.error("Failed to cancel booking");
 		}
 	};
 
-	if (loading) return <Loader />;
+	if (loading)
+		return (
+			<div className="flex justify-center items-center h-screen">
+				<ThreeDots color="#00BFFF" height={80} width={80} />
+			</div>
+		);
 
 	if (error)
 		return (
@@ -85,102 +94,122 @@ const ManageBookings = () => {
 			</p>
 		);
 
+	const totalBookings = bookings.length;
+	const pendingBookings = bookings.filter(
+		(booking) => booking.status === "PENDING"
+	).length;
+	const confirmedBookings = bookings.filter(
+		(booking) => booking.status === "CONFIRMED"
+	).length;
+	const totalCollection = bookings.reduce(
+		(total, booking) => total + booking.price,
+		0
+	);
+
 	return (
-		<div className="container mx-auto p-4">
-			<h1 className="text-2xl font-bold mb-4 font-serif text-center underline">
-				Total Bookings : {bookings.length}
-			</h1>
-			<div className="overflow-x-auto font-serif">
-				<table className="min-w-full shadow-2xl shadow-black">
-					<thead className="text-center">
-						<tr>
-							<th></th>
-							<th className="px-6 py-3 text-xs uppercase tracking-wider font-extrabold">
-								Place
-							</th>
-							<th className="px-6 py-3  text-xs uppercase tracking-wider font-extrabold">
-								Check-in
-							</th>
-							<th className="px-6 py-3  text-xs uppercase tracking-wider font-extrabold">
-								Check-out
-							</th>
-							<th className="px-6 py-3  text-xs uppercase tracking-wider font-extrabold">
-								Price
-							</th>
-							<th className="px-6 py-3  text-xs uppercase tracking-wider font-extrabold">
-								User Mail
-							</th>
-							<th className="px-6 py-3  text-xs uppercase tracking-wider font-extrabold">
-								Status
-							</th>
-							<th className="px-6 py-3  text-xs uppercase tracking-wider font-extrabold">
-								Booking Date
-							</th>
-						</tr>
-					</thead>
-					<tbody className="divide-y divide-gray-200 text-center">
-						{bookings &&
-							bookings?.map((booking) => (
-								<tr key={booking._id}>
-									<td
-										onClick={() => handleCancelBooking(booking._id)}
-										className="px-6 py-4 whitespace-nowrap font-mono text-rose-600 text-xl cursor-pointer"
-									>
-										<ClearIcon />
+		<Fade>
+			<div className="container mx-auto">
+				<h1 className="text-3xl font-bold font-serif mb-6">Manage Bookings</h1>
+
+				<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8 font-serif">
+					<StatCard
+						title="Total Bookings"
+						value={totalBookings}
+						icon={PendingIcon}
+						bgColor="bg-blue-500"
+					/>
+					<StatCard
+						title="Total Collection"
+						value={`$${totalCollection}`}
+						icon={CheckCircleOutlineIcon}
+						bgColor="bg-indigo-400"
+					/>
+					<StatCard
+						title="Pending Bookings"
+						value={pendingBookings}
+						icon={PendingIcon}
+						bgColor="bg-yellow-500"
+					/>
+					<StatCard
+						title="Confirmed Bookings"
+						value={confirmedBookings}
+						icon={CheckCircleOutlineIcon}
+						bgColor="bg-green-500"
+					/>
+				</div>
+
+				<div className="overflow-x-auto">
+					<table className="w-full mx-auto font-serif bg-white dark:bg-gray-800 shadow-md rounded-lg overflow-hidden">
+						<thead className="bg-gray-50 dark:bg-gray-600 text-gray-700 dark:text-gray-200">
+							<tr>
+								<th className="py-3 px-4 text-center">Action</th>
+								<th className="py-3 px-4 text-center">Place</th>
+								<th className="py-3 px-4 text-center">CheckIn</th>
+								<th className="py-3 px-4 text-center">CheckOut</th>
+								<th className="py-3 px-4 text-center">Price</th>
+								<th className="py-3 px-4 text-center">User</th>
+								<th className="py-3 px-4 text-center">Status</th>
+								<th className="py-3 px-4 text-center">Booking Date</th>
+							</tr>
+						</thead>
+						<tbody className="divide-y divide-gray-200 dark:divide-gray-600 text-center">
+							{bookings.map((booking) => (
+								<tr
+									key={booking._id}
+									className="hover:bg-gray-50 dark:hover:bg-gray-700"
+								>
+									<td className="py-3 px-4">
+										<button
+											onClick={() => handleCancelBooking(booking._id)}
+											className="text-rose-600 hover:text-rose-800"
+										>
+											<HighlightOffIcon />
+										</button>
 									</td>
-									<Toaster />
-									<td className="px-6 py-4 flex items-center gap-x-2 whitespace-nowrap">
+									<td className="py-3 px-4 flex items-center space-x-2">
 										<img
-											className="h-12 w-12 rounded-tr-lg rounded-es-lg object-cover shadow-sm cursor-pointer shadow-slate-100 hover:scale-125 duration-700"
-											src={booking.place.photos[0] || booking.place.photos[1]}
-											alt={booking.place.title}
+											className="h-14 w-14 rounded-md object-cover"
+											src={booking.place?.photos[0] || booking.place?.photos[1]}
+											alt={booking.place?.title}
 										/>
-										<p className="text-sm font-medium">{booking.place.title}</p>
+										<span className="text-xs">{booking.place?.title}</span>
 									</td>
-									<td className="px-6 py-4 whitespace-nowrap">
-										<p className="text-sm ">
-											{format(new Date(booking.checkIn), "MMM dd, yyyy")}
+									<td className="py-3 px-4 text-sm">
+										{format(new Date(booking.checkIn), "MMM dd, yyyy")}
+									</td>
+									<td className="py-3 px-4 text-sm">
+										{format(new Date(booking.checkOut), "MMM dd, yyyy")}
+									</td>
+									<td className="py-3 px-4">${booking.price}</td>
+									<td className="py-3 px-4">
+										<p className="font-bold">{booking.user?.username}</p>
+										<p className="text-sm text-gray-500 dark:text-gray-400">
+											{booking.email}
 										</p>
 									</td>
-									<td className="px-6 py-4 whitespace-nowrap">
-										<p className="text-sm">
-											{format(new Date(booking.checkOut), "MMM dd, yyyy")}
-										</p>
-									</td>
-									<td className="px-6 py-4 whitespace-nowrap text-sm font-mono">
-										${booking.price}
-									</td>
-									<td className="px-6 py-4 whitespace-nowrap">
-										<p className="text-sm ">{booking.user?.username}</p>
-										<p className="text-sm ">{booking.email}</p>
-									</td>
-									<td
-										onClick={() => handleStatus(booking._id)}
-										className="px-6 py-4 whitespace-nowrap cursor-pointer"
-									>
+									<td className="py-3 px-4">
 										<span
-											className={`px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${
+											onClick={() => handleStatus(booking._id)}
+											className={`px-2 py-1 rounded-full text-xs font-semibold cursor-pointer ${
 												booking.status === "PENDING"
-													? "bg-amber-200 text-yellow-700"
-													: booking.status === "CONFIRMED"
-													? "bg-green-200 text-green-700 cursor-not-allowed"
-													: "bg-red-100 text-red-800"
+													? "bg-yellow-200 text-yellow-800"
+													: "bg-green-200 text-green-800"
 											}`}
 										>
 											{booking.status}
 										</span>
 									</td>
-									<td className="px-6 py-4 whitespace-nowrap">
-										<p className="text-sm ">
-											{convertToMDY(booking.createdAt)}
-										</p>
+									<td className="py-3 px-4 text-sm">
+										{format(new Date(booking.createdAt), "MMM dd, yyyy")}
 									</td>
 								</tr>
 							))}
-					</tbody>
-				</table>
+						</tbody>
+					</table>
+				</div>
+				<Toaster />
 			</div>
-		</div>
+		</Fade>
 	);
 };
 

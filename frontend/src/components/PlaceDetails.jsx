@@ -86,7 +86,7 @@ const PlaceDetails = () => {
 					<img
 						src={viewDetails.photos[0]}
 						alt={viewDetails.title}
-						className="w-full h-96 object-cover rounded-2xl shadow-lg"
+						className="w-full h-96 object-cover rounded-2xl shadow-2xl"
 					/>
 					<div className="grid grid-cols-2 gap-4">
 						{viewDetails.photos.map((photo, index) => (
@@ -94,7 +94,7 @@ const PlaceDetails = () => {
 								key={index}
 								src={photo}
 								alt={viewDetails.title}
-								className="w-full h-48 object-cover rounded-xl shadow-md transition-transform duration-300 hover:scale-105"
+								className="w-full h-48 object-cover rounded-xl shadow-2xl transition-transform duration-300 hover:scale-105"
 							/>
 						))}
 					</div>

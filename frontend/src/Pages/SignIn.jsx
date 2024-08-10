@@ -57,7 +57,7 @@ const SignIn = () => {
 
 	return (
 		<div className="flex items-center justify-center font-serif h-screen">
-			<div className="w-full md:w-96 md:mx-5">
+			<div className="md:w-96 md:mx-5">
 				<plaintext className="flex items-center justify-center gap-x-2 text-3xl text-center text-cyan-500 font-extrabold">
 					<svg
 						xmlns="http://www.w3.org/2000/svg"

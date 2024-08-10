@@ -13,8 +13,7 @@ import Loader from "../Loader";
 
 const ProfilePage = () => {
 	const dispatch = useDispatch();
-	const user = useSelector((state) => state.auth.user);
-	console.log(user);
+	const user = useSelector((state) => state.auth.currentUser);
 	const [isEditing, setIsEditing] = useState(false);
 	const [newImage, setNewImage] = useState(null);
 	const navigate = useNavigate();
@@ -91,6 +90,7 @@ const ProfilePage = () => {
 	};
 
 	const handleImageChange = (e) => {
+		console.log(e.target.files && e.target.files[0]);
 		if (e.target.files && e.target.files[0]) {
 			setNewImage(e.target.files[0]);
 			setValue("profilePicture", URL.createObjectURL(e.target.files[0]));

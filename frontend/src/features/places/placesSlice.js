@@ -13,6 +13,20 @@ export const fetchPlaceDetails = createAsyncThunk('places/fetchPlaceDetails', as
     return response.data
 })
 
+export const updatePlace = createAsyncThunk('places/updatePlace', async ({ placeId, updatedData }) => {
+    const response = await axios.put(`http://localhost:5000/api/place/${placeId}`, updatedData, {
+        withCredentials: true
+    });
+    return response.data;
+});
+
+export const deletePlace = createAsyncThunk('places/deletePlace', async (placeId) => {
+    await axios.delete(`http://localhost:5000/api/place/${placeId}`, {
+        withCredentials: true
+    });
+    return placeId;
+});
+
 const placesSlice = createSlice({
     name: "places",
     initialState: {
@@ -53,6 +67,40 @@ const placesSlice = createSlice({
                 state.viewDetails = action.payload
             })
             .addCase(fetchPlaceDetails.rejected, (state, action) => {
+                state.loading = false
+                state.error = action.error.message
+            })
+            .addCase(updatePlace.pending, (state) => {
+                state.loading = false
+                state.error = null
+            })
+            .addCase(updatePlace.fulfilled, (state, action) => {
+                state.loading = false
+                const updatedPlace = action.payload;
+                const index = state.places.findIndex(place => place._id === updatedPlace._id);
+                if (index !== -1) {
+                    state.places[index] = updatedPlace;
+                }
+                if (state.viewDetails && state.viewDetails._id === updatedPlace._id) {
+                    state.viewDetails = updatedPlace;
+                }
+            })
+            .addCase(updatePlace.rejected, (state, action) => {
+                state.loading = false
+                state.error = action.error.message
+            })
+            .addCase(deletePlace.pending, (state) => {
+                state.loading = true
+                state.error = null
+            })
+            .addCase(deletePlace.fulfilled, (state, action) => {
+                state.loading = false
+                state.places = state.places.filter(place => place._id !== action.payload)
+                if (state.viewDetails && state.viewDetails._id === action.payload) {
+                    state.viewDetails = null;
+                }
+            })
+            .addCase(deletePlace.rejected, (state, action) => {
                 state.loading = false
                 state.error = action.error.message
             })

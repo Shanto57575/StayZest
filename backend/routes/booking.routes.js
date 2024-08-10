@@ -14,8 +14,8 @@ const bookingRoutes = express.Router();
 
 bookingRoutes.post('/add-booking', verifyToken, createBooking);
 bookingRoutes.get('/all-Bookings', verifyToken, isAdmin, getAllBookings);
+bookingRoutes.get('/:email', verifyToken, getBookingByEmail);
 bookingRoutes.get('/:id', verifyToken, getBookingById);
-bookingRoutes.get('/user-bookings', verifyToken, getBookingByEmail);
 bookingRoutes.put('/:id', verifyToken, isAdmin, updateBooking);
 bookingRoutes.delete('/:id', verifyToken, cancelBooking);
 

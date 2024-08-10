@@ -15,8 +15,8 @@ const authSlice = createSlice({
         },
         userSignUpSuccess: (state, action) => {
             state.loading = false;
+            state.users.push(action.payload);
             state.currentUser = action.payload;
-            state.users?.push(action.payload);
             state.error = null;
         },
         userSignUpFailed: (state, action) => {
@@ -30,9 +30,6 @@ const authSlice = createSlice({
         userSignInSuccess: (state, action) => {
             state.loading = false;
             state.currentUser = action.payload;
-            if (!state.users?.find(user => user._id === action.payload._id)) {
-                state.users?.push(action.payload);
-            }
             state.error = null;
         },
         userSignInFailed: (state, action) => {

@@ -88,6 +88,7 @@ const getAllUsersWithBookingCount = async (req, res) => {
             {
                 $project: {
                     _id: 1,
+                    profilePicture: 1,
                     username: 1,
                     email: 1,
                     role: 1,

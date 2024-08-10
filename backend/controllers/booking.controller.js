@@ -51,20 +51,24 @@ const getBookingById = async (req, res) => {
 };
 
 const getBookingByEmail = async (req, res) => {
-    const email = req.query.email
+    const email = req.params.email;
 
     if (!email) {
-        return res.status(400).json({ error: 'Email query parameter is required' });
+        return res.status(400).json({ error: 'Email parameter is required' });
     }
 
     try {
         const user = await User.findOne({ email });
+        console.log(user);
 
         if (!user) {
             return res.status(404).json({ error: 'User not found' });
         }
 
-        const bookings = await Booking.find({ user: user._id }).populate('place', "title location price").populate('user', "username email");
+        const bookings = await Booking.find({ user: user._id })
+            .populate('place', "title location price photos")
+            .populate('user', "username email")
+            .sort({ createdAt: -1 })
 
         res.status(200).json(bookings);
     } catch (error) {

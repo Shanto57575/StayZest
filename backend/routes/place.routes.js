@@ -8,6 +8,6 @@ placeRoutes.post('/add-place', verifyToken, isAdmin, addPlace);
 placeRoutes.get('/all-places', getAllPlace);
 placeRoutes.get('/:id', getPlaceById);
 placeRoutes.put('/:id', verifyToken, isAdmin, updatePlace);
-placeRoutes.delete('/remove-place', verifyToken, isAdmin, removePlace);
+placeRoutes.delete('/:id', verifyToken, isAdmin, removePlace);
 
 export default placeRoutes;
