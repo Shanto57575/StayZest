@@ -138,9 +138,8 @@ const ManageUsers = () => {
 					value={totalGuest}
 					bgColor="bg-orange-200"
 					color="text-orange-600"
-				/>
+				/>{" "}
 			</div>
-
 			<div className="overflow-x-auto font-serif">
 				<table className="min-w-full shadow-2xl shadow-black">
 					<thead className="text-center">

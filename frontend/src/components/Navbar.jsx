@@ -14,15 +14,15 @@ import toast, { Toaster } from "react-hot-toast";
 import { userLogOut } from "../features/auth/authSlice";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
+import MenuIcon from "@mui/icons-material/Menu";
 
 const Navbar = () => {
 	const dispatch = useDispatch();
 	const [isOpen, setIsOpen] = useState(false);
 	const [isClicked, setIsClicked] = useState(false);
+	const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 	const darkMode = useSelector((state) => state.theme.darkMode);
 	const user = useSelector((state) => state.auth.currentUser);
-	console.log(user);
-
 	const navigate = useNavigate();
 
 	const handleDarkModeToggle = () => {
@@ -35,6 +35,10 @@ const Navbar = () => {
 
 	const handleCliked = () => {
 		setIsClicked(!isClicked);
+	};
+
+	const toggleMobileMenu = () => {
+		setIsMobileMenuOpen(!isMobileMenuOpen);
 	};
 
 	const handleLogOut = async () => {
@@ -53,103 +57,141 @@ const Navbar = () => {
 		}
 	};
 
-	return (
-		<div className="bg-base-100 fixed bg-white py-5 w-full dark:bg-gray-800 text-gray-800 dark:text-gray-200 shadow-lg shadow-gray-700 px-4 md:px-20 flex items-center justify-between z-50">
-			<div className="text-xl font-bold flex items-center gap-x-2">
-				<svg
-					xmlns="http://www.w3.org/2000/svg"
-					fill="none"
-					viewBox="0 0 24 24"
-					strokeWidth={1.5}
-					stroke="currentColor"
-					className="w-8 h-8 -rotate-90"
+	const navLinks = (
+		<>
+			<Link
+				to="/dashboard/profile"
+				className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600"
+			>
+				<PortraitIcon />
+				Profile
+			</Link>
+			<Link
+				to={`/dashboard/${user?.role?.toLowerCase()}`}
+				className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600"
+			>
+				<DashboardIcon />
+				Dashboard
+			</Link>
+			{user ? (
+				<button
+					onClick={handleLogOut}
+					className="block w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600"
 				>
-					<path
-						strokeLinecap="round"
-						strokeLinejoin="round"
-						d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5"
-					/>
-				</svg>
+					<LogoutIcon />
+					Sign Out
+				</button>
+			) : (
+				<Link
+					to="/signin"
+					className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600"
+				>
+					<LoginIcon />
+					Sign In
+				</Link>
+			)}
+		</>
+	);
+
+	return (
+		<nav className="bg-white dark:bg-gray-800 fixed w-full py-1 h-20 shadow-lg z-50 transition-all duration-300">
+			<div className="max-w-7xl mx-auto flex items-center justify-between">
 				<Link
 					to="/"
-					className="font-serif text-gray-800 dark:text-gray-200 hover:text-sky-400 dark:hover:text-sky-400"
+					className="flex items-center space-x-2 text-xl md:text-2xl font-bold text-gray-800 dark:text-white hover:text-sky-500 dark:hover:text-sky-400 transition-colors duration-300"
 				>
-					StayZest
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						fill="none"
+						viewBox="0 0 24 24"
+						strokeWidth={2}
+						stroke="currentColor"
+						className="w-6 h-6 md:w-8 md:h-8 -rotate-90"
+					>
+						<path
+							strokeLinecap="round"
+							strokeLinejoin="round"
+							d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5"
+						/>
+					</svg>
+					<span className="text-3xl font-extrabold my-4 text-transparent bg-sky-200 bg-clip-text hover:bg-gradient-to-r from-sky-400 via-rose-400 to-pink-600">
+						StayZest
+					</span>
 				</Link>
-			</div>
-			<div className="flex items-center gap-4">
-				<button className="mb-0.5" onClick={handleDarkModeToggle}>
-					{darkMode ? <WbSunnyIcon /> : <DarkModeIcon />}
-				</button>
-				<div className="relative inline-block text-left">
-					<button onClick={toggleDropdown} type="button">
-						{user ? (
-							<div onClick={handleCliked}>
-								{isClicked ? (
-									<HighlightOffIcon />
-								) : (
-									<div className="flex items-center gap-x-2 font-serif">
-										<AccountCircleIcon />
-										{user.username}
-									</div>
-								)}
-							</div>
-						) : (
-							<img
-								alt=""
-								src="https://t3.ftcdn.net/jpg/03/46/83/96/240_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg"
-								className="w-full h-full object-cover"
-							/>
-						)}
-					</button>
-					{isOpen && (
-						<div className="absolute right-0 z-50 mt-2 w-56 origin-top-right rounded-md bg-white dark:bg-slate-800 font-serif p-3 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-							<>
-								{user && (
-									<p className="flex items-center gap-x-2">
-										<EmailIcon />
-										{user.email}
-									</p>
-								)}
-							</>
-							<p
-								className="py-1 flex items-center gap-x-2 hover:bg-gray-100 dark:hover:bg-gray-600"
-								role="none"
-							>
-								<PortraitIcon />
-								<Link to="/dashboard/profile">Profile</Link>
-							</p>
-							<p
-								className="py-1 flex items-center gap-x-2 hover:bg-gray-100 dark:hover:bg-gray-600"
-								role="none"
-							>
-								<DashboardIcon />
-								<Link to={`/dashboard/${user?.role?.toLowerCase()}`}>
-									Dashboard
-								</Link>
-							</p>
 
-							<div className="py-1 flex items-center gap-x-2 hover:bg-gray-100 dark:hover:bg-gray-600">
-								{user && user.email ? (
-									<p className="flex items-center gap-x-2">
-										<LogoutIcon />
-										<Link onClick={handleLogOut}>Sign Out</Link>
-									</p>
-								) : (
-									<>
-										<p className="py-1 flex items-center gap-x-2 hover:bg-gray-100 dark:hover:bg-gray-600">
-											<LoginIcon />
-											<Link to="/signin">SignIn</Link>
+				<div className="flex items-center space-x-4">
+					<button
+						onClick={handleDarkModeToggle}
+						className="text-gray-600 dark:text-gray-300 hover:text-sky-500 dark:hover:text-sky-400 transition-colors duration-300"
+					>
+						{darkMode ? <WbSunnyIcon /> : <DarkModeIcon />}
+					</button>
+
+					<div className="relative hidden md:block">
+						<button
+							onClick={toggleDropdown}
+							className="flex items-center space-x-2 text-gray-600 dark:text-gray-300 hover:text-sky-500 dark:hover:text-sky-400 transition-colors duration-300"
+						>
+							{user ? (
+								<div
+									onClick={handleCliked}
+									className="flex items-center space-x-2"
+								>
+									{isClicked ? (
+										<HighlightOffIcon />
+									) : (
+										<>
+											<AccountCircleIcon />
+											<span className="font-serif">{user.username}</span>
+										</>
+									)}
+								</div>
+							) : (
+								<img
+									alt=""
+									src="https://t3.ftcdn.net/jpg/03/46/83/96/240_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg"
+									className="w-8 h-8 rounded-full"
+								/>
+							)}
+						</button>
+
+						{isOpen && (
+							<div className="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white dark:bg-gray-700 ring-1 ring-black ring-opacity-5 focus:outline-none">
+								<div className="py-1">
+									{user && (
+										<p className="px-4 py-2 text-sm text-gray-700 dark:text-gray-200 flex items-center space-x-2">
+											<EmailIcon className="w-4 h-4" />
+											<span>{user.email}</span>
 										</p>
-										<Toaster />
-									</>
-								)}
+									)}
+									{navLinks}
+								</div>
 							</div>
-						</div>
-					)}
+						)}
+					</div>
+
+					<button
+						onClick={toggleMobileMenu}
+						className="md:hidden text-gray-600 dark:text-gray-300 hover:text-sky-500 dark:hover:text-sky-400 transition-colors duration-300"
+					>
+						<MenuIcon />
+					</button>
 				</div>
 			</div>
-		</div>
+
+			{/* Mobile menu */}
+			{isMobileMenuOpen && (
+				<div className="md:hidden mt-2 py-2 bg-white dark:bg-gray-700 rounded-md shadow-lg">
+					{user && (
+						<p className="px-4 py-2 text-sm text-gray-700 dark:text-gray-200">
+							{user.email}
+						</p>
+					)}
+					{navLinks}
+				</div>
+			)}
+			<Toaster />
+		</nav>
 	);
 };
 

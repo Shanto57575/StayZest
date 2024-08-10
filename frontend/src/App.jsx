@@ -60,7 +60,7 @@ const App = () => {
 							element: <Home />,
 						},
 						{
-							path: "/details/:placeId",
+							path: "details/:placeId",
 							element: <PlaceDetails />,
 						},
 					],

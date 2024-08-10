@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, Navigate, Outlet, useNavigate } from "react-router-dom";
+import { Link, Outlet, useNavigate, useLocation } from "react-router-dom";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import Button from "@mui/material/Button";
@@ -31,6 +31,7 @@ const Dashboard = () => {
 	const darkMode = useSelector((state) => state.theme.darkMode);
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
+	const location = useLocation();
 
 	const toggleDrawer = (newOpen) => () => {
 		setOpen(newOpen);
@@ -41,7 +42,6 @@ const Dashboard = () => {
 	};
 
 	const handleLogOut = async () => {
-		console.log("LOGOUT");
 		try {
 			const response = await axios.post(
 				"http://localhost:5000/api/auth/logout"
@@ -58,161 +58,123 @@ const Dashboard = () => {
 		}
 	};
 
-	const activeClassName = (path) =>
-		location.pathname === path ? "rounded-full bg-blue-500 text-white" : "";
+	const isActive = (path) => location.pathname === path;
+
+	const MenuItem = ({ to, icon, text }) => (
+		<ListItem
+			component={Link}
+			to={to}
+			className={`my-1 rounded-b-lg transition-all duration-200 ${
+				isActive(to)
+					? "bg-blue-500 border-b-4 text-white"
+					: "hover:bg-gray-200 dark:hover:bg-gray-700"
+			}`}
+		>
+			<ListItemIcon className={isActive(to) ? "text-white" : "dark:text-white"}>
+				{icon}
+			</ListItemIcon>
+			<ListItemText primary={text} />
+		</ListItem>
+	);
 
 	const DrawerList = (
 		<Box
-			sx={{ width: 250 }}
+			sx={{ width: 230 }}
 			role="presentation"
 			onClick={toggleDrawer(false)}
-			className="font-serif border-r-2"
+			className="font-serif h-full bg-white dark:bg-gray-800 text-gray-800 dark:text-white"
 		>
-			<List>
-				<ListItem className="cursor-pointer" onClick={handleDarkModeToggle}>
-					<ListItemIcon className="dark:text-white">
-						{darkMode ? <WbSunnyIcon /> : <DarkModeIcon />}
-					</ListItemIcon>
-				</ListItem>
-				<ListItem
-					component={Link}
+			<div className="p-4 flex items-center justify-between">
+				<h2 className="text-xl font-bold">Dashboard</h2>
+				<Button
+					onClick={handleDarkModeToggle}
+					className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700"
+				>
+					{darkMode ? <WbSunnyIcon /> : <DarkModeIcon />}
+				</Button>
+			</div>
+			<Divider />
+			<List className="p-2 font-serif">
+				<MenuItem
 					to={`/dashboard/${userTypes?.toLowerCase()}`}
-					className={activeClassName("/dashboard/admin")}
-				>
-					<ListItemIcon className="dark:text-white">
-						<DashboardIcon />
-					</ListItemIcon>
-					<ListItemText primary="Dashboard Home" />
-				</ListItem>
-				<ListItem
-					component={Link}
+					icon={<DashboardIcon />}
+					text="Dashboard Home"
+				/>
+				<MenuItem
 					to="/dashboard/profile"
-					className={activeClassName("/dashboard/profile")}
-				>
-					<ListItemIcon className="dark:text-white">
-						<AdminPanelSettingsIcon />
-					</ListItemIcon>
-					<ListItemText primary="Profile" />
-				</ListItem>
-
-				{/* ADMIN ROUTES */}
+					icon={<AdminPanelSettingsIcon />}
+					text="Profile"
+				/>
 
 				{userTypes === "ADMIN" && (
 					<>
-						<ListItem
-							component={Link}
+						<MenuItem
 							to="/dashboard/admin/manage-users"
-							className={activeClassName("/dashboard/admin/manage-users")}
-						>
-							<ListItemIcon className="dark:text-white">
-								<PeopleIcon />
-							</ListItemIcon>
-							<ListItemText primary="Manage Users" />
-						</ListItem>
-						<ListItem
-							component={Link}
+							icon={<PeopleIcon />}
+							text="Manage Users"
+						/>
+						<MenuItem
 							to="/dashboard/admin/manage-places"
-							className={activeClassName("/dashboard/admin/manage-places")}
-						>
-							<ListItemIcon className="dark:text-white">
-								<PlaceIcon />
-							</ListItemIcon>
-							<ListItemText primary="Manage Places" />
-						</ListItem>
-						<ListItem
-							component={Link}
+							icon={<PlaceIcon />}
+							text="Manage Places"
+						/>
+						<MenuItem
 							to="/dashboard/admin/manage-bookings"
-							className={activeClassName("/dashboard/admin/manage-bookings")}
-						>
-							<ListItemIcon className="dark:text-white">
-								<BookIcon />
-							</ListItemIcon>
-							<ListItemText primary="Manage Bookings" />
-						</ListItem>
-						<ListItem
-							component={Link}
+							icon={<BookIcon />}
+							text="Manage Bookings"
+						/>
+						<MenuItem
 							to="/dashboard/admin/manage-reviews"
-							className={activeClassName("/dashboard/admin/manage-reviews")}
-						>
-							<ListItemIcon className="dark:text-white">
-								<RateReviewIcon />
-							</ListItemIcon>
-							<ListItemText primary="Manage Reviews" />
-						</ListItem>
-						<ListItem
-							component={Link}
+							icon={<RateReviewIcon />}
+							text="Manage Reviews"
+						/>
+						<MenuItem
 							to="/dashboard/admin/manage-payments"
-							className={activeClassName("/dashboard/admin/manage-payments")}
-						>
-							<ListItemIcon className="dark:text-white">
-								<PaymentIcon />
-							</ListItemIcon>
-							<ListItemText primary="Manage Payments" />
-						</ListItem>
+							icon={<PaymentIcon />}
+							text="Manage Payments"
+						/>
 					</>
 				)}
 				{userTypes === "GUEST" && (
-					<>
-						<ListItem
-							component={Link}
-							to="/dashboard/guest/bookings"
-							className={activeClassName("/dashboard/guest/bookings")}
-						>
-							<ListItemIcon className="dark:text-white">
-								<BookIcon />
-							</ListItemIcon>
-							<ListItemText primary="Manage Bookings" />
-						</ListItem>
-					</>
+					<MenuItem
+						to="/dashboard/guest/bookings"
+						icon={<BookIcon />}
+						text="Manage Bookings"
+					/>
 				)}
 				{userTypes === "HOST" && (
-					<ListItem
-						component={Link}
+					<MenuItem
 						to="/dashboard/host/manage-listings"
-						className={activeClassName("/dashboard/host/manage-listings")}
-					>
-						<ListItemIcon className="dark:text-white">
-							<PlaceIcon />
-						</ListItemIcon>
-						<ListItemText primary="Manage Listings" />
-					</ListItem>
+						icon={<PlaceIcon />}
+						text="Manage Listings"
+					/>
 				)}
 			</List>
-			<div className="mr-2 myt-2">
-				<hr />
-			</div>
-			<List>
-				<ListItem component={Link} to="/" className={activeClassName("/")}>
-					<ListItemIcon className="dark:text-white font-serif">
-						<HomeIcon />
-					</ListItemIcon>
-					<ListItemText primary="Back To Home" />
-				</ListItem>
+			<Divider />
+			<List className="p-2">
+				<MenuItem to="/" icon={<HomeIcon />} text="Back To Home" />
 				<ListItem
-					className="cursor-pointer"
-					onClick={() => {
-						handleLogOut();
-						toggleDrawer(false)();
-					}}
+					onClick={handleLogOut}
+					className="my-1 cursor-pointer rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700"
 				>
 					<ListItemIcon className="dark:text-white">
 						<LogoutIcon />
 					</ListItemIcon>
-					Sign Out
+					<ListItemText primary="Sign Out" />
 				</ListItem>
-				<Toaster />
 			</List>
 		</Box>
 	);
 
 	return (
-		<div className="flex min-h-screen">
-			<div className="hidden lg:block lg:w-64 dark:text-white">
-				{DrawerList}
-			</div>
+		<div className="flex min-h-screen bg-gray-100 dark:bg-gray-900">
+			<div className="hidden lg:block lg:w-64 shadow-md">{DrawerList}</div>
 			<div className="flex flex-col w-full">
-				<div className="lg:hidden">
-					<Button onClick={toggleDrawer(true)} className="p-4">
+				<div className="lg:hidden bg-white dark:bg-gray-800 shadow-md">
+					<Button
+						onClick={toggleDrawer(true)}
+						className="p-4 text-gray-800 dark:text-white"
+					>
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
 							fill="none"
@@ -229,14 +191,19 @@ const Dashboard = () => {
 						</svg>
 					</Button>
 				</div>
-				<Drawer open={open} onClose={toggleDrawer(false)}>
+				<Drawer
+					anchor="left"
+					open={open}
+					onClose={toggleDrawer(false)}
+					className="lg:hidden"
+				>
 					{DrawerList}
 				</Drawer>
-				{/* Render the content based on the route */}
-				<div className="flex-grow p-4">
+				<div className="flex-grow p-4 md:p-8 overflow-auto">
 					<Outlet />
 				</div>
 			</div>
+			<Toaster position="bottom-right" />
 		</div>
 	);
 };
