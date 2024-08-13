@@ -5,6 +5,7 @@ import fs from 'fs';
 // Create the uploads directory if it doesn't exist
 const uploadPath = path.join(path.dirname(''), 'uploads');
 fs.mkdirSync(uploadPath, { recursive: true });
+console.log("Destination path:", uploadPath);
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -16,6 +17,7 @@ const storage = multer.diskStorage({
 });
 
 const fileFilter = (req, file, cb) => {
+    console.log("Received file:", req.file);
     if (file && file.mimetype && file.mimetype.startsWith('image/')) {
         cb(null, true);
     } else {

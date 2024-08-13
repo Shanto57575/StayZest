@@ -113,8 +113,8 @@ const Places = () => {
 		);
 
 	return (
-		<div className="py-3 font-serif">
-			<div className="max-w-7xl mx-auto">
+		<div className="py-3 font-serif min-h-screen">
+			<div className="w-full mx-auto">
 				<div className="my-12 space-y-6">
 					<h1 className="text-center mt-20 md:text-left text-4xl md:text-5xl font-extrabold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-sky-400 via-rose-400 to-pink-600">
 						Discover Amazing Places

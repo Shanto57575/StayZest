@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import axios from "axios";
 import { useForm, Controller } from "react-hook-form";
 import { TextField, Button, Avatar, IconButton } from "@mui/material";
@@ -7,8 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
 import AssignmentIndIcon from "@mui/icons-material/AssignmentInd";
 import toast, { Toaster } from "react-hot-toast";
-import { userLogOut } from "../../features/auth/authSlice";
-import { useNavigate } from "react-router-dom";
+import { userSignUpSuccess } from "../../features/auth/authSlice";
 import Loader from "../Loader";
 
 const ProfilePage = () => {
@@ -16,7 +15,7 @@ const ProfilePage = () => {
 	const user = useSelector((state) => state.auth.currentUser);
 	const [isEditing, setIsEditing] = useState(false);
 	const [newImage, setNewImage] = useState(null);
-	const navigate = useNavigate();
+	console.log(user);
 
 	const {
 		control,
@@ -46,22 +45,22 @@ const ProfilePage = () => {
 				formData.append("profilePicture", imageFile);
 			}
 
+			for (let pair of formData.entries()) {
+				console.log(pair[0] + ", " + pair[1]);
+			}
+
 			const response = await axiosInstance.put(`/user/${user._id}`, formData, {
 				headers: {
 					"Content-Type": "multipart/form-data",
 				},
 			});
 
+			console.log("Server response:", response.data);
 			if (response.status === 200) {
-				if (response.data.emailChanged) {
-					dispatch(userLogOut());
-					navigate("/signin");
-					setTimeout(() => {
-						toast.success("Email updated ! Logged out successfully!");
-					}, 1000);
-				} else {
-					toast.success("User data updated successfully!");
-				}
+				dispatch(userSignUpSuccess(response.data.user));
+				toast.success("User data updated successfully!", {
+					position: "top-center",
+				});
 			}
 		} catch (error) {
 			console.error("Update Error:", error);
@@ -122,7 +121,11 @@ const ProfilePage = () => {
 						control={control}
 						render={({ field }) => (
 							<Avatar
-								src={field.value}
+								src={
+									newImage
+										? URL.createObjectURL(newImage)
+										: `http://localhost:5000/${user.profilePicture}`
+								}
 								alt={user.username}
 								sx={{ width: 120, height: 120 }}
 							/>
@@ -213,10 +216,10 @@ const ProfilePage = () => {
 						>
 							SUBMIT
 						</button>
+						<Toaster />
 					</div>
 				)}
 			</form>
-			<Toaster />
 		</div>
 	);
 };

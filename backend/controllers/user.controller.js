@@ -28,29 +28,30 @@ const updateUser = async (req, res) => {
     const userId = req.params.id;
     const userData = req.body;
 
+    console.log("Received file:", req.file);
+    console.log("Received body:", req.body);
+
     try {
         if (req.file) {
-            userData.profilePicture = req.file.path;
+            console.log("Received file:", req.file);
+            userData.profilePicture = req.file.path
+        } else {
+            console.log("No file received");
         }
 
-        let emailChanged = false
-
-        let findEmail = await User.findById(userId);
-
-        if (userData?.email !== findEmail.email) {
-            emailChanged = true;
-        }
-
-        const user = await User.findByIdAndUpdate(userId, userData, { new: true });
+        const user = await User.findByIdAndUpdate(userId, userData, { new: true }).select('-password')
 
         if (!user) {
             return res.status(404).json({ error: "User not found" });
         }
 
-        res.status(200).json({ message: 'User updated successfully', user, emailChanged });
+        console.log("Updated user:", user);
+
+        res.status(200).json({ message: 'User updated successfully', user });
     } catch (error) {
         console.error("Update Error:", error);
-        res.status(500).json({ error: error.message });
+        console.error("Error response:", error.response);
+        res.status(200).json({ error });
     }
 };
 

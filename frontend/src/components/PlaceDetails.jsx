@@ -28,6 +28,8 @@ const PlaceDetails = () => {
 	const { currentUser } = useSelector((state) => state.auth);
 	const userId = currentUser?._id;
 
+	console.log(viewDetails);
+
 	const [checkIn, setCheckIn] = useState(null);
 	const [checkOut, setCheckOut] = useState(null);
 	const [guests, setGuests] = useState({ adults: 1, children: 0 });
@@ -240,6 +242,9 @@ const PlaceDetails = () => {
 										</button>
 									</div>
 								</div>
+								<plaintext className="text-sm font-bold underline text-gray-600">
+									This place has a maximum of {viewDetails.totalGuests} guests
+								</plaintext>
 							</div>
 							<div className="border rounded-lg p-2 mb-4">
 								<h3 className="text-lg font-bold mb-2">Total</h3>

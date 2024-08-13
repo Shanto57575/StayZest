@@ -94,7 +94,7 @@ const Navbar = () => {
 
 	return (
 		<nav className="bg-white dark:bg-gray-800 fixed w-full py-1 h-20 shadow-lg z-50 transition-all duration-300">
-			<div className="max-w-6xl mx-auto flex items-center justify-between">
+			<div className="max-w-6xl mx-4 md:mx-auto flex items-center justify-between">
 				<Link
 					to="/"
 					className="flex items-center space-x-2 text-xl md:text-2xl font-bold text-gray-800 dark:text-white hover:text-sky-500 dark:hover:text-sky-400 transition-colors duration-300"
