@@ -46,7 +46,7 @@ const SignIn = () => {
 			}
 		} catch (error) {
 			dispatch(userSignInFailed(error.response?.data.error));
-			toast.error(error.response?.data.error);
+			toast.error(error.message);
 			console.error(error.response?.data.error);
 		}
 	};

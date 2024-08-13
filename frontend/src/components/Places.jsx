@@ -105,25 +105,25 @@ const Places = () => {
 
 	if (error)
 		return (
-			<div className="h-screen flex items-center justify-center bg-gradient-to-br from-red-100 to-red-200 dark:from-red-900 dark:to-red-800">
-				<p className="text-4xl text-red-600 dark:text-red-400 font-bold font-serif animate-pulse">
+			<div className="h-screen flex items-center justify-center">
+				<p className="text-4xl text-rose-600 font-bold font-serif">
 					Error: {error}
 				</p>
 			</div>
 		);
 
 	return (
-		<div className="p-8 font-serif">
+		<div className="py-3 font-serif">
 			<div className="max-w-7xl mx-auto">
 				<div className="my-12 space-y-6">
-					<h1 className="text-5xl font-extrabold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-sky-400 via-rose-400 to-pink-600">
+					<h1 className="text-center mt-20 md:text-left text-4xl md:text-5xl font-extrabold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-sky-400 via-rose-400 to-pink-600">
 						Discover Amazing Places
 					</h1>
 					<div className="flex flex-wrap items-center justify-between gap-4">
 						<select
 							value={sortBy}
 							onChange={(e) => setSortBy(e.target.value)}
-							className="w-48 font-serif px-4 py-2 rounded-full bg-white dark:bg-gray-800 border-2 border-sky-300 dark:border-sky-600 focus:border-pink-500 focus:ring focus:ring-pink-200 dark:focus:ring-pink-800 transition duration-300"
+							className="w-full md:w-48 font-serif px-4 py-2 rounded-full bg-white dark:bg-gray-800 border-2 border-sky-300 dark:border-sky-600 focus:border-pink-500 focus:ring focus:ring-pink-200 dark:focus:ring-pink-800 transition duration-300"
 						>
 							<option value="price_asc">Price: Low to High</option>
 							<option value="price_desc">Price: High to Low</option>
@@ -131,7 +131,7 @@ const Places = () => {
 						<select
 							value={filterCountry}
 							onChange={(e) => setFilterCountry(e.target.value)}
-							className="w-48 font-serif px-4 py-2 rounded-full bg-white dark:bg-gray-800 border-2 border-sky-300 dark:border-sky-600 focus:border-pink-500 focus:ring focus:ring-pink-200 dark:focus:ring-pink-800 transition duration-300"
+							className="w-full md:w-48 font-serif px-4 py-2 rounded-full bg-white dark:bg-gray-800 border-2 border-sky-300 dark:border-sky-600 focus:border-pink-500 focus:ring focus:ring-pink-200 dark:focus:ring-pink-800 transition duration-300"
 						>
 							<option value="">All Countries</option>
 							<option value="USA">USA</option>
@@ -147,7 +147,7 @@ const Places = () => {
 							placeholder="Search by title"
 							value={searchTitle}
 							onChange={(e) => setSearchTitle(e.target.value)}
-							className="w-48 font-serif px-4 py-2 rounded-full bg-white dark:bg-gray-800 border-2 border-sky-300 dark:border-sky-600 focus:border-pink-500 focus:ring focus:ring-pink-200 dark:focus:ring-pink-800 transition duration-300"
+							className="w-full md:w-48 font-serif px-4 py-2 rounded-full bg-white dark:bg-gray-800 border-2 border-sky-300 dark:border-sky-600 focus:border-pink-500 focus:ring focus:ring-pink-200 dark:focus:ring-pink-800 transition duration-300"
 						/>
 					</div>
 				</div>
@@ -157,14 +157,14 @@ const Places = () => {
 				) : (
 					<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
 						{places.length === 0 ? (
-							<p className="col-span-full h-screen text-center text-3xl font-bold">
+							<p className="h-screen text-center text-3xl font-bold">
 								No places found. Time to explore new horizons!
 							</p>
 						) : (
 							places.map((place) => (
 								<div
 									key={place._id}
-									className="group relative overflow-hidden rounded-2xl transform hover:scale-105 transition duration-300 shadow-2xl shadow-black"
+									className="group w-full relative overflow-hidden rounded-2xl transform hover:scale-105 transition duration-300 shadow-2xl shadow-black"
 								>
 									<img
 										className="w-full cursor-pointer h-64 object-cover filter group-hover:brightness-75 transition duration-300 shadow-2xl shadow-white dark:shadow-black"
@@ -172,47 +172,55 @@ const Places = () => {
 										alt={place.location}
 									/>
 									<div className="absolute inset-0 flex flex-col justify-end p-6 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition duration-300">
-										<h3 className="text-2xl font-bold text-white mb-1">
+										<h3 className="text-lg md:text-2xl font-bold text-white mb-1">
 											{place.location}
 										</h3>
 										<p className="text-lg font-semibold text-sky-300 mb-2">
 											{place.country}
 										</p>
-										<p className="text-3xl font-extrabold text-yellow-400 mb-2">
+										<p className="text-xl md:text-3xl font-extrabold text-yellow-400 mb-2">
 											${place.price}
 											<span className="text-sm font-normal text-yellow-200">
 												{" "}
-												/ night
+												/ Night
 											</span>
 										</p>
 										<p className="text-sm text-gray-300">
 											{formatDate(place.availability[0].startDate)} -{" "}
 											{formatDate(place.availability[0].endDate)}
 										</p>
+										{currentUser.role !== "ADMIN" && (
+											<Link
+												className="text-center mt-2 bg-transparent border-b-4 w-32 mx-auto rounded-xl py-2 text-white hover:border-t-2 font-bold duration-700"
+												to={`details/${place._id}`}
+											>
+												View Details
+											</Link>
+										)}
 										{currentUser.role === "ADMIN" && (
 											<div className="flex justify-end mt-4 space-x-2">
 												<Tooltip title="View Details" placement="top" arrow>
 													<Link
-														className="bg-black p-2 rounded-full hover:bg-gray-900 transition duration-300"
+														className="p-2 rounded-full bg-sky-500 duration-300 text-white"
 														to={`details/${place._id}`}
 													>
-														<InfoIcon />
+														<InfoIcon fontSize="medium" />
 													</Link>
 												</Tooltip>
 												<Tooltip title="Edit" placement="top" arrow>
 													<button
 														onClick={() => handlePlaceEdit(place)}
-														className="p-2 bg-blue-500 rounded-full hover:bg-blue-600 transition duration-300"
+														className="p-2 bg-blue-500 rounded-full text-white hover:bg-blue-600 duration-300"
 													>
-														<ModeEditIcon className="text-white" />
+														<ModeEditIcon fontSize="medium" />
 													</button>
 												</Tooltip>
 												<Tooltip title="Delete" placement="top" arrow>
 													<button
 														onClick={() => handlePlaceDelete(place._id)}
-														className="p-2 bg-rose-600 rounded-full hover:bg-rose-500 transition duration-300"
+														className="p-2 bg-rose-600 rounded-full hover:bg-rose-500 text-white duration-300"
 													>
-														<DeleteForeverIcon className="text-white" />
+														<DeleteForeverIcon fontSize="medium" />
 													</button>
 												</Tooltip>
 											</div>
@@ -253,7 +261,7 @@ const Places = () => {
 							location: editingPlace.location,
 							country: editingPlace.country,
 							price: editingPlace.price,
-							rating: editingPlace.averageRating,
+							averageRating: editingPlace.averageRating,
 							bedrooms: editingPlace.bedrooms,
 							bathrooms: editingPlace.bathrooms,
 							totalGuests: editingPlace.totalGuests,

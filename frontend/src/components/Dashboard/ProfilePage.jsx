@@ -52,8 +52,6 @@ const ProfilePage = () => {
 				},
 			});
 
-			console.log("Response:", response);
-
 			if (response.status === 200) {
 				if (response.data.emailChanged) {
 					dispatch(userLogOut());
@@ -90,7 +88,6 @@ const ProfilePage = () => {
 	};
 
 	const handleImageChange = (e) => {
-		console.log(e.target.files && e.target.files[0]);
 		if (e.target.files && e.target.files[0]) {
 			setNewImage(e.target.files[0]);
 			setValue("profilePicture", URL.createObjectURL(e.target.files[0]));

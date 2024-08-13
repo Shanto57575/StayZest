@@ -29,7 +29,6 @@ const verifyToken = (req, res, next) => {
         req.user = decoded
         next()
     } catch (error) {
-        console.log(`Token verification Error : `, error);
         return res.status(401).json({ error: 'Unauthorized Access: Invalid Token' })
     }
 }

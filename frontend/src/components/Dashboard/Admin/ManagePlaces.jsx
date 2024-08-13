@@ -20,7 +20,7 @@ const ManagePlaces = () => {
 			country: "",
 			location: "",
 			price: "",
-			rating: "",
+			averageRating: "",
 			photos: [""],
 			availability: [{ startDate: "", endDate: "" }],
 			placeTypes: "",
@@ -60,9 +60,7 @@ const ManagePlaces = () => {
 				reset();
 			}
 		} catch (error) {
-			console.log(error);
 			toast.error(error.response?.data.error);
-			console.error(error.response?.data.error);
 		}
 	};
 
@@ -196,23 +194,23 @@ const ManagePlaces = () => {
 
 						<div>
 							<label
-								htmlFor="rating"
+								htmlFor="averageRating"
 								className="block text-sm font-medium dark:text-gray-300"
 							>
-								rating
+								averageRating
 							</label>
 							<input
-								{...register("rating", {
-									required: "rating is required",
-									min: { value: 0, message: "rating must be positive" },
+								{...register("averageRating", {
+									required: "averageRating is required",
+									min: { value: 0, message: "averageRating must be positive" },
 								})}
-								id="rating"
+								id="averageRating"
 								type="number"
 								className="mt-1 block w-full rounded-md border p-2 border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 bg-transparent dark:text-white"
 							/>
-							{errors.rating && (
+							{errors.averageRating && (
 								<p className="mt-1 text-sm text-rose-600">
-									{errors.rating.message}
+									{errors.averageRating.message}
 								</p>
 							)}
 						</div>

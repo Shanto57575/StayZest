@@ -115,9 +115,11 @@ const EditPlaceModal = ({ isOpen, onClose, onSubmit, initialData }) => {
 								<select
 									{...register("country", { required: "Country is required" })}
 									id="country"
-									className="mt-1 block w-full rounded-md border p-2 border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 bg-transparent dark:text-white dark:border-gray-600"
+									className="mt-1 block w-full rounded-md border p-2 border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 dark:border-gray-600 dark:bg-transparent dark:text-black"
 								>
-									<option value="USA">USA</option>
+									<option selected value="USA">
+										USA
+									</option>
 									<option value="UK">UK</option>
 									<option value="GREECE">GREECE</option>
 									<option value="AUSTRALIA">AUSTRALIA</option>
@@ -179,25 +181,31 @@ const EditPlaceModal = ({ isOpen, onClose, onSubmit, initialData }) => {
 
 							<div>
 								<label
-									htmlFor="rating"
+									htmlFor="averageRating"
 									className="block text-sm font-medium dark:text-gray-300"
 								>
-									Rating
+									averageRating
 								</label>
 								<input
-									{...register("rating", {
-										required: "Rating is required",
-										min: { value: 0, message: "Rating must be positive" },
-										max: { value: 5, message: "Rating must be 5 or less" },
+									{...register("averageRating", {
+										required: "averageRating is required",
+										min: {
+											value: 0,
+											message: "Rating must be positive",
+										},
+										max: {
+											value: 5,
+											message: "Rating must be 5 or less",
+										},
 									})}
-									id="rating"
+									id="averageRating"
 									type="number"
 									step="0.1"
 									className="mt-1 block w-full rounded-md border p-2 border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 bg-transparent dark:text-white dark:border-gray-600"
 								/>
-								{errors.rating && (
+								{errors.averageRating && (
 									<p className="mt-1 text-sm text-rose-600">
-										{errors.rating.message}
+										{errors.averageRating.message}
 									</p>
 								)}
 							</div>
@@ -214,7 +222,7 @@ const EditPlaceModal = ({ isOpen, onClose, onSubmit, initialData }) => {
 										required: "Place type is required",
 									})}
 									id="placeTypes"
-									className="mt-1 block w-full rounded-md border p-2 border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 bg-transparent dark:text-white dark:border-gray-600"
+									className="mt-1 block w-full rounded-md border p-2 border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 bg-transparent dark:border-gray-600 dark:text-black"
 								>
 									<option value="lakefront">Lakefront</option>
 									<option value="beachfront">Beachfront</option>

@@ -1,24 +1,115 @@
 import Booking from "../models/booking.model.js";
+import Place from "../models/place.model.js";
 import User from "../models/user.model.js";
+import Stripe from 'stripe';
 
-const createBooking = async (req, res) => {
-    const { place, user, checkIn, checkOut, email, price, guests } = req.body;
+import dotenv from 'dotenv';
+dotenv.config();
 
-    if (!place || !user || !checkIn || !checkOut || !email || !price || !guests) {
-        return res.status(400).json({ error: "All fields are required" });
-    }
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
+const createBookingIntent = async (req, res) => {
     try {
-        const newBooking = new Booking({ place, user, checkIn, checkOut, email, price, guests });
-        await newBooking.save();
+        const {
+            placeId,
+            userId,
+            checkIn,
+            checkOut,
+            totalGuests,
+            total
+        } = req.body;
 
-        res.status(200).json(newBooking);
+        const user = await User.findById(userId);
+        const place = await Place.findById(placeId);
+
+        if (!place || !user) {
+            return res.status(404).json({ error: 'Place or User not found' });
+        }
+
+        const imageUrl = place.photos && place.photos.length > 0 ? place.photos[0] : null;
+
+        const session = await stripe.checkout.sessions.create({
+            payment_method_types: ['card'],
+            mode: 'payment',
+            success_url: `${process.env.CLIENT_URL}/checkout-success?session_id={CHECKOUT_SESSION_ID}`,
+            cancel_url: `${process.env.CLIENT_URL}/checkout-cancel`,
+            customer_email: user.email,
+            client_reference_id: placeId,
+            metadata: {
+                userId,
+                placeId,
+                checkIn,
+                checkOut,
+                totalGuests,
+                total
+            },
+            line_items: [
+                {
+                    price_data: {
+                        currency: 'usd',
+                        unit_amount: total * 100,
+                        product_data: {
+                            name: place.location,
+                            description: place.description,
+                            images: imageUrl ? [imageUrl] : []
+                        }
+                    },
+                    quantity: 1
+                }
+            ]
+        });
+
+        res.status(200).json({ success: true, url: session.url });
     } catch (error) {
-        console.error(`Error creating booking: ${error.message}`);
         res.status(500).json({ error: error.message });
     }
 };
 
+const confirmBooking = async (req, res) => {
+    try {
+        const { sessionId } = req.body;
+
+        if (!sessionId) {
+            return res.status(400).json({ error: 'Session ID is required' });
+        }
+
+        const session = await stripe.checkout.sessions.retrieve(sessionId);
+
+        if (session.payment_status === 'paid') {
+            const {
+                userId,
+                placeId,
+                checkIn,
+                checkOut,
+                totalGuests,
+                total
+            } = session.metadata;
+
+
+            const booking = new Booking({
+                user: userId,
+                place: placeId,
+                checkIn,
+                checkOut,
+                guests: totalGuests,
+                price: total,
+                email: session.customer_email,
+                session: sessionId,
+                imageUrl: session.line_items?.data[0]?.price?.product?.images?.[0],
+                location: session.line_items?.data[0]?.price?.product?.name
+            });
+
+            await booking.save();
+
+            res.status(200).json({ success: true, message: 'Booking confirmed' });
+        } else {
+            res.status(400).json({ error: 'Payment not successful' });
+        }
+    } catch (error) {
+        console.error('Error in confirmBooking:', error);
+        res.status(500).json({ error: error.message });
+    }
+};
 const getAllBookings = async (req, res) => {
     try {
         const bookings = await Booking.find()
@@ -59,7 +150,6 @@ const getBookingByEmail = async (req, res) => {
 
     try {
         const user = await User.findOne({ email });
-        console.log(user);
 
         if (!user) {
             return res.status(404).json({ error: 'User not found' });
@@ -112,9 +202,9 @@ const cancelBooking = async (req, res) => {
     }
 };
 
-
 export {
-    createBooking,
+    createBookingIntent,
+    confirmBooking,
     getAllBookings,
     getBookingById,
     getBookingByEmail,

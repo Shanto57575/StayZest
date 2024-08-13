@@ -53,22 +53,21 @@ const Navbar = () => {
 			}
 		} catch (error) {
 			toast.error(error?.message);
-			console.log(error?.message);
 		}
 	};
 
 	const navLinks = (
-		<>
+		<div className="font-serif">
 			<Link
 				to="/dashboard/profile"
-				className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600"
+				className="flex items-center gap-x-2 px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600"
 			>
 				<PortraitIcon />
 				Profile
 			</Link>
 			<Link
 				to={`/dashboard/${user?.role?.toLowerCase()}`}
-				className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600"
+				className="flex items-center gap-x-2 px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600"
 			>
 				<DashboardIcon />
 				Dashboard
@@ -76,7 +75,7 @@ const Navbar = () => {
 			{user ? (
 				<button
 					onClick={handleLogOut}
-					className="block w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600"
+					className="flex items-center gap-x-2 w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600"
 				>
 					<LogoutIcon />
 					Sign Out
@@ -84,18 +83,18 @@ const Navbar = () => {
 			) : (
 				<Link
 					to="/signin"
-					className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600"
+					className="flex items-center gap-x-2 px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600"
 				>
 					<LoginIcon />
 					Sign In
 				</Link>
 			)}
-		</>
+		</div>
 	);
 
 	return (
 		<nav className="bg-white dark:bg-gray-800 fixed w-full py-1 h-20 shadow-lg z-50 transition-all duration-300">
-			<div className="max-w-7xl mx-auto flex items-center justify-between">
+			<div className="max-w-6xl mx-auto flex items-center justify-between">
 				<Link
 					to="/"
 					className="flex items-center space-x-2 text-xl md:text-2xl font-bold text-gray-800 dark:text-white hover:text-sky-500 dark:hover:text-sky-400 transition-colors duration-300"
@@ -114,7 +113,7 @@ const Navbar = () => {
 							d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5"
 						/>
 					</svg>
-					<span className="text-3xl font-extrabold my-4 text-transparent bg-sky-200 bg-clip-text hover:bg-gradient-to-r from-sky-400 via-rose-400 to-pink-600">
+					<span className="text-xl md:text-3xl font-extrabold my-4 text-transparent bg-sky-400 dark:bg-sky-200 bg-clip-text hover:bg-gradient-to-r from-sky-400 via-rose-400 to-pink-600">
 						StayZest
 					</span>
 				</Link>
@@ -159,7 +158,7 @@ const Navbar = () => {
 							<div className="absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white dark:bg-gray-700 ring-1 ring-black ring-opacity-5 focus:outline-none">
 								<div className="py-1">
 									{user && (
-										<p className="px-4 py-2 text-sm text-gray-700 dark:text-gray-200 flex items-center space-x-2">
+										<p className="font-serif px-4 py-2 text-sm text-gray-700 dark:text-gray-200 flex items-center space-x-2">
 											<EmailIcon className="w-4 h-4" />
 											<span>{user.email}</span>
 										</p>
@@ -181,9 +180,10 @@ const Navbar = () => {
 
 			{/* Mobile menu */}
 			{isMobileMenuOpen && (
-				<div className="md:hidden mt-2 py-2 bg-white dark:bg-gray-700 rounded-md shadow-lg">
+				<div className="md:hidden w-52 mt-2 py-2 bg-white dark:bg-gray-700 rounded-md shadow-lg">
 					{user && (
-						<p className="px-4 py-2 text-sm text-gray-700 dark:text-gray-200">
+						<p className="flex items-center gap-x-1 font-serif px-4 py-2 text-sm text-gray-700 dark:text-gray-200">
+							<EmailIcon className="w-4 h-4" />
 							{user.email}
 						</p>
 					)}

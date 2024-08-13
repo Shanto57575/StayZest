@@ -1,7 +1,8 @@
 import express from 'express';
 import {
     cancelBooking,
-    createBooking,
+    confirmBooking,
+    createBookingIntent,
     getAllBookings,
     getBookingByEmail,
     getBookingById,
@@ -12,7 +13,8 @@ import isAdmin from '../utils/protectedRoutes.js';
 
 const bookingRoutes = express.Router();
 
-bookingRoutes.post('/add-booking', verifyToken, createBooking);
+bookingRoutes.post('/create-booking-intent', verifyToken, createBookingIntent);
+bookingRoutes.post('/confirm-booking', verifyToken, confirmBooking);
 bookingRoutes.get('/all-Bookings', verifyToken, isAdmin, getAllBookings);
 bookingRoutes.get('/:email', verifyToken, getBookingByEmail);
 bookingRoutes.get('/:id', verifyToken, getBookingById);

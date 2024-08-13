@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, Outlet, useNavigate, useLocation } from "react-router-dom";
 import Box from "@mui/material/Box";
@@ -54,7 +54,6 @@ const Dashboard = () => {
 			}
 		} catch (error) {
 			toast.error(error?.message);
-			console.log(error?.message);
 		}
 	};
 
@@ -82,7 +81,7 @@ const Dashboard = () => {
 			sx={{ width: 230 }}
 			role="presentation"
 			onClick={toggleDrawer(false)}
-			className="font-serif h-full bg-white dark:bg-gray-800 text-gray-800 dark:text-white"
+			className="font-serif h-full bg-white dark:bg-gray-800 text-gray-800 dark:text-white overflow-y-auto"
 		>
 			<div className="p-4 flex items-center justify-between">
 				<h2 className="text-xl font-bold">Dashboard</h2>
@@ -98,12 +97,12 @@ const Dashboard = () => {
 				<MenuItem
 					to={`/dashboard/${userTypes?.toLowerCase()}`}
 					icon={<DashboardIcon />}
-					text="Dashboard Home"
+					text="Dashboard"
 				/>
 				<MenuItem
 					to="/dashboard/profile"
 					icon={<AdminPanelSettingsIcon />}
-					text="Profile"
+					text="My Profile"
 				/>
 
 				{userTypes === "ADMIN" && (
@@ -116,14 +115,14 @@ const Dashboard = () => {
 						<MenuItem
 							to="/dashboard/admin/manage-places"
 							icon={<PlaceIcon />}
-							text="Manage Places"
+							text="Add Place"
 						/>
 						<MenuItem
 							to="/dashboard/admin/manage-bookings"
 							icon={<BookIcon />}
 							text="Manage Bookings"
 						/>
-						<MenuItem
+						{/* <MenuItem
 							to="/dashboard/admin/manage-reviews"
 							icon={<RateReviewIcon />}
 							text="Manage Reviews"
@@ -132,14 +131,14 @@ const Dashboard = () => {
 							to="/dashboard/admin/manage-payments"
 							icon={<PaymentIcon />}
 							text="Manage Payments"
-						/>
+						/> */}
 					</>
 				)}
 				{userTypes === "GUEST" && (
 					<MenuItem
 						to="/dashboard/guest/bookings"
 						icon={<BookIcon />}
-						text="Manage Bookings"
+						text="My Bookings"
 					/>
 				)}
 				{userTypes === "HOST" && (
@@ -167,9 +166,11 @@ const Dashboard = () => {
 	);
 
 	return (
-		<div className="flex min-h-screen bg-gray-100 dark:bg-gray-900">
-			<div className="hidden lg:block lg:w-64 shadow-md">{DrawerList}</div>
-			<div className="flex flex-col w-full">
+		<div className="flex min-h-screen">
+			<div className="hidden lg:block h-full fixed overflow-y-auto shadow-md shadow-white">
+				{DrawerList}
+			</div>
+			<div className="flex flex-col w-full lg:ml-56">
 				<div className="lg:hidden bg-white dark:bg-gray-800 shadow-md">
 					<Button
 						onClick={toggleDrawer(true)}

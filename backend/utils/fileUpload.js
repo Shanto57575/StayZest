@@ -16,7 +16,6 @@ const storage = multer.diskStorage({
 });
 
 const fileFilter = (req, file, cb) => {
-    console.log('File object received in fileFilter:', file); // Enhanced logging
     if (file && file.mimetype && file.mimetype.startsWith('image/')) {
         cb(null, true);
     } else {

@@ -7,7 +7,7 @@ const addPlace = async (req, res) => {
         country,
         location,
         price,
-        rating,
+        averageRating,
         photos,
         availability,
         placeTypes,
@@ -16,7 +16,7 @@ const addPlace = async (req, res) => {
         bathrooms
     } = req.body;
 
-    if (!title || !description || !country || !location || !price || !rating || !photos || !availability || !placeTypes || !totalGuests || !bedrooms || !bathrooms) {
+    if (!title || !description || !country || !location || !price || !averageRating || !photos || !availability || !placeTypes || !totalGuests || !bedrooms || !bathrooms) {
         return res.status(404).json({ error: 'All Fields are required!' })
     }
 
@@ -27,7 +27,7 @@ const addPlace = async (req, res) => {
             country,
             location,
             price,
-            rating,
+            averageRating,
             photos,
             availability,
             placeTypes,

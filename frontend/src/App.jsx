@@ -9,7 +9,6 @@ import Navbar from "./components/Navbar";
 import ErrorPage from "./Pages/ErrorPage";
 import Dashboard from "./components/Dashboard/Dashboard";
 import PrivateRoutes from "./routes/PrivateRoutes";
-import ManageBookings from "./components/Dashboard/Admin/ManageBookings";
 import ManageReviews from "./components/Dashboard/Admin/ManageReviews";
 import ManagePayments from "./components/Dashboard/Admin/ManagePayments";
 import ManageUsers from "./components/Dashboard/Admin/ManageUsers";
@@ -21,6 +20,9 @@ import UserBookings from "./components/Dashboard/User/UserBookings";
 import HostRoute from "./routes/HostRoute";
 import AdminHome from "./components/Dashboard/Admin/AdminHome";
 import UserHome from "./components/Dashboard/User/UserHome";
+import ManageBookings from "./components/Dashboard/Admin/ManageBookings/ManageBookings";
+import SuccessPage from "./Pages/SuccessPage";
+import CancelPage from "./Pages/CancelPage";
 
 const LayoutWithNavbar = () => (
 	<>
@@ -38,7 +40,7 @@ const LayoutWithoutNavbar = () => (
 );
 
 const App = () => {
-	const darkMode = useSelector((state) => state.theme.darkMode);
+	const darkMode = useSelector((state) => state.theme?.darkMode);
 
 	useEffect(() => {
 		if (darkMode) {
@@ -79,6 +81,14 @@ const App = () => {
 					element: <SignUp />,
 				},
 				{
+					path: "checkout-success",
+					element: <SuccessPage />,
+				},
+				{
+					path: "checkout-cancel",
+					element: <CancelPage />,
+				},
+				{
 					path: "dashboard",
 					element: <Dashboard />,
 					children: [
@@ -98,7 +108,7 @@ const App = () => {
 							path: "admin/manage-bookings",
 							element: (
 								<AdminRoute>
-									<ManageBookings />,
+									<ManageBookings />
 								</AdminRoute>
 							),
 						},
@@ -106,7 +116,7 @@ const App = () => {
 							path: "admin/manage-reviews",
 							element: (
 								<AdminRoute>
-									<ManageReviews />,
+									<ManageReviews />
 								</AdminRoute>
 							),
 						},
@@ -114,7 +124,7 @@ const App = () => {
 							path: "admin/manage-payments",
 							element: (
 								<AdminRoute>
-									<ManagePayments />,
+									<ManagePayments />
 								</AdminRoute>
 							),
 						},
@@ -122,7 +132,7 @@ const App = () => {
 							path: "admin/manage-users",
 							element: (
 								<AdminRoute>
-									<ManageUsers />,
+									<ManageUsers />
 								</AdminRoute>
 							),
 						},
@@ -130,7 +140,7 @@ const App = () => {
 							path: "admin/manage-places",
 							element: (
 								<AdminRoute>
-									<ManagePlaces />,
+									<ManagePlaces />
 								</AdminRoute>
 							),
 						},
@@ -138,7 +148,7 @@ const App = () => {
 							path: "host",
 							element: (
 								<HostRoute>
-									<HostHome />,
+									<HostHome />
 								</HostRoute>
 							),
 						},
@@ -146,7 +156,7 @@ const App = () => {
 							path: "host/manage-listings",
 							element: (
 								<HostRoute>
-									<HostHome />,
+									<HostHome />
 								</HostRoute>
 							),
 						},
