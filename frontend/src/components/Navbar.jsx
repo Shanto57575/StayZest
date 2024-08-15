@@ -25,6 +25,8 @@ const Navbar = () => {
 	const user = useSelector((state) => state.auth.currentUser);
 	const navigate = useNavigate();
 
+	console.log(user);
+
 	const handleDarkModeToggle = () => {
 		dispatch(toggleDarkMode());
 	};
@@ -119,6 +121,13 @@ const Navbar = () => {
 				</Link>
 
 				<div className="flex items-center space-x-4">
+					<Link
+						className="font-serif text-xl text-sky-300 border-b-4 hover:border rounded-full px-5 py-3"
+						to="/trip-planner"
+					>
+						Plan Your Trip With AI
+					</Link>
+
 					<button
 						onClick={handleDarkModeToggle}
 						className="text-gray-600 dark:text-gray-300 hover:text-sky-500 dark:hover:text-sky-400 transition-colors duration-300"
@@ -140,17 +149,22 @@ const Navbar = () => {
 										<HighlightOffIcon />
 									) : (
 										<>
-											<AccountCircleIcon />
+											<img
+												alt=""
+												src={user.profilePicture}
+												className="w-8 h-8 rounded-full"
+											/>
 											<span className="font-serif">{user.username}</span>
 										</>
 									)}
 								</div>
 							) : (
-								<img
-									alt=""
-									src="https://t3.ftcdn.net/jpg/03/46/83/96/240_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg"
-									className="w-8 h-8 rounded-full"
-								/>
+								// <img
+								// 	alt=""
+								// 	src={user.profilePicture}
+								// 	className="w-8 h-8 rounded-full"
+								// />
+								<AccountCircleIcon />
 							)}
 						</button>
 

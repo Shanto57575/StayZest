@@ -141,6 +141,7 @@ const Places = () => {
 							<option value="UAE">UAE</option>
 							<option value="THAILAND">Thailand</option>
 							<option value="FRANCE">France</option>
+							<option value="Switzerland">Switzerland</option>
 						</select>
 						<input
 							type="text"

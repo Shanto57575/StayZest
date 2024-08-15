@@ -126,6 +126,7 @@ const EditPlaceModal = ({ isOpen, onClose, onSubmit, initialData }) => {
 									<option value="UAE">UAE</option>
 									<option value="THAILAND">THAILAND</option>
 									<option value="FRANCE">FRANCE</option>
+									<option value="Switzerland">Switzerland</option>
 								</select>
 								{errors.country && (
 									<p className="mt-1 text-sm text-rose-600">

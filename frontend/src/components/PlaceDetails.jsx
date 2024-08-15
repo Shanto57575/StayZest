@@ -32,7 +32,7 @@ const PlaceDetails = () => {
 
 	const [checkIn, setCheckIn] = useState(null);
 	const [checkOut, setCheckOut] = useState(null);
-	const [guests, setGuests] = useState({ adults: 1, children: 0 });
+	const [guests, setGuests] = useState({ adults: 0, children: 0 });
 	const [processing, setProcessing] = useState(false);
 
 	useEffect(() => {
@@ -51,7 +51,7 @@ const PlaceDetails = () => {
 		} else if (operation === "decrease") {
 			setGuests((prev) => ({
 				...prev,
-				[type]: Math.max(type === "adults" ? 1 : 0, prev[type] - 1),
+				[type]: Math.max(type === "adults" ? 0 : 0, prev[type] - 1),
 			}));
 		}
 	};

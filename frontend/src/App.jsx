@@ -23,6 +23,7 @@ import UserHome from "./components/Dashboard/User/UserHome";
 import ManageBookings from "./components/Dashboard/Admin/ManageBookings/ManageBookings";
 import SuccessPage from "./Pages/SuccessPage";
 import CancelPage from "./Pages/CancelPage";
+import TripPlanner from "./Pages/TripPlanner";
 
 const LayoutWithNavbar = () => (
 	<>
@@ -64,6 +65,10 @@ const App = () => {
 						{
 							path: "details/:placeId",
 							element: <PlaceDetails />,
+						},
+						{
+							path: "trip-planner",
+							element: <TripPlanner />,
 						},
 					],
 				},

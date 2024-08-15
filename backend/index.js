@@ -1,13 +1,14 @@
-import express from 'express'
+import cors from 'cors';
 import dotenv from 'dotenv'
+import express from 'express'
 import connectDB from './config/db.js';
 import cookieParser from 'cookie-parser';
-import cors from 'cors';
-import { errorHandler, notFound } from './middlewares/errorHandler.js';
 import authRoutes from './routes/auth.routes.js';
 import userRoutes from './routes/user.routes.js';
 import placeRoutes from './routes/place.routes.js';
 import bookingRoutes from './routes/booking.routes.js';
+import { errorHandler, notFound } from './middlewares/errorHandler.js';
+import tripPlannerRoutes from './routes/gemini.routes.js';
 
 dotenv.config();
 
@@ -26,7 +27,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/user', userRoutes);
 app.use('/api/place', placeRoutes);
 app.use('/api/booking', bookingRoutes);
-
+app.use('/api/trip', tripPlannerRoutes);
 
 app.get('/', (req, res) => {
     res.send({ message: "API IS WORKING FINE!" })
