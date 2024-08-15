@@ -8,8 +8,10 @@ import {
 	Description,
 	People,
 	ArrowBack,
+	FileCopy,
 } from "@mui/icons-material";
 import axios from "axios";
+import toast from "react-hot-toast";
 
 const TripPlanner = () => {
 	const [step, setStep] = useState(0);
@@ -85,6 +87,17 @@ const TripPlanner = () => {
 			console.error("Error:", error);
 			alert("An error occurred while generating the trip plan.");
 		}
+	};
+
+	const copyToClipboard = () => {
+		navigator.clipboard.writeText(tripPlan).then(
+			() => {
+				toast.success("Trip plan copied to clipboard");
+			},
+			(err) => {
+				toast.error("Failed to copy trip plan: ", err);
+			}
+		);
 	};
 
 	const renderStep = () => {
@@ -278,20 +291,29 @@ const TripPlanner = () => {
 							</button>
 						)}
 						{step === 5 && (
-							<button
-								disabled={loading}
-								onClick={getTripPlan}
-								className="py-2 sm:py-3 px-4 sm:px-6 rounded-full border-2 hover:bg-indigo-600 text-white text-sm sm:text-base font-semibold transition-all duration-300 hover:shadow-lg transform hover:scale-105 flex items-center"
-							>
-								{loading ? (
-									<LoadingSpinner />
-								) : (
-									<span>
-										<Refresh className="mr-2" fontSize="small" />
-										Regenerate
-									</span>
-								)}
-							</button>
+							<>
+								<button
+									disabled={loading}
+									onClick={getTripPlan}
+									className="py-2 sm:py-3 px-4 sm:px-6 rounded-full border-2 hover:bg-indigo-600 hover:text-white text-sm sm:text-base font-semibold transition-all duration-300 hover:shadow-lg transform hover:scale-105 flex items-center"
+								>
+									{loading ? (
+										<LoadingSpinner />
+									) : (
+										<span>
+											<Refresh className="mr-2" fontSize="small" />
+											Regenerate
+										</span>
+									)}
+								</button>
+								<button
+									onClick={copyToClipboard}
+									className="py-2 sm:py-3 px-4 sm:px-6 rounded-full border-2 hover:bg-indigo-600 hover:text-white text-sm sm:text-base font-semibold transition-all duration-300 hover:shadow-lg transform hover:scale-105 flex items-center"
+								>
+									<FileCopy className="mr-2" />
+									Copy Trip Plan
+								</button>
+							</>
 						)}
 					</div>
 				</div>

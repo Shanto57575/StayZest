@@ -46,7 +46,7 @@ const run = async (prompt) => {
                            - Location: [Place Location] 
                            - Nearest Hotel: [Hotel Name and Location]
     
-                        Notes:
+                        Pro Tips:
                         - Provide any additional notes or tips for the day here.
     
                         Ensure that the response is clear, organized, and follows this format strictly. Do not include extra text or deviations from the structure provided.`
@@ -64,7 +64,6 @@ const run = async (prompt) => {
 
     try {
         const result = await chatSession.sendMessage(prompt);
-        console.log(result.response.text());
         return result.response.text();
     } catch (error) {
         console.error("Error:", error);
