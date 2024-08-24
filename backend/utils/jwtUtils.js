@@ -1,4 +1,4 @@
-import jwt from "jsonwebtoken"
+import jwt from "jsonwebtoken";
 
 const generateToken = (res, user) => {
     const token = jwt.sign(
@@ -8,29 +8,33 @@ const generateToken = (res, user) => {
         },
         process.env.JWT_SECRET_KEY,
         { expiresIn: '3d' }
-    )
+    );
     res.cookie('token', token, {
         httpOnly: true,
-        secure: true,
+        secure: process.env.NODE_ENV === 'production',
         sameSite: 'strict',
         maxAge: 3 * 24 * 60 * 60 * 1000,
-    })
+    });
 }
 
 const verifyToken = (req, res, next) => {
     const token = req.cookies.token;
 
     if (!token) {
-        return res.status(401).json({ error: 'Unauthorized Access: No Token Provided' })
+        return res.status(401).json({ error: 'Unauthorized: No token provided' });
     }
 
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
-        req.user = decoded
-        next()
+        req.currentUser = decoded;
+        next();
     } catch (error) {
-        return res.status(401).json({ error: 'Unauthorized Access: Invalid Token' })
+        if (error.name === 'TokenExpiredError') {
+            return res.status(401).json({ error: 'Unauthorized: Token expired' });
+        }
+        console.error(`Token Verification Failed: ${error.message}`);
+        return res.status(401).json({ error: 'Unauthorized: Invalid token' });
     }
 }
 
-export { generateToken, verifyToken }
+export { generateToken, verifyToken };

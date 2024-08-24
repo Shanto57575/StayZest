@@ -18,12 +18,13 @@ const userSchema = new mongoose.Schema({
     },
     password: {
         type: String,
-        required: true,
         minlength: 6,
+        required: function () {
+            return !this.googleId;
+        },
     },
     profilePicture: {
         type: String,
-        required: true,
         default: "https://t3.ftcdn.net/jpg/03/46/83/96/240_F_346839683_6nAPzbhpSkIpb8pmAwufkC7c5eD7wYws.jpg"
     },
     role: {
@@ -34,7 +35,11 @@ const userSchema = new mongoose.Schema({
     bookingsCount: {
         type: Number,
         default: 0
-    }
+    },
+    googleId: {
+        type: String,
+        unique: true,
+    },
 }, { timestamps: true });
 
 const User = mongoose.model("User", userSchema);

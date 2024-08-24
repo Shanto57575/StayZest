@@ -8,31 +8,30 @@ import "react-datepicker/dist/react-datepicker.css";
 import { Star, Add, Remove } from "@mui/icons-material";
 import WifiIcon from "@mui/icons-material/Wifi";
 import LocalParkingIcon from "@mui/icons-material/LocalParking";
+import FlightTakeoffIcon from "@mui/icons-material/FlightTakeoff";
 import AcUnitIcon from "@mui/icons-material/AcUnit";
 import TvIcon from "@mui/icons-material/Tv";
 import BedIcon from "@mui/icons-material/Bed";
 import ShowerIcon from "@mui/icons-material/Shower";
-
-import Loader from "./Loader";
-import { Elements } from "@stripe/react-stripe-js";
-import { loadStripe } from "@stripe/stripe-js";
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
+import { Elements } from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
 
 const PlaceDetails = () => {
 	const dispatch = useDispatch();
 	const { placeId } = useParams();
-	const { viewDetails, loading, error } = useSelector((state) => state.places);
+	const { viewDetails, placeLoading, error } = useSelector(
+		(state) => state.places
+	);
 	const { currentUser } = useSelector((state) => state.auth);
 	const userId = currentUser?._id;
 
-	console.log(viewDetails);
-
 	const [checkIn, setCheckIn] = useState(null);
 	const [checkOut, setCheckOut] = useState(null);
-	const [guests, setGuests] = useState({ adults: 0, children: 0 });
+	const [guests, setGuests] = useState({ adults: 1, children: 0 });
 	const [processing, setProcessing] = useState(false);
 
 	useEffect(() => {
@@ -51,7 +50,7 @@ const PlaceDetails = () => {
 		} else if (operation === "decrease") {
 			setGuests((prev) => ({
 				...prev,
-				[type]: Math.max(type === "adults" ? 0 : 0, prev[type] - 1),
+				[type]: Math.max(type === "adults" ? 1 : 0, prev[type] - 1),
 			}));
 		}
 	};
@@ -60,7 +59,7 @@ const PlaceDetails = () => {
 	const numOfNights =
 		checkIn && checkOut ? differenceInCalendarDays(checkOut, checkIn) : 0;
 	const subtotal = numOfNights * (viewDetails?.price || 0);
-	const serviceFee = Math.round(subtotal * 0.12 + totalGuests * 2);
+	const serviceFee = Math.round((subtotal * 10) / 100);
 	const total = subtotal + serviceFee;
 
 	const handleBooking = async () => {
@@ -81,7 +80,7 @@ const PlaceDetails = () => {
 		try {
 			setProcessing(true);
 			const response = await axios.post(
-				"http://localhost:5000/api/booking/create-booking-intent",
+				"http://localhost:5000/api/payment/create-booking-intent",
 				bookingData,
 				{ withCredentials: true }
 			);
@@ -95,10 +94,14 @@ const PlaceDetails = () => {
 		}
 	};
 
-	if (loading) {
+	if (placeLoading) {
 		return (
 			<div className="flex justify-center items-center h-screen">
-				<Loader />
+				<div className="relative w-24 h-24">
+					<div className="absolute top-0 left-0 w-full h-full border-4 border-blue-500 rounded-full animate-ping"></div>
+					<div className="absolute top-0 left-0 w-full h-full border-4 border-blue-500 rounded-full animate-pulse"></div>
+					<FlightTakeoffIcon className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-blue-500 text-4xl animate-bounce" />
+				</div>
 			</div>
 		);
 	}
@@ -242,9 +245,9 @@ const PlaceDetails = () => {
 										</button>
 									</div>
 								</div>
-								<plaintext className="text-sm font-bold underline text-gray-600">
+								<p className="text-sm font-bold mt-4 underline text-blue-600">
 									This place has a maximum of {viewDetails.totalGuests} guests
-								</plaintext>
+								</p>
 							</div>
 							<div className="border rounded-lg p-2 mb-4">
 								<h3 className="text-lg font-bold mb-2">Total</h3>

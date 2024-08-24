@@ -12,6 +12,7 @@ import {
 } from "@mui/icons-material";
 import axios from "axios";
 import toast from "react-hot-toast";
+import Loader from "../components/Loader";
 
 const TripPlanner = () => {
 	const [step, setStep] = useState(0);
@@ -57,7 +58,7 @@ const TripPlanner = () => {
 
 	const LoadingSpinner = () => (
 		<div className="flex items-center justify-center">
-			<span className="mr-2 text-white text-xs sm:text-sm">
+			<span className="mr-2 text-xs sm:text-sm">
 				Planning your Dream trip...
 			</span>
 			<div className="animate-spin rounded-full h-4 w-4 sm:h-6 sm:w-6 border-y-2 border-white"></div>
@@ -92,7 +93,7 @@ const TripPlanner = () => {
 	const copyToClipboard = () => {
 		navigator.clipboard.writeText(tripPlan).then(
 			() => {
-				toast.success("Trip plan copied to clipboard");
+				toast.success(<h1 className="font-serif">Trip plan copied</h1>);
 			},
 			(err) => {
 				toast.error("Failed to copy trip plan: ", err);
@@ -131,7 +132,7 @@ const TripPlanner = () => {
 						<h2 className="text-2xl sm:text-3xl font-bold mb-4 sm:mb-8">
 							Where to? 📍
 						</h2>
-						<div className="grid grid-cols-2 gap-3 sm:gap-4">
+						<div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
 							{countries.map((country) => (
 								<button
 									key={country}
@@ -154,7 +155,7 @@ const TripPlanner = () => {
 						<h2 className="text-2xl sm:text-3xl font-bold mb-4 sm:mb-8">
 							Your ideal setting? 🌀
 						</h2>
-						<div className="grid grid-cols-2 gap-3 sm:gap-4">
+						<div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
 							{placeTypes.map((placeType) => (
 								<button
 									key={placeType}
@@ -214,7 +215,7 @@ const TripPlanner = () => {
 					<div className="space-y-4 sm:space-y-6 w-full shadow-sm shadow-cyan-300 border">
 						<div className="rounded-lg p-4 sm:p-6 overflow-auto max-h-[60vh] shadow-xl">
 							<pre className="whitespace-pre-wrap text-sm font-serif sm:text-base">
-								{tripPlan}
+								{loading ? <Loader /> : tripPlan}
 							</pre>
 						</div>
 					</div>
@@ -225,12 +226,12 @@ const TripPlanner = () => {
 	};
 
 	return (
-		<div className="min-h-screen font-serif p-4 sm:p-6 md:p-10 flex items-center justify-center">
-			<div className="w-full max-w-3xl mt-6 sm:mt-10">
-				<h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-center mb-6 sm:mb-12">
+		<div className="min-h-screen font-serif flex items-center justify-center">
+			<div className="w-full max-w-3xl mt-6">
+				<h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-center my-10">
 					Dream Trip Planner
 				</h1>
-				<div className="rounded-3xl shadow-lg shadow-black overflow-hidden p-4 sm:p-8 md:p-12">
+				<div className="rounded-3xl shadow-lg shadow-black overflow-hidden p-3 md:p-12">
 					<div className="flex justify-between mb-6 sm:mb-8">
 						{[
 							AttachMoney,
@@ -253,11 +254,11 @@ const TripPlanner = () => {
 						))}
 					</div>
 
-					<div className="min-h-[300px] flex items-center justify-center">
+					<div className="flex flex-wrap items-center justify-center">
 						{renderStep()}
 					</div>
 
-					<div className="flex justify-between mt-8 sm:mt-12">
+					<div className="flex flex-col md:flex-row gap-5 justify-between mt-10">
 						<button
 							onClick={prevStep}
 							className={`py-2 sm:py-3 px-4 sm:px-6 rounded-full text-sm sm:text-base font-semibold transition-all duration-300 ${
@@ -285,9 +286,9 @@ const TripPlanner = () => {
 							<button
 								disabled={loading}
 								onClick={getTripPlan}
-								className="py-2 sm:py-3 px-4 sm:px-6 rounded-full bg-cyan-700 text-white text-sm sm:text-base font-semibold transition-all duration-300 hover:shadow-lg transform hover:scale-105 flex items-center"
+								className="py-2 sm:py-3 px-4 sm:px-6 rounded-full border hover:bg-indigo-600 text-sm sm:text-base font-semibold transition-all duration-300 hover:shadow-lg transform hover:scale-105 flex items-center"
 							>
-								{loading ? <LoadingSpinner /> : "Plan My Trip"}
+								{loading ? <LoadingSpinner /> : "Plan My Trip 🍁"}
 							</button>
 						)}
 						{step === 5 && (

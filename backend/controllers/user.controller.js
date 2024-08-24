@@ -2,10 +2,9 @@ import User from "../models/user.model.js";
 
 const getAllUsers = async (req, res) => {
     try {
-        const users = await User.find().select('-password');
+        const users = await User.find().select('-password')
         res.status(200).json(users)
     } catch (error) {
-        console.error(error);
         res.status(500).json({ error: error.message });
     }
 }
@@ -28,15 +27,9 @@ const updateUser = async (req, res) => {
     const userId = req.params.id;
     const userData = req.body;
 
-    console.log("Received file:", req.file);
-    console.log("Received body:", req.body);
-
     try {
         if (req.file) {
-            console.log("Received file:", req.file);
             userData.profilePicture = req.file.path
-        } else {
-            console.log("No file received");
         }
 
         const user = await User.findByIdAndUpdate(userId, userData, { new: true }).select('-password')
@@ -45,12 +38,8 @@ const updateUser = async (req, res) => {
             return res.status(404).json({ error: "User not found" });
         }
 
-        console.log("Updated user:", user);
-
         res.status(200).json({ message: 'User updated successfully', user });
     } catch (error) {
-        console.error("Update Error:", error);
-        console.error("Error response:", error.response);
         res.status(200).json({ error });
     }
 };
@@ -65,7 +54,6 @@ const deleteUser = async (req, res) => {
         }
         res.status(200).json({ message: 'User deleted successfully' });
     } catch (error) {
-        console.error(error);
         res.status(500).json({ error: error.message });
     }
 }
@@ -93,10 +81,17 @@ const getAllUsersWithBookingCount = async (req, res) => {
                     username: 1,
                     email: 1,
                     role: 1,
-                    bookingCount: 1
+                    bookingCount: 1,
+                    createdAt: 1
+                }
+            },
+            {
+                $sort: {
+                    createdAt: -1
                 }
             }
         ]);
+
         res.status(200).json(users);
     } catch (error) {
         console.error(error);

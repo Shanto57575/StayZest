@@ -1,6 +1,12 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, Outlet, useNavigate, useLocation } from "react-router-dom";
+import {
+	Link,
+	Outlet,
+	useNavigate,
+	useLocation,
+	Navigate,
+} from "react-router-dom";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import Button from "@mui/material/Button";
@@ -44,12 +50,14 @@ const Dashboard = () => {
 	const handleLogOut = async () => {
 		try {
 			const response = await axios.post(
-				"http://localhost:5000/api/auth/logout"
+				"http://localhost:5000/api/auth/logout",
+				{},
+				{ withCredentials: true }
 			);
 			if (response.status === 200) {
 				dispatch(userLogOut());
+				localStorage.clear();
 				toast.success(response?.data.message);
-				setOpen(false);
 				navigate("/signin");
 			}
 		} catch (error) {
@@ -122,15 +130,15 @@ const Dashboard = () => {
 							icon={<BookIcon />}
 							text="Manage Bookings"
 						/>
-						{/* <MenuItem
-							to="/dashboard/admin/manage-reviews"
-							icon={<RateReviewIcon />}
-							text="Manage Reviews"
-						/>
 						<MenuItem
 							to="/dashboard/admin/manage-payments"
 							icon={<PaymentIcon />}
 							text="Manage Payments"
+						/>
+						{/* <MenuItem
+							to="/dashboard/admin/manage-reviews"
+							icon={<RateReviewIcon />}
+							text="Manage Reviews"
 						/> */}
 					</>
 				)}

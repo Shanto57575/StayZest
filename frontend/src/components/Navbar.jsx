@@ -39,10 +39,13 @@ const Navbar = () => {
 	const handleLogOut = async () => {
 		try {
 			const response = await axios.post(
-				"http://localhost:5000/api/auth/logout"
+				"http://localhost:5000/api/auth/logout",
+				{},
+				{ withCredentials: true }
 			);
 			if (response.status === 200) {
 				dispatch(userLogOut());
+				localStorage.clear();
 				toast.success(response?.data.message);
 				navigate("/signin");
 			}
@@ -116,7 +119,6 @@ const Navbar = () => {
 							</span>
 							<div className="absolute inset-0 bg-gradient-to-r from-sky-400 to-indigo-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform origin-left scale-x-0 group-hover:scale-x-100"></div>
 						</Link>
-
 						<button
 							onClick={handleDarkModeToggle}
 							className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition duration-300 transform hover:scale-110"
@@ -127,18 +129,17 @@ const Navbar = () => {
 								<DarkModeIcon className="text-indigo-600" />
 							)}
 						</button>
-
 						<div className="relative">
 							<button
 								onClick={toggleDropdown}
-								className="flex items-center space-x-2 p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition duration-300 group"
+								className="flex items-center space-x-2 p-2 shadow-md shadow-gray-700 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition duration-300 group"
 							>
 								{user ? (
 									<>
 										<img
 											src={user.profilePicture}
-											alt={user.username}
-											className="w-8 h-8 rounded-full border-2 border-transparent group-hover:border-sky-400 transition-all duration-300"
+											alt="loading"
+											className="w-10 h-10 rounded-full border-2 border-gray-500 border-transparent group-hover:border-sky-400 transition-all duration-300"
 										/>
 										<span className="group-hover:text-sky-400 transition-colors duration-300">
 											{user.username}
@@ -203,7 +204,7 @@ const Navbar = () => {
 					<div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
 						<Link
 							to="/trip-planner"
-							className="block px-3 py-2 rounded-md text-base font-medium hover:bg-gradient-to-r hover:from-sky-100 hover:to-indigo-100 dark:hover:from-sky-900 dark:hover:to-indigo-900 transition duration-300"
+							className="block px-3 py-2 rounded-md font-medium hover:bg-gradient-to-r hover:from-sky-100 hover:to-indigo-100 dark:hover:from-sky-900 dark:hover:to-indigo-900 transition duration-300"
 						>
 							Plan Your Trip With AI
 						</Link>

@@ -2,7 +2,6 @@ import run from "../config/geminiai.js";
 
 const tripPlanner = async (req, res) => {
     const { prompt } = req.body;
-    console.log("Received prompt:", prompt);
 
     if (!prompt) {
         return res.status(400).json({ error: "Prompt is required" });

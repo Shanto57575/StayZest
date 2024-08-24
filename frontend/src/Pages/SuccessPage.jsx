@@ -1,84 +1,150 @@
+import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import ticklogo from "../assets/ticklogo.png";
-import { useEffect, useState } from "react";
 import axios from "axios";
-import { ThreeDots } from "react-loader-spinner";
+import { motion } from "framer-motion";
+import confetti from "canvas-confetti";
+import { FaCheckCircle, FaExclamationTriangle } from "react-icons/fa";
+import { useSelector } from "react-redux";
 
 const SuccessPage = () => {
-	const [status, setStatus] = useState("Processing...");
+	const [status, setStatus] = useState("processing");
 	const location = useLocation();
 
 	useEffect(() => {
 		const urlParams = new URLSearchParams(location.search);
 		const sessionId = urlParams.get("session_id");
 
-		if (sessionId) {
+		const confirmedSession = localStorage.getItem(
+			`confirmedSession-${sessionId}`
+		);
+
+		if (sessionId && !confirmedSession) {
 			confirmBooking(sessionId);
+		} else if (confirmedSession) {
+			setStatus("confirmed");
 		} else {
-			setStatus("Error: No session ID found");
+			setStatus("error");
 		}
 	}, [location]);
+
+	useEffect(() => {
+		if (status === "confirmed") {
+			confetti({
+				particleCount: 100,
+				spread: 70,
+				origin: { y: 0.6 },
+			});
+		}
+	}, [status]);
 
 	const confirmBooking = async (sessionId) => {
 		try {
 			const response = await axios.post(
-				"http://localhost:5000/api/booking/confirm-booking",
+				"http://localhost:5000/api/payment/confirm-booking",
 				{ sessionId },
 				{ withCredentials: true }
 			);
 			if (response.data.success) {
+				localStorage.setItem(`confirmedSession-${sessionId}`, "true");
 				setStatus("confirmed");
 			} else {
-				setStatus(
-					"Error confirming booking: " +
-						(response.data.error || "Unknown error")
-				);
+				setStatus("error");
 			}
 		} catch (error) {
 			console.error("Error in confirmBooking:", error);
-			if (error.response) {
-				console.error("Error response from server:", error.response.data);
-				console.error("Error status:", error.response.status);
-				console.error("Error headers:", error.response.headers);
-				setStatus(
-					`Error confirming booking: ${
-						error.response.data.error || error.response.statusText
-					}`
-				);
-			} else if (error.request) {
-				console.error("No response received:", error.request);
-				setStatus("Error confirming booking: No response from server");
-			} else {
-				console.error("Error setting up request:", error.message);
-				setStatus(`Error confirming booking: ${error.message}`);
-			}
+			setStatus("error");
 		}
 	};
+
+	const renderContent = () => {
+		switch (status) {
+			case "processing":
+				return <ProcessingContent />;
+			case "confirmed":
+				return <ConfirmedContent />;
+			case "error":
+				return <ErrorContent />;
+			default:
+				return null;
+		}
+	};
+
 	return (
-		<div className="h-screen flex items-center text-center justify-center font-serif">
-			{status === "confirmed" ? (
-				<article className="w-96 h-[350px] bg-green-100 border shadow-md shadow-gray-700 dark:shadow-black px-10">
-					<img className="w-32 mx-auto" src={ticklogo} alt="" />
-					<h1 className="bg-green-200 flex items-center justify-around hover:bg-green-300 mb-3 text-xl rounded-full py-3 px-6 border-2 border-green-300 text-green-700 font-extrabold">
-						Payment Successful
-					</h1>
-					<p className="text-green-900 tracking-wider">
-						Thank you for your payment, <br /> Please Wait For the
-						confirmation!!!.
-					</p>
-					<Link to="/dashboard/guest/bookings">
-						<button className="bg-green-500 text-white hover:bg-green-600 duration-300 px-6 py-2 mt-3 rounded-full font-semibold">
-							See Booking
-						</button>
-					</Link>
-				</article>
-			) : (
-				<div className="flex justify-center items-center h-screen">
-					<ThreeDots color="#00BFFF" height={80} width={80} />
-				</div>
-			)}
+		<div className="min-h-screen flex items-center justify-center font-serif">
+			<motion.div
+				initial={{ opacity: 0, y: 20 }}
+				animate={{ opacity: 1, y: 0 }}
+				transition={{ duration: 0.5 }}
+				className="bg-white rounded-lg p-8 max-w-md w-full shadow-xl shadow-gray-500"
+			>
+				{renderContent()}
+			</motion.div>
 		</div>
 	);
 };
+
+const ProcessingContent = () => (
+	<div className="text-center">
+		<div className="animate-spin rounded-full h-16 w-16 border-b-2 border-gray-900 mx-auto mb-4"></div>
+		<h2 className="text-2xl font-bold text-gray-800 mb-2">
+			Processing Payment
+		</h2>
+		<p className="text-gray-600">
+			Please wait while we confirm your booking...
+		</p>
+	</div>
+);
+
+const ConfirmedContent = () => {
+	const { currentUser } = useSelector((state) => state.auth);
+
+	return (
+		<div className="text-center">
+			<motion.div
+				initial={{ scale: 0 }}
+				animate={{ scale: 1 }}
+				transition={{ type: "spring", stiffness: 260, damping: 20 }}
+			>
+				<FaCheckCircle className="text-green-500 text-6xl mx-auto mb-4" />
+			</motion.div>
+			<h2 className="text-3xl font-bold text-gray-800 mb-2">
+				Payment Successful!
+			</h2>
+			<p className="text-gray-600 mb-6">
+				Thank you for your payment. Your booking is now confirmed.
+			</p>
+
+			<Link
+				to={{
+					pathname: "/dashboard/guest/bookings",
+					state: { user: currentUser },
+				}}
+				className="bg-gradient-to-r from-sky-600 to-blue-500 hover:from-rose-500 hover:to-blue-600 text-white font-bold py-2 px-6 rounded-full transition duration-300 ease-in-out transform hover:scale-105"
+			>
+				View Booking
+			</Link>
+		</div>
+	);
+};
+
+const ErrorContent = () => (
+	<div className="h-screen flex items-center text-center justify-center font-serif">
+		<div className="text-center">
+			<FaExclamationTriangle className="text-red-500 text-6xl mx-auto mb-4" />
+			<h2 className="text-2xl font-bold text-gray-800 mb-2">
+				Oops! Something went wrong
+			</h2>
+			<p className="text-gray-600 mb-6">
+				We couldn't process your payment. Please try again or contact support.
+			</p>
+			<Link
+				to="/"
+				className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-6 rounded-full transition duration-300 ease-in-out"
+			>
+				Back to Home
+			</Link>
+		</div>
+	</div>
+);
 
 export default SuccessPage;

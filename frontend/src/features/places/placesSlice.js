@@ -32,7 +32,7 @@ const placesSlice = createSlice({
     initialState: {
         places: [],
         viewDetails: null,
-        loading: false,
+        placeLoading: false,
         error: null,
         totalPages: 1,
         currentPage: 1
@@ -45,37 +45,37 @@ const placesSlice = createSlice({
     extraReducers: (builder) => {
         builder
             .addCase(fetchPlaces.pending, (state) => {
-                state.loading = true
+                state.placeLoading = true
                 state.error = null
             })
             .addCase(fetchPlaces.fulfilled, (state, action) => {
-                state.loading = false
+                state.placeLoading = false
                 state.places = action.payload.places
                 state.totalPages = action.payload.totalPages
                 state.currentPage = action.payload.currentPage
             })
             .addCase(fetchPlaces.rejected, (state, action) => {
-                state.loading = false
+                state.placeLoading = false
                 state.error = action.error.message
             })
             .addCase(fetchPlaceDetails.pending, (state) => {
-                state.loading = true
+                state.placeLoading = true
                 state.error = null
             })
             .addCase(fetchPlaceDetails.fulfilled, (state, action) => {
-                state.loading = false
+                state.placeLoading = false
                 state.viewDetails = action.payload
             })
             .addCase(fetchPlaceDetails.rejected, (state, action) => {
-                state.loading = false
+                state.placeLoading = false
                 state.error = action.error.message
             })
             .addCase(updatePlace.pending, (state) => {
-                state.loading = false
+                state.placeLoading = false
                 state.error = null
             })
             .addCase(updatePlace.fulfilled, (state, action) => {
-                state.loading = false
+                state.placeLoading = false
                 const updatedPlace = action.payload;
                 const index = state.places.findIndex(place => place._id === updatedPlace._id);
                 if (index !== -1) {
@@ -86,22 +86,22 @@ const placesSlice = createSlice({
                 }
             })
             .addCase(updatePlace.rejected, (state, action) => {
-                state.loading = false
+                state.placeLoading = false
                 state.error = action.error.message
             })
             .addCase(deletePlace.pending, (state) => {
-                state.loading = true
+                state.placeLoading = true
                 state.error = null
             })
             .addCase(deletePlace.fulfilled, (state, action) => {
-                state.loading = false
+                state.placeLoading = false
                 state.places = state.places.filter(place => place._id !== action.payload)
                 if (state.viewDetails && state.viewDetails._id === action.payload) {
                     state.viewDetails = null;
                 }
             })
             .addCase(deletePlace.rejected, (state, action) => {
-                state.loading = false
+                state.placeLoading = false
                 state.error = action.error.message
             })
     }

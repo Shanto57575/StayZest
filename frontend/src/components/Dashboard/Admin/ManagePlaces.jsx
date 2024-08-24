@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm, useFieldArray } from "react-hook-form";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
@@ -7,6 +7,7 @@ import toast, { Toaster } from "react-hot-toast";
 import axios from "axios";
 
 const ManagePlaces = () => {
+	const [loading, setLoading] = useState(false);
 	const {
 		register,
 		control,
@@ -50,16 +51,21 @@ const ManagePlaces = () => {
 
 	const onSubmit = async (data) => {
 		try {
+			setLoading(true);
 			const response = await axios.post(
 				"http://localhost:5000/api/place/add-place",
 				data,
 				{ withCredentials: true }
 			);
 			if (response.data) {
-				toast.success("Added new Place Successfully!");
+				toast.success(<h1 className="font-serif">New Place added 👌</h1>, {
+					position: "top-center",
+				});
+				setLoading(false);
 				reset();
 			}
 		} catch (error) {
+			setLoading(false);
 			toast.error(error.response?.data.error);
 		}
 	};
@@ -67,8 +73,8 @@ const ManagePlaces = () => {
 	return (
 		<div className="text-black">
 			<Fade cascade>
-				<h1 className="text-3xl font-bold mb-2 ml-12 font-serif dark:text-white">
-					Add a New Place
+				<h1 className="text-3xl font-bold text-center md:text-left mb-2 ml-12 font-serif dark:text-white">
+					Add New Spot
 				</h1>
 			</Fade>
 			<form
@@ -391,12 +397,17 @@ const ManagePlaces = () => {
 				<div className="pt-5">
 					<div className="flex justify-end">
 						<button
+							disabled={loading}
 							type="submit"
 							className="w-full inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
 						>
-							SUBMIT
+							{loading ? (
+								<div className="animate-spin rounded-full h-4 w-4 sm:h-6 sm:w-6 border-y-2 border-white"></div>
+							) : (
+								"SUBMIT"
+							)}
 						</button>
-						<Toaster />
+						{/* <Toaster /> */}
 					</div>
 				</div>
 			</form>

@@ -9,6 +9,7 @@ import placeRoutes from './routes/place.routes.js';
 import bookingRoutes from './routes/booking.routes.js';
 import { errorHandler, notFound } from './middlewares/errorHandler.js';
 import tripPlannerRoutes from './routes/gemini.routes.js';
+import paymentRoutes from './routes/payment.routes.js';
 
 dotenv.config();
 
@@ -27,13 +28,13 @@ app.use('/api/auth', authRoutes);
 app.use('/api/user', userRoutes);
 app.use('/api/place', placeRoutes);
 app.use('/api/booking', bookingRoutes);
+app.use('/api/payment', paymentRoutes);
 app.use('/api/trip', tripPlannerRoutes);
 
 app.get('/', (req, res) => {
     res.send({ message: "API IS WORKING FINE!" })
 })
 
-// Error handling middleware
 app.use(errorHandler);
 app.use(notFound)
 

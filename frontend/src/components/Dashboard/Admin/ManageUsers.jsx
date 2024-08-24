@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
-import { ThreeDots } from "react-loader-spinner";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import { Fade } from "react-awesome-reveal";
 import {
 	Person,
@@ -10,6 +9,7 @@ import {
 	Home,
 	Group,
 } from "@mui/icons-material";
+import FlightTakeoffIcon from "@mui/icons-material/FlightTakeoff";
 
 const API_BASE_URL = "http://localhost:5000/api";
 
@@ -51,22 +51,27 @@ const ManageUsers = () => {
 
 	const handleRoleChange = async (username, userId, newRole) => {
 		try {
-			await axios.put(
+			const response = await axios.put(
 				`${API_BASE_URL}/user/${userId}`,
 				{ role: newRole },
 				{ withCredentials: true }
 			);
 
-			setUsers((prevUsers) =>
-				prevUsers.map((user) =>
-					user._id === userId ? { ...user, role: newRole } : user
-				)
-			);
-
-			toast.success(`${username} is now an ${newRole}!`, {
-				duration: 3000,
-				position: "top-right",
-			});
+			if (response.data) {
+				setUsers((prevUsers) =>
+					prevUsers.map((user) =>
+						user._id === userId ? { ...user, role: newRole } : user
+					)
+				);
+				toast.success(
+					<h1 className="font-serif">
+						{username} is now an {newRole}
+					</h1>,
+					{
+						position: "top-center",
+					}
+				);
+			}
 		} catch (err) {
 			toast.error("Failed to update user role. Please try again later.");
 		}
@@ -84,25 +89,26 @@ const ManageUsers = () => {
 	if (loading)
 		return (
 			<div className="flex justify-center items-center h-screen">
-				<ThreeDots color="#00BFFF" height={80} width={80} />
+				<div className="relative w-24 h-24">
+					<div className="absolute top-0 left-0 w-full h-full border-4 border-blue-500 rounded-full animate-ping"></div>
+					<div className="absolute top-0 left-0 w-full h-full border-4 border-blue-500 rounded-full animate-pulse"></div>
+					<FlightTakeoffIcon className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-blue-500 text-4xl animate-bounce" />
+				</div>
 			</div>
 		);
 
 	if (error)
 		return (
-			<div className="container mx-auto mt-8">
-				<p className="text-center text-red-500 text-xl">{error}</p>
-			</div>
+			<p className="text-center text-rose-600 font-serif h-screen text-3xl flex justify-center items-center">
+				{error}
+			</p>
 		);
 
 	return (
 		<div className="container mx-auto p-4">
 			<Fade cascade>
-				<h1 className="text-3xl font-bold mb-8 font-serif">
-					User Management Dashboard
-				</h1>
+				<h1 className="text-3xl font-bold mb-8 font-serif">Manage Users</h1>
 			</Fade>
-
 			<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-4 mb-8">
 				<StatCard
 					icon={Group}
@@ -168,7 +174,8 @@ const ManageUsers = () => {
 									<td className="px-6 py-4 whitespace-nowrap">
 										<img
 											className="h-12 w-12 rounded-full text-center mx-auto"
-											src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
+											src={user.profilePicture}
+											// src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
 											alt=""
 										/>
 									</td>
@@ -201,7 +208,6 @@ const ManageUsers = () => {
 											<option value="HOST">Host</option>
 											<option value="ADMIN">Admin</option>
 										</select>
-										<Toaster />
 									</td>
 								</tr>
 							))}

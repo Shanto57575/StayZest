@@ -18,12 +18,9 @@ const generationConfig = {
 };
 
 const run = async (prompt) => {
-    console.log("prompt", prompt)
     if (typeof prompt !== 'string') {
         throw new TypeError("Prompt must be a string.");
     }
-
-    console.log("Prompt:", prompt);
 
     const chatSession = model.startChat({
         generationConfig,

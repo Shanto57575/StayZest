@@ -8,9 +8,16 @@ import PersonIcon from "@mui/icons-material/Person";
 import WatchLaterIcon from "@mui/icons-material/WatchLater";
 import CheckIcon from "@mui/icons-material/Check";
 import CancelIcon from "@mui/icons-material/Cancel";
+import FlightTakeoffIcon from "@mui/icons-material/FlightTakeoff";
+import Alert from "@mui/material/Alert";
+import AccessTimeIcon from "@mui/icons-material/AccessTime";
+import { useLocation } from "react-router-dom";
 
 const UserBookings = () => {
-	const user = useSelector((state) => state.auth.currentUser);
+	const location = useLocation();
+	const user =
+		location.state?.user || useSelector((state) => state.auth.currentUser);
+
 	const [bookings, setBookings] = useState([]);
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState(null);
@@ -39,7 +46,7 @@ const UserBookings = () => {
 		if (user?.email) {
 			fetchBookings();
 		}
-	}, [user?.email]);
+	}, [user]);
 
 	const formatDate = (dateString) => {
 		return new Date(dateString).toLocaleDateString("en-US", {
@@ -52,114 +59,128 @@ const UserBookings = () => {
 	if (loading)
 		return (
 			<div className="flex justify-center items-center h-screen">
-				<div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-purple-500"></div>
+				<div className="relative w-24 h-24">
+					<div className="absolute top-0 left-0 w-full h-full border-4 border-blue-500 rounded-full animate-ping"></div>
+					<div className="absolute top-0 left-0 w-full h-full border-4 border-blue-500 rounded-full animate-pulse"></div>
+					<FlightTakeoffIcon className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-blue-500 text-4xl animate-bounce" />
+				</div>
 			</div>
 		);
 
+	const getStatusColor = (status) => {
+		switch (status) {
+			case "CONFIRMED":
+				return "bg-green-100 text-green-800 border-green-300";
+			case "PENDING":
+				return "bg-yellow-100 text-yellow-800 border-yellow-300";
+			case "CANCELLED":
+				return "bg-red-100 text-red-800 border-red-300";
+			default:
+				return "bg-gray-100 text-gray-800 border-gray-300";
+		}
+	};
+
+	if (error) {
+		return (
+			<Alert className="mb-6 text-white bg-red-500">
+				<p>Error : {error}!</p>
+			</Alert>
+		);
+	}
+
 	return (
-		<div className="container mx-auto py-8">
-			{error && (
-				<div
-					className="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-6 rounded"
-					role="alert"
-				>
-					<p className="font-bold">Error</p>
-					<p>{error}</p>
-				</div>
-			)}
+		<div className="container mx-auto py-8 md:px-4 font-serif">
+			<h1 className="text-5xl font-extrabold mb-10 text-center font-serif">
+				<span className="bg-clip-text text-transparent bg-gradient-to-r from-sky-400 via-emerald-500 to-purple-500">
+					My Travel Journal
+				</span>
+			</h1>
 
 			{bookings.length > 0 ? (
-				<>
-					<h1 className="text-4xl font-bold mb-10 text-center font-serif text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-pink-600">
-						My Bookings
-					</h1>
-					<div className="space-y-8">
-						{bookings.map((booking) => (
-							<div
-								key={booking._id}
-								className=" font-serif rounded-xl overflow-hidden duration-300 shadow-lg shadow-gray-700 dark:shadow-black"
-							>
-								<div className="md:flex">
-									<div className="md:w-2/5 relative">
-										{booking?.place?.photos &&
-										booking.place.photos.length > 0 ? (
-											<img
-												src={booking.place.photos[0] || booking.place.photos[1]}
-												alt={"image loading..."}
-												className="w-full h-64 md:h-full object-cover"
-											/>
-										) : (
-											<div className="w-full h-64 md:h-full bg-gray-300 flex items-center justify-center">
-												<span className="text-lg">No image available</span>
-											</div>
+				<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+					{bookings.map((booking) => (
+						<div
+							key={booking._id}
+							className="rounded-xl overflow-hidden transform transition-all hover:border-b-4 border-sky-400 duration-300 shadow-2xl"
+						>
+							<div className="relative h-48 md:h-64">
+								{booking?.place?.photos && booking.place.photos.length > 0 ? (
+									<img
+										src={booking.place.photos[0] || booking.place.photos[1]}
+										alt={"image loading..."}
+										className="w-full h-full object-cover"
+									/>
+								) : (
+									<div className="w-full h-full bg-gray-300 flex items-center justify-center">
+										<span className="text-lg">No image available</span>
+									</div>
+								)}
+								<div className="absolute top-0 left-0 m-4">
+									<span
+										className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium border ${getStatusColor(
+											booking?.status
+										)}`}
+									>
+										{booking?.status === "CONFIRMED" && (
+											<CheckIcon className="w-4 h-4 mr-1" />
 										)}
-										<div className="absolute top-0 right-0 m-4">
-											{booking?.status === "CONFIRMED" && (
-												<span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-green-200 text-green-600">
-													<CheckIcon className="w-4 h-4 mr-1" />
-													Confirmed
-												</span>
-											)}
-											{booking?.status === "PENDING" && (
-												<span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-yellow-200 text-yellow-600">
-													<WatchLaterIcon className="w-4 h-4 mr-1" />
-													{booking?.status || "Pending"}
-												</span>
-											)}
-											{booking?.status === "CANCELLED" && (
-												<span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-red-200 text-red-600">
-													<CancelIcon className="w-4 h-4 mr-1" />
-													{booking?.status || "Pending"}
-												</span>
-											)}
-										</div>
-									</div>
-									<div className="md:w-3/5 p-6 md:p-8">
-										<h2 className="text-xl md:text-3xl font-semibold mb-4">
-											{booking?.place?.title || "Unnamed Booking"}
-										</h2>
-										<div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-											<p className="flex items-center">
-												<AddLocationAltIcon className="mr-2 text-blue-500" />
-												{booking?.place?.location || "Location not specified"}
-											</p>
-											<p className="flex items-center">
-												<MonetizationOnIcon className="mr-2 text-green-500" />
-												{booking?.price || "Price not available"}
-											</p>
-											<p className="flex items-center">
-												<PersonIcon className="mr-2 text-purple-500" />
-												{booking?.guests || "N/A"} guests
-											</p>
-											<p className="flex items-center">
-												<CalendarMonthIcon className="mr-2 text-orange-500" />
-												{booking?.checkIn
-													? formatDate(booking.checkIn)
-													: "Check-in date not set"}
-											</p>
-											<p className="flex items-center">
-												<CalendarMonthIcon className="mr-2 text-orange-500" />
-												{booking?.checkIn
-													? formatDate(booking.checkOut)
-													: "Check-Out date not set"}
-											</p>
-										</div>
-										<p className="border-b border-gray-400"></p>
-										<div className="mt-4 pt-4 border-t border-gray-200">
-											<p className="text-sm italic">
-												Booked on: {formatDate(booking.createdAt)}
-											</p>
-										</div>
-									</div>
+										{booking?.status === "PENDING" && (
+											<WatchLaterIcon className="w-4 h-4 mr-1" />
+										)}
+										{booking?.status === "CANCELLED" && (
+											<CancelIcon className="w-4 h-4 mr-1" />
+										)}
+										{booking?.status || "Pending"}
+									</span>
 								</div>
 							</div>
-						))}
-					</div>
-				</>
+							<div className="p-6 ">
+								<h2 className="text-2xl font-semibold mb-4 line-clamp-2">
+									{booking?.place?.title || "Unnamed Booking"}
+								</h2>
+								<div className="space-y-2 mb-4">
+									<p className="flex items-center">
+										<AddLocationAltIcon className="mr-2 text-blue-500" />
+										{booking?.place?.location || "Location not specified"}
+									</p>
+									<p className="flex items-center">
+										<MonetizationOnIcon className="mr-2 text-green-500" />
+										{booking?.price || "Price not available"}
+									</p>
+									<p className="flex items-center">
+										<PersonIcon className="mr-2 text-purple-500" />
+										{booking?.guests || "N/A"} guests
+									</p>
+									<p className="flex items-center">
+										<AccessTimeIcon className="mr-2 text-purple-500" />
+										Booked on: {formatDate(booking.createdAt)}
+									</p>
+								</div>
+								<div className="flex justify-between items-center text-sm text-gray-500 mt-4 pt-4 border-t border-gray-200">
+									<p className="flex items-center">
+										<CalendarMonthIcon className="mr-1 text-orange-500" />
+										{booking?.checkIn
+											? formatDate(booking.checkIn)
+											: "Check-in not set"}
+									</p>
+									<p className="flex items-center">
+										<CalendarMonthIcon className="mr-1 text-red-500" />
+										{booking?.checkOut
+											? formatDate(booking.checkOut)
+											: "Check-out not set"}
+									</p>
+								</div>
+							</div>
+						</div>
+					))}
+				</div>
 			) : (
-				<div className="text-center py-12 font-serif">
-					<h2 className="text-3xl font-bold mb-4">No bookings Yet!</h2>
-					<p className="text-xl">
+				<div className="text-center py-12 bg-gradient-to-r from-purple-100 to-pink-100 rounded-xl shadow-lg">
+					<FlightTakeoffIcon className="text-6xl mb-4 text-purple-500 animate-bounce" />
+					<h2 className="text-3xl font-bold mb-4 text-gray-800">
+						No bookings yet!
+					</h2>
+					<p className="text-xl text-gray-600">
 						Your adventure awaits! ✈️ Start planning your next getaway.
 					</p>
 				</div>
