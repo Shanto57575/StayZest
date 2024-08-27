@@ -10,6 +10,7 @@ import bookingRoutes from './routes/booking.routes.js';
 import { errorHandler, notFound } from './middlewares/errorHandler.js';
 import tripPlannerRoutes from './routes/gemini.routes.js';
 import paymentRoutes from './routes/payment.routes.js';
+import reviewRoutes from './routes/review.routes.js';
 
 dotenv.config();
 
@@ -17,7 +18,14 @@ const app = express()
 const PORT = process.env.PORT || 3000;
 
 // middleware
-app.use(cors({ credentials: true, origin: process.env.CLIENT_URL }));
+app.use(cors({
+    credentials: true,
+    origin: [
+        process.env.CLIENT_URL,
+        "https://stayzest-cbf59.web.app"
+    ]
+}));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use('/uploads', express.static('uploads'));
@@ -29,6 +37,7 @@ app.use('/api/user', userRoutes);
 app.use('/api/place', placeRoutes);
 app.use('/api/booking', bookingRoutes);
 app.use('/api/payment', paymentRoutes);
+app.use('/api/review', reviewRoutes);
 app.use('/api/trip', tripPlannerRoutes);
 
 app.get('/', (req, res) => {

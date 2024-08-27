@@ -1,5 +1,5 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from 'axios';
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 export const fetchPlaces = createAsyncThunk('places/fetchPlaces', async ({ page, limit, sortBy, filterCountry, searchTitle }) => {
     const response = await axios.get("http://localhost:5000/api/place/all-places", {

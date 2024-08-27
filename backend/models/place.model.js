@@ -26,11 +26,6 @@ const placeSchema = new mongoose.Schema({
         type: String,
         required: true,
     }],
-    host: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
-        default: null
-    },
     availability: [
         {
             startDate: {

@@ -446,6 +446,7 @@ const AdminHome = () => {
 		],
 	};
 
+	// Growth rate starts
 	const periodStart = new Date();
 	periodStart.setDate(periodStart.getDate() - 7);
 

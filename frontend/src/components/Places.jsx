@@ -18,6 +18,7 @@ import FlightTakeoffIcon from "@mui/icons-material/FlightTakeoff";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { FaExclamationTriangle } from "react-icons/fa";
 
 const Places = () => {
 	const dispatch = useDispatch();
@@ -143,10 +144,19 @@ const Places = () => {
 
 	if (error)
 		return (
-			<div className="h-screen flex items-center justify-center">
-				<p className="text-4xl text-rose-600 font-bold font-serif">
-					Error: {error}
-				</p>
+			<div className="h-screen flex items-center text-center justify-center font-serif">
+				<div className="text-center">
+					<FaExclamationTriangle className="text-red-500 text-6xl mx-auto mb-4" />
+					<h2 className="text-2xl font-bold mb-2">
+						Oops! Something went wrong
+					</h2>
+					<p className="text-gray-600 dark:text-gray-400">
+						We couldn't process your request.
+					</p>
+					<p className="text-gray-600 dark:text-gray-400 mb-6">
+						Please try again later
+					</p>
+				</div>
 			</div>
 		);
 

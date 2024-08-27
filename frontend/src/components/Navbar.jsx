@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import WbSunnyIcon from "@mui/icons-material/WbSunny";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
@@ -10,11 +10,12 @@ import DashboardIcon from "@mui/icons-material/Dashboard";
 import PortraitIcon from "@mui/icons-material/Portrait";
 import LoginIcon from "@mui/icons-material/Login";
 import EmailIcon from "@mui/icons-material/Email";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import { userLogOut } from "../features/auth/authSlice";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
+import { GiArtificialHive } from "react-icons/gi";
 
 const Navbar = () => {
 	const dispatch = useDispatch();
@@ -23,6 +24,7 @@ const Navbar = () => {
 	const darkMode = useSelector((state) => state.theme.darkMode);
 	const user = useSelector((state) => state.auth.currentUser);
 	const navigate = useNavigate();
+	const mobileMenuRef = useRef(null);
 
 	const handleDarkModeToggle = () => {
 		dispatch(toggleDarkMode());
@@ -64,6 +66,27 @@ const Navbar = () => {
 		window.addEventListener("resize", handleResize);
 		return () => window.removeEventListener("resize", handleResize);
 	}, []);
+
+	useEffect(() => {
+		const handleClickOutside = (event) => {
+			if (
+				mobileMenuRef.current &&
+				!mobileMenuRef.current.contains(event.target)
+			) {
+				setIsMobileMenuOpen(false);
+			}
+		};
+
+		if (isMobileMenuOpen) {
+			document.addEventListener("mousedown", handleClickOutside);
+		} else {
+			document.removeEventListener("mousedown", handleClickOutside);
+		}
+
+		return () => {
+			document.removeEventListener("mousedown", handleClickOutside);
+		};
+	}, [isMobileMenuOpen]);
 
 	const navLinks = [
 		{ to: "/dashboard/profile", icon: <PortraitIcon />, text: "Profile" },
@@ -114,7 +137,7 @@ const Navbar = () => {
 							to="/trip-planner"
 							className="relative px-4 py-2 rounded-full overflow-hidden group"
 						>
-							<span className="relative z-10 text-sm font-serif font-medium transition duration-300 group-hover:text-white">
+							<span className="relative z-10 text-sm border-b-4 hover:border-b-0 rounded-full px-5 py-2 font-serif font-medium transition duration-300 group-hover:text-white">
 								Plan Your Trip With AI
 							</span>
 							<div className="absolute inset-0 bg-gradient-to-r from-sky-400 to-indigo-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform origin-left scale-x-0 group-hover:scale-x-100"></div>
@@ -137,12 +160,12 @@ const Navbar = () => {
 								{user ? (
 									<>
 										<img
-											src={user.profilePicture}
-											alt="loading"
+											src={user?.profilePicture}
+											alt="profile"
 											className="w-10 h-10 rounded-full border-2 border-gray-500 border-transparent group-hover:border-sky-400 transition-all duration-300"
 										/>
 										<span className="group-hover:text-sky-400 transition-colors duration-300">
-											{user.username}
+											{user?.username}
 										</span>
 									</>
 								) : (
@@ -184,15 +207,15 @@ const Navbar = () => {
 						</div>
 					</div>
 
-					<div className="md:hidden">
+					<div className="md:hidden flex items-center">
 						<button
 							onClick={toggleMobileMenu}
-							className="p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700 transition duration-300 transform hover:scale-110"
+							className="rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition duration-300 transform hover:scale-110"
 						>
 							{isMobileMenuOpen ? (
-								<CloseIcon className="text-rose-500" />
+								<CloseIcon className="text-gray-800 dark:text-white" />
 							) : (
-								<MenuIcon className="text-sky-500" />
+								<MenuIcon className="text-gray-800 dark:text-white" />
 							)}
 						</button>
 					</div>
@@ -200,50 +223,79 @@ const Navbar = () => {
 			</div>
 
 			{isMobileMenuOpen && (
-				<div className="md:hidden absolute w-full bg-white dark:bg-gray-900 shadow-lg rounded-b-2xl overflow-hidden transition-all duration-500 ease-in-out">
-					<div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-						<Link
-							to="/trip-planner"
-							className="block px-3 py-2 rounded-md font-medium hover:bg-gradient-to-r hover:from-sky-100 hover:to-indigo-100 dark:hover:from-sky-900 dark:hover:to-indigo-900 transition duration-300"
-						>
-							Plan Your Trip With AI
-						</Link>
-						{navLinks.map((link, index) =>
-							link.to ? (
-								<Link
-									key={index}
-									to={link.to}
-									className="flex items-center gap-x-2 px-3 py-2 rounded-md text-base font-medium hover:bg-gradient-to-r hover:from-sky-100 hover:to-indigo-100 dark:hover:from-sky-900 dark:hover:to-indigo-900 transition duration-300"
-								>
-									{link.icon}
-									{link.text}
-								</Link>
-							) : (
-								<button
-									key={index}
-									onClick={link.onClick}
-									className="flex items-center gap-x-2 w-full text-left px-3 py-2 rounded-md text-base font-medium hover:bg-gradient-to-r hover:from-sky-100 hover:to-indigo-100 dark:hover:from-sky-900 dark:hover:to-indigo-900 transition duration-300"
-								>
-									{link.icon}
-									{link.text}
-								</button>
-							)
-						)}
-						<button
-							onClick={handleDarkModeToggle}
-							className="flex items-center gap-x-2 px-3 py-2 rounded-md text-base font-medium hover:bg-gradient-to-r hover:from-sky-100 hover:to-indigo-100 dark:hover:from-sky-900 dark:hover:to-indigo-900 transition duration-300 w-full"
-						>
-							{darkMode ? (
-								<WbSunnyIcon className="text-yellow-400" />
-							) : (
-								<DarkModeIcon className="text-indigo-600" />
+				<div
+					ref={mobileMenuRef}
+					className={`fixed inset-0 bg-gray-900 bg-opacity-80 z-40 transition-opacity duration-300 ${
+						isMobileMenuOpen ? "opacity-100" : "opacity-0 pointer-events-none"
+					}`}
+				>
+					<div
+						className={`fixed top-0 right-0 w-3/4 bg-white dark:bg-gray-800 h-full overflow-y-auto shadow-lg transform transition-transform duration-300 ${
+							isMobileMenuOpen ? "translate-x-0" : "translate-x-full"
+						}`}
+					>
+						<div className="flex justify-between items-center p-4 border-b dark:border-gray-700">
+							<span className="text-lg font-semibold">Menu</span>
+							<button
+								onClick={toggleMobileMenu}
+								className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition duration-300"
+							>
+								<CloseIcon className="text-gray-800 dark:text-white" />
+							</button>
+						</div>
+						<div className="flex flex-col space-y-2 p-4 font-serif">
+							<button
+								onClick={handleDarkModeToggle}
+								className="flex items-center gap-x-2 px-4 py-2 text-sm hover:bg-gradient-to-r hover:from-sky-100 hover:to-indigo-100 dark:hover:from-sky-900 dark:hover:to-indigo-900 transition duration-300"
+							>
+								{darkMode ? (
+									<WbSunnyIcon className="text-yellow-400" />
+								) : (
+									<DarkModeIcon className="text-indigo-600" />
+								)}
+								Change Theme
+							</button>
+
+							<Link
+								to="/trip-planner"
+								className="flex items-center gap-x-2 px-4 py-2 text-sm hover:bg-gradient-to-r hover:from-sky-100 hover:to-indigo-100 dark:hover:from-sky-900 dark:hover:to-indigo-900 transition duration-300"
+							>
+								<GiArtificialHive size={20} />
+								<span className="relative z-10 text-sm rounded-full px-2 py-2 font-serif font-medium transition duration-300 group-hover:text-white">
+									Plan Your Trip With AI
+								</span>
+								<div className="absolute inset-0 bg-gradient-to-r from-sky-400 to-indigo-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform origin-left scale-x-0 group-hover:scale-x-100"></div>
+							</Link>
+
+							{navLinks.map((link, index) =>
+								link.to ? (
+									<Link
+										key={index}
+										to={link.to}
+										className="flex items-center gap-x-2 px-4 py-2 text-sm hover:bg-gradient-to-r hover:from-sky-100 hover:to-indigo-100 dark:hover:from-sky-900 dark:hover:to-indigo-900 transition duration-300"
+										onClick={toggleMobileMenu}
+									>
+										{link.icon}
+										{link.text}
+									</Link>
+								) : (
+									<button
+										key={index}
+										onClick={() => {
+											link.onClick();
+											toggleMobileMenu();
+										}}
+										className="flex items-center gap-x-2 w-full text-left px-4 py-2 text-sm hover:bg-gradient-to-r hover:from-sky-100 hover:to-indigo-100 dark:hover:from-sky-900 dark:hover:to-indigo-900 transition duration-300"
+									>
+										{link.icon}
+										{link.text}
+									</button>
+								)
 							)}
-							{darkMode ? "Light Mode" : "Dark Mode"}
-						</button>
+						</div>
 					</div>
 				</div>
 			)}
-			<Toaster />
 		</nav>
 	);
 };

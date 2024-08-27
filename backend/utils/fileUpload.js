@@ -2,7 +2,6 @@ import multer from 'multer';
 import path from 'path';
 import fs from 'fs';
 
-// Create the uploads directory if it doesn't exist
 const uploadPath = path.join(path.dirname(''), 'uploads');
 fs.mkdirSync(uploadPath, { recursive: true });
 
@@ -11,7 +10,7 @@ const storage = multer.diskStorage({
         cb(null, uploadPath);
     },
     filename: (req, file, cb) => {
-        cb(null, Date.now() + path.extname(file.originalname)); // Appending extension
+        cb(null, Date.now() + path.extname(file.originalname));
     },
 });
 

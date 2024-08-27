@@ -74,7 +74,7 @@ const getAllPlace = async (req, res) => {
             .sort(sort)
             .skip(skip)
             .limit(Number(limit))
-            .populate('host', "username email")
+        // .populate('host',"username email")
 
         const totalPlaces = await Place.countDocuments(query);
 
@@ -86,6 +86,7 @@ const getAllPlace = async (req, res) => {
             }
         );
     } catch (error) {
+        console.log(error)
         res.status(500).json({ error: error.message });
     }
 }

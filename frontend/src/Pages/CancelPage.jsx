@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import wrongLogo from "../assets/wronglogo.png";
 import { FaExclamationTriangle } from "react-icons/fa";
 
 const CancelPage = () => {
