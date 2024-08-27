@@ -26,14 +26,16 @@ const TripPlanner = () => {
 
 	const budgetOptions = ["Budget", "Moderate", "Luxury"];
 	const placeTypes = [
-		"Lakefront 🚣",
-		"Beachfront 🌊",
-		"Countryside 🌴",
-		"Cabins 🏠",
-		"Castles 🏰",
-		"Rooms 🛌",
-		"Camp ⛺️",
-		"Caves 🎪",
+		"🏞️ Lakefront",
+		"🌊 Beachfront",
+		"🌳 Countryside",
+		"🏠 Cozy Cabins",
+		"🏰 Majestic Castles",
+		"🛌 Comfy Rooms",
+		"⛺️ Camping Grounds",
+		"🏞️ Mountain Retreats",
+		"🌋 Scenic Caves",
+		"🏙️ Urban Skylines",
 	];
 
 	const countries = [

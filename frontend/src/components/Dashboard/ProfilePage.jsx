@@ -1,27 +1,24 @@
-import React, { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-import { TextField, Button, Avatar, IconButton } from "@mui/material";
 import {
 	Edit,
 	Cancel,
 	CloudUpload,
-	Visibility,
-	VisibilityOff,
+	AdminPanelSettings,
+	AssignmentInd,
+	CheckCircle,
 } from "@mui/icons-material";
-import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
-import AssignmentIndIcon from "@mui/icons-material/AssignmentInd";
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
 import { userSignUpSuccess } from "../../features/auth/authSlice";
-import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 
 const ProfilePage = () => {
 	const dispatch = useDispatch();
 	const user = useSelector((state) => state.auth.currentUser);
 	const [isEditing, setIsEditing] = useState(false);
 	const [newImage, setNewImage] = useState(null);
-	const [showEmail, setShowEmail] = useState(false);
+	const [hue, setHue] = useState(0);
 
 	const {
 		control,
@@ -40,6 +37,13 @@ const ProfilePage = () => {
 		baseURL: "http://localhost:5000/api",
 		withCredentials: true,
 	});
+
+	useEffect(() => {
+		const interval = setInterval(() => {
+			setHue((prev) => (prev + 1) % 360);
+		}, 50);
+		return () => clearInterval(interval);
+	}, []);
 
 	const onUpdate = async (data, imageFile) => {
 		try {
@@ -86,7 +90,9 @@ const ProfilePage = () => {
 			onUpdate(data, newImage);
 			setIsEditing(false);
 		} else {
-			toast.error("No changes have been made!");
+			toast.error(<h1 className="font-serif">No changes have been made!</h1>, {
+				position: "top-center",
+			});
 		}
 	};
 
@@ -98,150 +104,185 @@ const ProfilePage = () => {
 	};
 
 	return (
-		<div className="max-w-md mx-auto mt-10 p-4 md:p-8 bg-gradient-to-tr from-blue-200 via-emerald-100 to-purple-100 rounded-lg shadow-md shadow-gray-500">
-			<form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-				<div className="flex justify-between items-center mb-6">
-					<h2 className="text-xl md:text-3xl font-bold text-blue-600 font-serif">
-						My Profile
-					</h2>
-					<IconButton
-						onClick={() => setIsEditing(!isEditing)}
-						color={isEditing ? "error" : "primary"}
-						className="transition-transform hover:scale-110"
-					>
-						{isEditing ? <Cancel /> : <Edit />}
-					</IconButton>
+		<div className="min-h-screen flex items-center justify-center p-4 sm:p-2 md:p-4 overflow-hidden">
+			<div className="w-full max-w-screen-xl mx-auto bg-gray-800 rounded-3xl overflow-hidden shadow-2xl relative">
+				<div className="absolute inset-0 flex">
+					<div className="w-1/2 h-full bg-gray-700 transform skew-x-6 -ml-10"></div>
+					<div className="w-1/2 h-full bg-gray-600 transform -skew-x-6 -mr-10"></div>
 				</div>
-
-				<div className="flex flex-col items-center space-y-4">
-					<Controller
-						name="profilePicture"
-						control={control}
-						render={({ field }) => (
-							<div className="relative">
-								<Avatar
+				<div className="relative z-10 flex flex-col md:flex-row h-full py-16">
+					<div className="w-full md:w-1/2 md:p-4 flex flex-col items-center justify-center space-y-4 md:space-y-6">
+						<div className="relative group">
+							<div
+								className="w-32 h-32 md:w-48 md:h-48 rounded-full overflow-hidden border-8 shadow-lg transform transition-all duration-300 group-hover:scale-110"
+								style={{
+									borderColor: `hsl(${hue}, 70%, 60%)`,
+									boxShadow: `0 0 20px hsl(${hue}, 70%, 60%)`,
+								}}
+							>
+								<img
 									src={
 										newImage
 											? URL.createObjectURL(newImage)
 											: `http://localhost:5000/${user.profilePicture}`
 									}
 									alt={user.username}
-									sx={{ width: 120, height: 120 }}
-									className="border-4 border-sky-700 shadow-lg shadow-sky-900 dark:shadow-white"
+									className="w-full h-full object-cover"
 								/>
-								{isEditing && (
-									<label
-										htmlFor="icon-button-file"
-										className="absolute -bottom-2 -right-2"
-									>
-										<input
-											accept="image/*"
-											id="icon-button-file"
-											type="file"
-											onChange={handleImageChange}
-											style={{ display: "none" }}
-										/>
-										<IconButton
-											color="primary"
-											component="span"
-											className="bg-white shadow-md"
-										>
-											<CloudUpload />
-										</IconButton>
-									</label>
+							</div>
+							{isEditing && (
+								<label
+									htmlFor="icon-button-file"
+									className="absolute bottom-0 right-0 bg-white rounded-full p-2 md:p-3 cursor-pointer transform translate-x-1/4 translate-y-1/4 transition-all duration-300 hover:scale-110"
+									style={{
+										backgroundColor: `hsl(${hue}, 70%, 60%)`,
+									}}
+								>
+									<input
+										accept="image/*"
+										id="icon-button-file"
+										type="file"
+										onChange={handleImageChange}
+										className="hidden"
+									/>
+									<CloudUpload className="text-gray-800" />
+								</label>
+							)}
+						</div>
+						<div className="text-center">
+							<h2 className="text-2xl md:text-3xl font-bold text-white mb-2">
+								{user?.username}
+							</h2>
+							<div
+								className="inline-flex items-center px-2 py-1 md:px-4 md:py-2 rounded-full"
+								style={{
+									backgroundColor: `hsl(${hue}, 70%, 20%)`,
+								}}
+							>
+								<span
+									className="font-semibold mr-1 md:mr-2"
+									style={{ color: `hsl(${hue}, 70%, 60%)` }}
+								>
+									{user?.role}
+								</span>
+								{user?.role === "ADMIN" ? (
+									<AdminPanelSettings
+										style={{ color: `hsl(${hue}, 70%, 60%)` }}
+									/>
+								) : (
+									<AssignmentInd style={{ color: `hsl(${hue}, 70%, 60%)` }} />
 								)}
 							</div>
-						)}
-					/>
-					<div className="flex items-center font-serif space-x-2 bg-indigo-100 px-3 py-1 rounded-full">
-						<span className="text-sky-900 font-semibold">{user?.role}</span>
-						{user?.role === "ADMIN" ? (
-							<AdminPanelSettingsIcon color="primary" />
-						) : (
-							<AssignmentIndIcon color="primary" />
-						)}
+						</div>
 					</div>
-				</div>
 
-				<Controller
-					name="username"
-					control={control}
-					rules={{ required: "Username is required" }}
-					render={({ field }) => (
-						<TextField
-							{...field}
-							fullWidth
-							label="Username"
-							error={!!errors.username}
-							helperText={errors.username?.message}
-							disabled={!isEditing}
-							variant={isEditing ? "outlined" : "filled"}
-							InputProps={{
-								className: "bg-white",
-							}}
-						/>
-					)}
-				/>
-
-				<div className="relative">
-					<Controller
-						name="email"
-						control={control}
-						rules={{
-							required: "Email is required",
-							pattern: {
-								value: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/i,
-								message: "Invalid email address",
-							},
-						}}
-						render={({ field }) => (
-							<TextField
-								{...field}
-								fullWidth
-								label="Email"
-								error={!!errors.email}
-								helperText={errors.email?.message}
-								disabled={true}
-								variant={isEditing ? "outlined" : "filled"}
-								type={showEmail ? "text" : "password"}
-								InputProps={{
-									className: "bg-white",
-									endAdornment: (
-										<IconButton
-											onClick={() => setShowEmail(!showEmail)}
-											edge="end"
-										>
-											{showEmail ? <VisibilityOff /> : <Visibility />}
-										</IconButton>
-									),
+					<div className="w-full md:w-1/2 px-3 pt-5 md:p-4 flex flex-col justify-center">
+						<div className="flex justify-between items-center mb-6 md:mb-8">
+							<h1 className="text-xl md:text-2xl font-extrabold text-white font-serif">
+								Profile Details
+							</h1>
+							<button
+								onClick={() => setIsEditing(!isEditing)}
+								className={`p-2 md:p-3 rounded-full transition-all duration-300 hover:scale-110`}
+								style={{
+									backgroundColor: isEditing
+										? "rgb(239, 68, 68)"
+										: `hsl(${hue}, 70%, 60%)`,
 								}}
-							/>
-						)}
-					/>
-				</div>
-
-				{isEditing && (
-					<div className="text-center">
-						<Button
-							type="submit"
-							variant="contained"
-							color="primary"
-							className="w-full py-3 text-lg font-semibold transition-all hover:bg-indigo-700"
+							>
+								{isEditing ? (
+									<Cancel className="text-white" />
+								) : (
+									<Edit className="text-white" />
+								)}
+							</button>
+						</div>
+						<form
+							onSubmit={handleSubmit(onSubmit)}
+							className="space-y-4 md:space-y-6"
 						>
-							Save Changes
-						</Button>
-					</div>
-				)}
-			</form>
+							<Controller
+								name="username"
+								control={control}
+								rules={{ required: "Username is required" }}
+								render={({ field }) => (
+									<div className="relative">
+										<input
+											{...field}
+											disabled={!isEditing}
+											className={`w-full bg-gray-800 text-white border-2 rounded-lg py-2 px-3 focus:outline-none focus:ring-2 focus:ring-hsl(${hue}, 70%, 60%) ${
+												isEditing ? "border-gray-600" : "border-transparent"
+											}`}
+											style={{
+												boxShadow: `0 0 10px hsl(${hue}, 70%, 60%)`,
+											}}
+											placeholder="Username"
+										/>
+										{errors.username && (
+											<p className="text-red-400 text-sm mt-1">
+												{errors.username.message}
+											</p>
+										)}
+									</div>
+								)}
+							/>
+							<Controller
+								name="email"
+								control={control}
+								rules={{
+									required: "Email is required",
+									pattern: {
+										value: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/i,
+										message: "Invalid email address",
+									},
+								}}
+								render={({ field }) => (
+									<div className="relative">
+										<input
+											{...field}
+											disabled={true}
+											className="w-full bg-gray-800 text-white border-2 border-transparent rounded-lg py-2 px-3 focus:outline-none"
+											style={{
+												boxShadow: `0 0 10px hsl(${hue}, 70%, 60%)`,
+											}}
+											placeholder="Email"
+										/>
+										{errors.email && (
+											<p className="text-red-400 text-sm mt-1">
+												{errors.email.message}
+											</p>
+										)}
+									</div>
+								)}
+							/>
 
-			<div className="flex items-center gap-x-2 mt-3">
-				<CheckCircleIcon color="info" />
-				<p className="font-serif text-blue-600">
-					Last updated :
-					<span className="font-sans ml-2 font-semibold">
-						{new Date(user?.updatedAt).toLocaleString()}
-					</span>
-				</p>
+							{isEditing && (
+								<div className="text-center">
+									<button
+										type="submit"
+										className="w-full font-bold py-2 px-3 rounded-lg transition-all duration-300 hover:scale-105 hover:shadow-lg"
+										style={{
+											backgroundColor: `hsl(${hue}, 70%, 60%)`,
+											color: "rgb(31, 41, 55)", // dark blue-gray
+										}}
+									>
+										Save Changes
+									</button>
+								</div>
+							)}
+						</form>
+
+						<div className="flex items-center gap-x-1 md:gap-x-2 mt-4 md:mt-6 text-gray-400">
+							<CheckCircle style={{ color: `hsl(${hue}, 70%, 60%)` }} />
+							<p className="font-serif text-sm md:text-base">
+								Last updated:
+								<span className="font-sans ml-1 md:ml-2 font-semibold">
+									{new Date(user?.updatedAt).toLocaleString()}
+								</span>
+							</p>
+						</div>
+					</div>
+				</div>
 			</div>
 			<Toaster />
 		</div>

@@ -111,7 +111,7 @@ const ConfirmedContent = () => {
 				Payment Successful!
 			</h2>
 			<p className="text-gray-600 mb-6">
-				Thank you for your payment. Your booking is now confirmed.
+				Thank you for your payment. Wait For the confirmation!.
 			</p>
 
 			<Link

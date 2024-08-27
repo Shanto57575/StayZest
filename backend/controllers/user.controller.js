@@ -13,6 +13,7 @@ const getUserById = async (req, res) => {
     const userId = req.params.id;
     try {
         const user = await User.findById(userId);
+        console.log(user)
         if (!user) {
             return res.status(404).json({ error: "User not found" })
         }
@@ -32,7 +33,7 @@ const updateUser = async (req, res) => {
             userData.profilePicture = req.file.path
         }
 
-        const user = await User.findByIdAndUpdate(userId, userData, { new: true }).select('-password')
+        const user = await User.findByIdAndUpdate(userId, userData, { new: true })
 
         if (!user) {
             return res.status(404).json({ error: "User not found" });

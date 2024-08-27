@@ -214,9 +214,9 @@ const Places = () => {
 									>
 										<Slider {...settings}>
 											{place.photos.map((photo, index) => (
-												<div key={index} className="relative w-full px-2 pt-2">
+												<div key={index} className="relative w-full">
 													<img
-														className="w-full h-64 object-cover rounded-lg cursor-pointer filter group-hover:brightness-75 transition duration-300 shadow-2xl shadow-white dark:shadow-black"
+														className="w-full h-64 -mb-4 object-cover rounded-lg cursor-pointer filter group-hover:brightness-75 transition duration-300 shadow-2xl shadow-white dark:shadow-black"
 														src={photo}
 														alt={`${place.location} - ${index + 1}`}
 													/>

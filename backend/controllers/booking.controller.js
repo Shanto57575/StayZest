@@ -7,7 +7,6 @@ const getAllBookings = async (req, res) => {
             .populate('place', "title location price photos")
             .populate('user', "username email")
             .sort({ createdAt: -1 })
-
         res.status(200).json(bookings);
     } catch (error) {
         console.error(`Error fetching bookings: ${error.message}`);
@@ -46,11 +45,13 @@ const getBookingByEmail = async (req, res) => {
             return res.status(404).json({ error: 'User not found' });
         }
 
-        const bookings = await Booking.find({ user: user._id })
+        const bookings = await Booking.find({
+            user: user._id,
+            status: { $ne: "CANCELLED" },
+        })
             .populate('place', "title location price photos")
             .populate('user', "username email")
             .sort({ createdAt: -1 })
-
         res.status(200).json(bookings);
     } catch (error) {
         console.error(`Error fetching bookings: ${error.message}`);

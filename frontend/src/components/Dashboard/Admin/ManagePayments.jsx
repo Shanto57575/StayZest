@@ -319,7 +319,7 @@ const ManagePayments = () => {
 												<div className="ml-4">
 													<div className="text-sm flex items-center">
 														<LocationOn className="h-4 w-4 mr-1 text-sky-600" />
-														{payment.place?.title}
+														{payment.place?.location.slice(0, 15)}
 													</div>
 												</div>
 											</div>

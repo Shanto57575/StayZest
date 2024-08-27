@@ -39,9 +39,9 @@ const SignIn = () => {
 			);
 			if (response.data) {
 				dispatch(userSignInSuccess(response.data.user));
-				toast.success("Successfully Logged In");
 				setTimeout(() => {
 					navigate(from, { replace: true });
+					toast.success("Successfully Logged In");
 					reset();
 				}, 500);
 			}
@@ -193,7 +193,6 @@ const SignIn = () => {
 					&copy; {new Date().getFullYear()} StayZest Corp. All rights reserved.
 				</p>
 			</div>
-			<Toaster />
 		</div>
 	);
 };

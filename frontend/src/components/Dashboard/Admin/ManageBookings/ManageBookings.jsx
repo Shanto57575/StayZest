@@ -8,20 +8,18 @@ import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import PendingIcon from "@mui/icons-material/Pending";
 import StatCard from "./StatCard";
 import BookingTable from "./BookingTable";
-import BookingModal from "./BookingModal";
 
 const ManageBookings = () => {
 	const [bookings, setBookings] = useState([]);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState(null);
-	const [modalOpen, setModalOpen] = useState(false);
 	const [selectedBookingId, setSelectedBookingId] = useState(null);
-	const [reason, setReason] = useState("");
+	const [searchTerm, setSearchTerm] = useState("");
 
 	const fetchBookings = async () => {
 		try {
 			const response = await axios.get(
-				"http://localhost:5000/api/booking/all-Bookings",
+				`http://localhost:5000/api/booking/all-Bookings`,
 				{ withCredentials: true }
 			);
 			setBookings(response.data);
@@ -37,12 +35,7 @@ const ManageBookings = () => {
 	}, []);
 
 	const handleStatus = async (bookingId, newStatus) => {
-		if (newStatus === "CANCELLED") {
-			setSelectedBookingId(bookingId);
-			setModalOpen(true);
-			return;
-		}
-
+		setSelectedBookingId(bookingId);
 		try {
 			await axios.put(
 				`http://localhost:5000/api/booking/${bookingId}`,
@@ -58,31 +51,41 @@ const ManageBookings = () => {
 				)
 			);
 
-			toast.success(`Booking ${newStatus.toLowerCase()} successfully`, {
-				position: "top-center",
-			});
+			if (newStatus === "CONFIRMED") {
+				toast.success(
+					<h1 className="font-serif">Booking {newStatus.toLowerCase()}</h1>,
+					{
+						position: "top-center",
+					}
+				);
+			} else if (newStatus === "CANCELLED") {
+				toast(
+					<h1 className="font-serif">
+						❌ Booking {newStatus.toLowerCase()} ❌
+					</h1>,
+					{
+						position: "top-center",
+					}
+				);
+			}
 		} catch (err) {
 			toast.error(`Failed to ${newStatus.toLowerCase()} booking`);
 		}
 	};
 
+	// TODO: KEEP IT FOR DELETE
 	const handleCancellation = async () => {
-		if (!reason) {
-			toast.error("Cancellation reason is required.");
-			return;
-		}
-
 		try {
 			await axios.put(
 				`http://localhost:5000/api/booking/${selectedBookingId}`,
-				{ status: "CANCELLED", cancellationReason: reason },
+				{ status: "CANCELLED" },
 				{ withCredentials: true }
 			);
 
 			setBookings(
 				bookings.map((booking) =>
 					booking._id === selectedBookingId
-						? { ...booking, status: "CANCELLED", cancellationReason: reason }
+						? { ...booking, status: "CANCELLED" }
 						: booking
 				)
 			);
@@ -94,9 +97,6 @@ const ManageBookings = () => {
 		} catch (err) {
 			toast.error("Failed to cancel booking");
 		}
-
-		setModalOpen(false);
-		setReason("");
 	};
 
 	if (loading)
@@ -142,8 +142,18 @@ const ManageBookings = () => {
 	return (
 		<Fade>
 			<div className="container mx-auto">
-				<h1 className="text-3xl font-bold font-serif mb-6">Manage Bookings</h1>
-
+				<div className="flex flex-col md:flex-row items-center justify-between mb-3">
+					<h1 className="text-3xl text-center md:text-left font-bold font-serif mb-6">
+						Manage Bookings
+					</h1>
+					<input
+						type="text"
+						placeholder="Search booking By Place"
+						className="px-3 py-2 border rounded-md bg-transparent font-serif"
+						value={searchTerm}
+						onChange={(e) => setSearchTerm(e.target.value)}
+					/>
+				</div>
 				<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 mb-8 font-serif">
 					<StatCard
 						title="Total Bookings"
@@ -177,14 +187,11 @@ const ManageBookings = () => {
 					/>
 				</div>
 
-				<BookingTable bookings={bookings} handleStatus={handleStatus} />
-
-				<BookingModal
-					isOpen={modalOpen}
-					onClose={() => setModalOpen(false)}
-					reason={reason}
-					setReason={setReason}
-					handleCancellation={handleCancellation}
+				<BookingTable
+					bookings={bookings}
+					handleStatus={handleStatus}
+					searchTerm={searchTerm}
+					setSearchTerm={setSearchTerm}
 				/>
 			</div>
 			<Toaster />

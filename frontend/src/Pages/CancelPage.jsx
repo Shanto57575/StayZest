@@ -7,11 +7,9 @@ const CancelPage = () => {
 		<div className="h-screen flex items-center text-center justify-center font-serif">
 			<div className="text-center">
 				<FaExclamationTriangle className="text-red-500 text-6xl mx-auto mb-4" />
-				<h2 className="text-2xl font-bold text-gray-800 mb-2">
-					Oops! Something went wrong
-				</h2>
-				<p className="text-gray-600 mb-6">
-					We couldn't process your payment. Please try again or contact support.
+				<h2 className="text-2xl font-bold mb-2">Oops! Something went wrong</h2>
+				<p className="text-gray-600 dark:text-gray-400 mb-6">
+					We couldn't process your payment. Please try again later.
 				</p>
 				<Link
 					to="/"
