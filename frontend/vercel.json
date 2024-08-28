@@ -4,15 +4,12 @@
 		{
 			"src": "package.json",
 			"use": "@vercel/static-build",
-			"config": { "distDir": "build" }
+			"config": { "distDir": "dist" }
 		}
 	],
 	"routes": [
-		{ "src": "^/static/(.*)", "dest": "/static/$1" },
-		{ "src": "^/favicon.ico", "dest": "/favicon.ico" },
-		{ "src": "^/manifest.json", "dest": "/manifest.json" },
-		{ "src": "^/logo192.png", "dest": "/logo192.png" },
-		{ "src": "^/logo512.png", "dest": "/logo512.png" },
+		{ "src": "^/assets/(.*)", "dest": "/assets/$1" },
+		{ "src": "^/(favicon.ico|manifest.json|logo.png)", "dest": "/$1" },
 		{ "handle": "filesystem" },
 		{
 			"src": "^/(signin|signup|checkout-success|checkout-cancel|dashboard|trip-planner)/?.*",
