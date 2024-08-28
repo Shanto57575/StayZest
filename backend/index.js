@@ -45,7 +45,7 @@ app.get('/', (req, res) => {
 app.use(errorHandler);
 app.use(notFound)
 
-app.listen(PORT, () => {
+app.listen(PORT, async () => {
     console.log(`App listening  to PORT : ${PORT}`)
-    connectDB()
+    await connectDB()
 })
