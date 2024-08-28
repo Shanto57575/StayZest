@@ -1,56 +1,38 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Link, Outlet, useNavigate, useLocation } from "react-router-dom";
+import { FiSun, FiMoon, FiMenu, FiX } from "react-icons/fi";
+import { FaHome, FaSignOutAlt } from "react-icons/fa";
 import {
-	Link,
-	Outlet,
-	useNavigate,
-	useLocation,
-	Navigate,
-} from "react-router-dom";
-import Box from "@mui/material/Box";
-import Drawer from "@mui/material/Drawer";
-import Button from "@mui/material/Button";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
-import WbSunnyIcon from "@mui/icons-material/WbSunny";
-import DarkModeIcon from "@mui/icons-material/DarkMode";
-import Divider from "@mui/material/Divider";
-import DashboardIcon from "@mui/icons-material/Dashboard";
-import PlaceIcon from "@mui/icons-material/Place";
-import HomeIcon from "@mui/icons-material/Home";
-import PeopleIcon from "@mui/icons-material/People";
-import BookIcon from "@mui/icons-material/Book";
-import LogoutIcon from "@mui/icons-material/Logout";
-import RateReviewIcon from "@mui/icons-material/RateReview";
-import PaymentIcon from "@mui/icons-material/Payment";
-import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
+	MdDashboard,
+	MdPeople,
+	MdPlace,
+	MdBook,
+	MdPayment,
+	MdRateReview,
+	MdAdminPanelSettings,
+} from "react-icons/md";
 import { toggleDarkMode } from "../../features/theme/themeSlice";
-import axios from "axios";
 import { userLogOut } from "../../features/auth/authSlice";
 import toast, { Toaster } from "react-hot-toast";
+import axios from "axios";
 
 const Dashboard = () => {
-	const [open, setOpen] = useState(false);
+	const [isOpen, setIsOpen] = useState(false);
 	const userTypes = useSelector((state) => state.auth.currentUser?.role);
 	const darkMode = useSelector((state) => state.theme.darkMode);
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	const location = useLocation();
 
-	const toggleDrawer = (newOpen) => () => {
-		setOpen(newOpen);
-	};
+	const toggleSidebar = () => setIsOpen(!isOpen);
 
-	const handleDarkModeToggle = () => {
-		dispatch(toggleDarkMode());
-	};
+	const handleDarkModeToggle = () => dispatch(toggleDarkMode());
 
 	const handleLogOut = async () => {
 		try {
 			const response = await axios.post(
-				"http://localhost:5000/api/auth/logout",
+				"https://stayzest-backend.vercel.app/api/auth/logout",
 				{},
 				{ withCredentials: true }
 			);
@@ -67,49 +49,50 @@ const Dashboard = () => {
 
 	const isActive = (path) => location.pathname === path;
 
-	const MenuItem = ({ to, icon, text }) => (
-		<ListItem
-			component={Link}
+	const MenuItem = ({ to, icon: Icon, text }) => (
+		<Link
 			to={to}
-			className={`my-1 rounded-b-lg transition-all duration-200 ${
+			className={`flex items-center p-2 rounded-lg transition-all duration-200 ${
 				isActive(to)
-					? "bg-blue-500 border-b-4 text-white"
-					: "hover:bg-gray-200 dark:hover:bg-gray-700"
+					? "bg-indigo-600 text-white"
+					: "hover:bg-indigo-100 dark:hover:bg-indigo-900"
 			}`}
 		>
-			<ListItemIcon className={isActive(to) ? "text-white" : "dark:text-white"}>
-				{icon}
-			</ListItemIcon>
-			<ListItemText primary={text} />
-		</ListItem>
+			<Icon
+				className={`w-5 h-5 mr-3 ${
+					isActive(to) ? "text-white" : "text-indigo-600 dark:text-indigo-400"
+				}`}
+			/>
+			<span className="font-medium">{text}</span>
+		</Link>
 	);
 
-	const DrawerList = (
-		<Box
-			sx={{ width: 230 }}
-			role="presentation"
-			onClick={toggleDrawer(false)}
-			className="font-serif h-full bg-white dark:bg-gray-800 text-gray-800 dark:text-white overflow-y-auto"
-		>
-			<div className="p-4 flex items-center justify-between">
-				<h2 className="text-xl font-bold">Dashboard</h2>
-				<Button
+	const SidebarContent = (
+		<div className="h-full flex flex-col bg-white dark:bg-gray-800 text-gray-800 dark:text-white">
+			<div className="p-5 flex items-center justify-between border-b dark:border-gray-700">
+				<h2 className="text-2xl font-bold text-indigo-600 dark:text-indigo-400">
+					Dashboard
+				</h2>
+				<button
 					onClick={handleDarkModeToggle}
-					className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700"
+					className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors duration-200"
 				>
-					{darkMode ? <WbSunnyIcon /> : <DarkModeIcon />}
-				</Button>
+					{darkMode ? (
+						<FiSun className="w-6 h-6" />
+					) : (
+						<FiMoon className="w-6 h-6" />
+					)}
+				</button>
 			</div>
-			<Divider />
-			<List className="p-2 font-serif">
+			<nav className="flex-grow p-4 space-y-3 overflow-y-auto">
 				<MenuItem
 					to={`/dashboard/${userTypes?.toLowerCase()}`}
-					icon={<DashboardIcon />}
+					icon={MdDashboard}
 					text="Dashboard"
 				/>
 				<MenuItem
 					to="/dashboard/profile"
-					icon={<AdminPanelSettingsIcon />}
+					icon={MdAdminPanelSettings}
 					text="My Profile"
 				/>
 
@@ -117,104 +100,108 @@ const Dashboard = () => {
 					<>
 						<MenuItem
 							to="/dashboard/admin/manage-users"
-							icon={<PeopleIcon />}
+							icon={MdPeople}
 							text="Manage Users"
 						/>
 						<MenuItem
 							to="/dashboard/admin/manage-places"
-							icon={<PlaceIcon />}
+							icon={MdPlace}
 							text="Add Place"
 						/>
 						<MenuItem
 							to="/dashboard/admin/manage-bookings"
-							icon={<BookIcon />}
+							icon={MdBook}
 							text="Manage Bookings"
 						/>
 						<MenuItem
 							to="/dashboard/admin/manage-payments"
-							icon={<PaymentIcon />}
+							icon={MdPayment}
 							text="Manage Payments"
 						/>
-						{/* <MenuItem
+						<MenuItem
 							to="/dashboard/admin/manage-reviews"
-							icon={<RateReviewIcon />}
+							icon={MdRateReview}
 							text="Manage Reviews"
-						/> */}
+						/>
 					</>
 				)}
 				{userTypes === "GUEST" && (
 					<MenuItem
 						to="/dashboard/guest/bookings"
-						icon={<BookIcon />}
+						icon={MdBook}
 						text="My Bookings"
 					/>
 				)}
-				{userTypes === "HOST" && (
-					<MenuItem
-						to="/dashboard/host/manage-listings"
-						icon={<PlaceIcon />}
-						text="Manage Listings"
-					/>
-				)}
-			</List>
-			<Divider />
-			<List className="p-2">
-				<MenuItem to="/" icon={<HomeIcon />} text="Back To Home" />
-				<ListItem
-					onClick={handleLogOut}
-					className="my-1 cursor-pointer rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700"
-				>
-					<ListItemIcon className="dark:text-white">
-						<LogoutIcon />
-					</ListItemIcon>
-					<ListItemText primary="Sign Out" />
-				</ListItem>
-			</List>
-		</Box>
+
+				<div className="pt-4 border-t dark:border-gray-700">
+					<MenuItem to="/" icon={FaHome} text="Back To Home" />
+					<button
+						onClick={handleLogOut}
+						className="w-full flex items-center p-2 rounded-lg transition-colors duration-200 hover:bg-red-100 dark:hover:bg-red-900 text-red-600 dark:text-red-400"
+					>
+						<FaSignOutAlt className="w-5 h-5 mr-3" />
+						<span className="font-medium">Sign Out</span>
+					</button>
+				</div>
+			</nav>
+		</div>
 	);
 
 	return (
-		<div className="flex min-h-screen">
-			<div className="hidden lg:block h-full fixed overflow-y-auto shadow-md shadow-white">
-				{DrawerList}
+		<div className="flex h-screen bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-white">
+			{/* Sidebar for larger screens */}
+			<aside className="hidden lg:block w-64 shadow-xl">{SidebarContent}</aside>
+
+			{/* Mobile sidebar */}
+			<div
+				className={`lg:hidden fixed inset-0 z-50 transition-opacity duration-300 ${
+					isOpen
+						? "opacity-100 pointer-events-auto"
+						: "opacity-0 pointer-events-none"
+				}`}
+			>
+				<div
+					className="absolute inset-0 bg-gray-900 opacity-50"
+					onClick={toggleSidebar}
+				></div>
+				<aside className="absolute top-0 left-0 w-64 h-full shadow-xl transform transition-transform duration-300 ease-in-out">
+					{SidebarContent}
+				</aside>
 			</div>
-			<div className="flex flex-col w-full lg:ml-56">
-				<div className="lg:hidden bg-white dark:bg-gray-800 shadow-md">
-					<Button
-						onClick={toggleDrawer(true)}
-						className="p-4 text-gray-800 dark:text-white"
-					>
-						<svg
-							xmlns="http://www.w3.org/2000/svg"
-							fill="none"
-							viewBox="0 0 24 24"
-							strokeWidth={1.5}
-							stroke="currentColor"
-							className="w-6 h-6"
-						>
-							<path
-								strokeLinecap="round"
-								strokeLinejoin="round"
-								d="M3.75 5.25h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5"
-							/>
-						</svg>
-					</Button>
-				</div>
-				<Drawer
-					anchor="left"
-					open={open}
-					onClose={toggleDrawer(false)}
-					className="lg:hidden"
-				>
-					{DrawerList}
-				</Drawer>
-				<div className="flex-grow p-4 md:p-8 overflow-auto">
+
+			{/* Main content */}
+			<div className="flex-1 flex flex-col overflow-hidden">
+				<header className="bg-white dark:bg-gray-800 shadow-md p-4 flex items-center justify-between lg:justify-end">
+					<button onClick={toggleSidebar} className="lg:hidden text-2xl">
+						{isOpen ? <FiX /> : <FiMenu />}
+					</button>
+					<h1 className="text-2xl font-semibold text-indigo-600 dark:text-indigo-400 lg:hidden">
+						Dashboard
+					</h1>
+					<div className="flex items-center space-x-4">
+						{/* Add any header content here, like notifications or user profile */}
+					</div>
+				</header>
+				<main className="flex-1 overflow-x-hidden overflow-y-auto bg-gray-100 dark:bg-gray-900 p-6 scrollbar-hide">
 					<Outlet />
-				</div>
+				</main>
 			</div>
 			<Toaster position="bottom-right" />
 		</div>
 	);
 };
+
+// CSS to hide scrollbar
+const style = document.createElement("style");
+style.textContent = `
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+`;
+document.head.appendChild(style);
 
 export default Dashboard;

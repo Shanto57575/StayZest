@@ -33,7 +33,7 @@ const SignIn = () => {
 		try {
 			dispatch(userSignInStart());
 			const response = await axios.post(
-				"http://localhost:5000/api/auth/signin",
+				"https://stayzest-backend.vercel.app/api/auth/signin",
 				userdata,
 				{ withCredentials: true }
 			);
@@ -41,7 +41,7 @@ const SignIn = () => {
 				dispatch(userSignInSuccess(response.data.user));
 				setTimeout(() => {
 					navigate(from, { replace: true });
-					toast.success("Successfully Logged In");
+					toast.success(<h1 className="font-serif">Successfully Logged In</h1>);
 					reset();
 				}, 500);
 			}

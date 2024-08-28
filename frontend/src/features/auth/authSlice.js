@@ -20,7 +20,7 @@ export const googleSignIn = createAsyncThunk(
                 profilePicture: user.photoURL
             };
 
-            const response = await axios.post('http://localhost:5000/api/auth/google', userData, { withCredentials: true });
+            const response = await axios.post('https://stayzest-backend.vercel.app/api/auth/google', userData, { withCredentials: true });
 
             if (response.data) {
                 toast.success("Successfully Logged In");

@@ -15,9 +15,7 @@ import ManageUsers from "./components/Dashboard/Admin/ManageUsers";
 import ManagePlaces from "./components/Dashboard/Admin/ManagePlaces";
 import AdminRoute from "./routes/AdminRoute";
 import ProfilePage from "./components/Dashboard/ProfilePage";
-import HostHome from "./components/Dashboard/Host/HostHome";
 import UserBookings from "./components/Dashboard/User/UserBookings";
-import HostRoute from "./routes/HostRoute";
 import AdminHome from "./components/Dashboard/Admin/AdminHome";
 import UserHome from "./components/Dashboard/User/UserHome";
 import ManageBookings from "./components/Dashboard/Admin/ManageBookings/ManageBookings";
@@ -147,22 +145,6 @@ const App = () => {
 								<AdminRoute>
 									<ManagePlaces />
 								</AdminRoute>
-							),
-						},
-						{
-							path: "host",
-							element: (
-								<HostRoute>
-									<HostHome />
-								</HostRoute>
-							),
-						},
-						{
-							path: "host/manage-listings",
-							element: (
-								<HostRoute>
-									<HostHome />
-								</HostRoute>
 							),
 						},
 						{

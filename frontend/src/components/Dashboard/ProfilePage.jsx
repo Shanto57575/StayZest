@@ -34,7 +34,7 @@ const ProfilePage = () => {
 	});
 
 	const axiosInstance = axios.create({
-		baseURL: "http://localhost:5000/api",
+		baseURL: "https://stayzest-backend.vercel.app/api",
 		withCredentials: true,
 	});
 
@@ -75,7 +75,10 @@ const ProfilePage = () => {
 			console.error("Update Error:", error);
 			toast.error(
 				error.response?.data?.error ||
-					"An error occurred while updating the profile"
+					"An error occurred while updating the profile",
+				{
+					position: "top-center",
+				}
 			);
 		}
 	};
@@ -124,7 +127,7 @@ const ProfilePage = () => {
 									src={
 										newImage
 											? URL.createObjectURL(newImage)
-											: `http://localhost:5000/${user.profilePicture}`
+											: `https://stayzest-backend.vercel.app/${user.profilePicture}`
 									}
 									alt={user.username}
 									className="w-full h-full object-cover"
@@ -149,7 +152,7 @@ const ProfilePage = () => {
 								</label>
 							)}
 						</div>
-						<div className="text-center">
+						<div className="text-center font-serif">
 							<h2 className="text-2xl md:text-3xl font-bold text-white mb-2">
 								{user?.username}
 							</h2>
@@ -199,7 +202,7 @@ const ProfilePage = () => {
 						</div>
 						<form
 							onSubmit={handleSubmit(onSubmit)}
-							className="space-y-4 md:space-y-6"
+							className="space-y-4 md:space-y-6 font-serif"
 						>
 							<Controller
 								name="username"
@@ -207,8 +210,15 @@ const ProfilePage = () => {
 								rules={{ required: "Username is required" }}
 								render={({ field }) => (
 									<div className="relative">
+										<label
+											htmlFor="username"
+											className="block text-sm ml-1 mb-2 font-bold text-gray-300"
+										>
+											Username
+										</label>
 										<input
 											{...field}
+											id="username"
 											disabled={!isEditing}
 											className={`w-full bg-gray-800 text-white border-2 rounded-lg py-2 px-3 focus:outline-none focus:ring-2 focus:ring-hsl(${hue}, 70%, 60%) ${
 												isEditing ? "border-gray-600" : "border-transparent"
@@ -238,8 +248,15 @@ const ProfilePage = () => {
 								}}
 								render={({ field }) => (
 									<div className="relative">
+										<label
+											htmlFor="email"
+											className="block text-sm ml-1 mb-2 font-bold text-gray-300"
+										>
+											Email
+										</label>
 										<input
 											{...field}
+											id="email"
 											disabled={true}
 											className="w-full bg-gray-800 text-white border-2 border-transparent rounded-lg py-2 px-3 focus:outline-none"
 											style={{
@@ -255,7 +272,6 @@ const ProfilePage = () => {
 									</div>
 								)}
 							/>
-
 							{isEditing && (
 								<div className="text-center">
 									<button
@@ -272,7 +288,7 @@ const ProfilePage = () => {
 							)}
 						</form>
 
-						<div className="flex items-center gap-x-1 md:gap-x-2 mt-4 md:mt-6 text-gray-400">
+						<div className="flex items-center gap-x-1 md:gap-x-2 mt-4 md:mt-6 text-cyan-100">
 							<CheckCircle style={{ color: `hsl(${hue}, 70%, 60%)` }} />
 							<p className="font-serif text-sm md:text-base">
 								Last updated:

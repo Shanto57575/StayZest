@@ -1,4 +1,3 @@
-import Navbar from "../components/Navbar";
 import Places from "../components/Places";
 
 const Home = () => {

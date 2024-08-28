@@ -40,7 +40,7 @@ const SuccessPage = () => {
 	const confirmBooking = async (sessionId) => {
 		try {
 			const response = await axios.post(
-				"http://localhost:5000/api/payment/confirm-booking",
+				"https://stayzest-backend.vercel.app/api/payment/confirm-booking",
 				{ sessionId },
 				{ withCredentials: true }
 			);
@@ -119,7 +119,7 @@ const ConfirmedContent = () => {
 					pathname: "/dashboard/guest/bookings",
 					state: { user: currentUser },
 				}}
-				className="bg-gradient-to-r from-sky-600 to-blue-500 hover:from-rose-500 hover:to-blue-600 text-white font-bold py-2 px-6 rounded-full transition duration-300 ease-in-out transform hover:scale-105"
+				className="bg-gradient-to-r from-sky-600 to-blue-500 hover:border-b-4 border-gray-700 duration-500 hover:rounded-full text-white font-bold py-2 px-6 rounded-full transition ease-in-out transform hover:scale-105"
 			>
 				View Booking
 			</Link>

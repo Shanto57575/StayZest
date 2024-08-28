@@ -1,5 +1,3 @@
-import React from "react";
-
 const StatCard = ({ title, value, icon: Icon, bgColor }) => (
 	<div
 		className={`${bgColor} text-white rounded-lg shadow-lg shadow-gray-600 p-4`}

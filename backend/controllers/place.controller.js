@@ -74,7 +74,6 @@ const getAllPlace = async (req, res) => {
             .sort(sort)
             .skip(skip)
             .limit(Number(limit))
-        // .populate('host',"username email")
 
         const totalPlaces = await Place.countDocuments(query);
 

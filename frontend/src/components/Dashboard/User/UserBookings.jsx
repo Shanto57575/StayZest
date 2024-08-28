@@ -27,7 +27,7 @@ const UserBookings = () => {
 			setLoading(true);
 			try {
 				const response = await axios.get(
-					`http://localhost:5000/api/booking/${user?.email}`,
+					`https://stayzest-backend.vercel.app/api/booking/${user?.email}`,
 					{ withCredentials: true }
 				);
 				setBookings(response.data);
@@ -175,12 +175,10 @@ const UserBookings = () => {
 					))}
 				</div>
 			) : (
-				<div className="text-center py-12 bg-gradient-to-r from-purple-100 to-pink-100 rounded-xl shadow-lg">
+				<div className="text-center py-12 rounded-xl shadow-lg shadow-gray-950">
 					<FlightTakeoffIcon className="text-6xl mb-4 text-purple-500 animate-bounce" />
-					<h2 className="text-3xl font-bold mb-4 text-gray-800">
-						No bookings yet!
-					</h2>
-					<p className="text-xl text-gray-600">
+					<h2 className="text-3xl font-bold mb-4">No bookings yet!</h2>
+					<p className="text-xl">
 						Your adventure awaits! ✈️ Start planning your next getaway.
 					</p>
 				</div>

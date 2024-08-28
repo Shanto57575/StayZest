@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import {
 	FaEdit,
@@ -7,8 +7,10 @@ import {
 	FaComment,
 	FaPaperPlane,
 } from "react-icons/fa";
+import { MdOutlineAccessTimeFilled } from "react-icons/md";
 import { useSelector } from "react-redux";
 import toast from "react-hot-toast";
+import { convertToMDY } from "./converter";
 
 const ReviewForm = ({ place }) => {
 	const [reviews, setReviews] = useState([]);
@@ -20,7 +22,7 @@ const ReviewForm = ({ place }) => {
 	const fetchReviews = async () => {
 		try {
 			const response = await axios.get(
-				`http://localhost:5000/api/review/reviews-by-place/${place}`,
+				`https://stayzest-backend.vercel.app/api/review/reviews-by-place/${place}`,
 				{ withCredentials: true }
 			);
 			setReviews(response.data);
@@ -39,7 +41,7 @@ const ReviewForm = ({ place }) => {
 		try {
 			if (editingId) {
 				const response = await axios.put(
-					`http://localhost:5000/api/review/${editingId}`,
+					`https://stayzest-backend.vercel.app/api/review/${editingId}`,
 					{ comments: text },
 					{ withCredentials: true }
 				);
@@ -52,7 +54,7 @@ const ReviewForm = ({ place }) => {
 			} else {
 				setLoading(true);
 				const response = await axios.post(
-					"http://localhost:5000/api/review/add-review",
+					"https://stayzest-backend.vercel.app/api/review/add-review",
 					{ user: user._id, place, comments: text },
 					{ withCredentials: true }
 				);
@@ -79,7 +81,7 @@ const ReviewForm = ({ place }) => {
 	const handleDeleteReview = async (reviewId) => {
 		try {
 			const response = await axios.delete(
-				`http://localhost:5000/api/review/${reviewId}`,
+				`https://stayzest-backend.vercel.app/api/review/${reviewId}`,
 				{
 					withCredentials: true,
 				}
@@ -193,6 +195,13 @@ const ReviewForm = ({ place }) => {
 								<p className="mb-2 break-words">
 									<FaComment className="inline-block mr-2" size={16} />
 									{review.comments}
+								</p>
+								<p>
+									<MdOutlineAccessTimeFilled
+										className="inline-block mr-2"
+										size={16}
+									/>
+									{new Date(review.createdAt).toLocaleString()}
 								</p>
 							</div>
 						))

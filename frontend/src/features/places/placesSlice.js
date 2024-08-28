@@ -2,26 +2,26 @@ import axios from 'axios';
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 export const fetchPlaces = createAsyncThunk('places/fetchPlaces', async ({ page, limit, sortBy, filterCountry, searchTitle }) => {
-    const response = await axios.get("http://localhost:5000/api/place/all-places", {
+    const response = await axios.get("https://stayzest-backend.vercel.app/api/place/all-places", {
         params: { page, limit, sortBy, filterCountry, searchTitle }
     })
     return response.data
 })
 
 export const fetchPlaceDetails = createAsyncThunk('places/fetchPlaceDetails', async (placeId) => {
-    const response = await axios.get(`http://localhost:5000/api/place/${placeId}`)
+    const response = await axios.get(`https://stayzest-backend.vercel.app/api/place/${placeId}`)
     return response.data
 })
 
 export const updatePlace = createAsyncThunk('places/updatePlace', async ({ placeId, updatedData }) => {
-    const response = await axios.put(`http://localhost:5000/api/place/${placeId}`, updatedData, {
+    const response = await axios.put(`https://stayzest-backend.vercel.app/api/place/${placeId}`, updatedData, {
         withCredentials: true
     });
     return response.data;
 });
 
 export const deletePlace = createAsyncThunk('places/deletePlace', async (placeId) => {
-    await axios.delete(`http://localhost:5000/api/place/${placeId}`, {
+    await axios.delete(`https://stayzest-backend.vercel.app/api/place/${placeId}`, {
         withCredentials: true
     });
     return placeId;

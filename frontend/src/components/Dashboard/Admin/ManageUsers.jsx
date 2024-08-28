@@ -11,7 +11,7 @@ import {
 } from "@mui/icons-material";
 import FlightTakeoffIcon from "@mui/icons-material/FlightTakeoff";
 
-const API_BASE_URL = "http://localhost:5000/api";
+const API_BASE_URL = "https://stayzest-backend.vercel.app/api";
 
 const StatCard = ({ icon: Icon, title, value, bgColor, color }) => (
 	<Fade>
@@ -79,7 +79,6 @@ const ManageUsers = () => {
 
 	const totalUsers = users.length;
 	const totalAdmin = users.filter((user) => user.role === "ADMIN").length;
-	const totalHost = users.filter((user) => user.role === "HOST").length;
 	const totalGuest = users.filter((user) => user.role === "GUEST").length;
 	const totalBookings = users.reduce(
 		(total, user) => total + user.bookingCount,
@@ -109,7 +108,7 @@ const ManageUsers = () => {
 			<Fade cascade>
 				<h1 className="text-3xl font-bold mb-8 font-serif">Manage Users</h1>
 			</Fade>
-			<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-4 mb-8">
+			<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mb-8">
 				<StatCard
 					icon={Group}
 					title="Total Users"
@@ -132,18 +131,11 @@ const ManageUsers = () => {
 					color="text-cyan-600"
 				/>
 				<StatCard
-					icon={Home}
-					title="Total Host"
-					value={totalHost}
-					bgColor="bg-green-200"
-					color="text-green-600"
-				/>
-				<StatCard
 					icon={Person}
 					title="Total Guest"
 					value={totalGuest}
-					bgColor="bg-orange-200"
-					color="text-orange-600"
+					bgColor="bg-green-200"
+					color="text-green-600"
 				/>{" "}
 			</div>
 			<div className="overflow-x-auto font-serif">
