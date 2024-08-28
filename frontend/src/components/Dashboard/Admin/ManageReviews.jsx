@@ -33,7 +33,7 @@ const ManageReviews = () => {
 	const fetchReviews = async () => {
 		try {
 			const response = await axios.get(
-				"https://stayzest-backend.vercel.app/api/review/all-reviews",
+				"https://stay-zest-backend.vercel.app/api/review/all-reviews",
 				{
 					withCredentials: true,
 				}
@@ -54,7 +54,7 @@ const ManageReviews = () => {
 	const handleUpdate = async () => {
 		try {
 			const response = await axios.put(
-				`https://stayzest-backend.vercel.app/api/review/${edit}`,
+				`https://stay-zest-backend.vercel.app/api/review/${edit}`,
 				{ comments: text },
 				{ withCredentials: true }
 			);
@@ -82,7 +82,7 @@ const ManageReviews = () => {
 	const handleDelete = async (id) => {
 		try {
 			const response = await axios.delete(
-				`https://stayzest-backend.vercel.app/api/review/${id}`,
+				`https://stay-zest-backend.vercel.app/api/review/${id}`,
 				{
 					withCredentials: true,
 				}

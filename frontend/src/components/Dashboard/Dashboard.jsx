@@ -32,7 +32,7 @@ const Dashboard = () => {
 	const handleLogOut = async () => {
 		try {
 			const response = await axios.post(
-				"https://stayzest-backend.vercel.app/api/auth/logout",
+				"https://stay-zest-backend.vercel.app/api/auth/logout",
 				{},
 				{ withCredentials: true }
 			);

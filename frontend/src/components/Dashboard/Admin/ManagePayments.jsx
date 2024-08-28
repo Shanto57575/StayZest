@@ -22,7 +22,7 @@ const ManagePayments = () => {
 		const GetAllPayments = async () => {
 			try {
 				const response = await axios.get(
-					"https://stayzest-backend.vercel.app/api/payment/all-payments",
+					"https://stay-zest-backend.vercel.app/api/payment/all-payments",
 					{ withCredentials: true }
 				);
 				setAllPayments(response.data);
