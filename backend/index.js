@@ -18,12 +18,11 @@ const app = express()
 const PORT = process.env.PORT || 3000;
 
 const corsOptions = {
-    origin: process.env.CLIENT_URL,
+    origin: true,
     credentials: true,
 };
 
 app.use(cors(corsOptions));
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use('/uploads', express.static('uploads'));

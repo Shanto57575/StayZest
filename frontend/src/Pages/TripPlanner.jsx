@@ -71,7 +71,7 @@ const TripPlanner = () => {
 		try {
 			setLoading(true);
 			const response = await axios.post(
-				"http://localhost:5000/api/trip/plan",
+				"https://stay-zest-backend.vercel.app/api/trip/plan",
 				{
 					prompt: `I want to plan a trip with a ${selectedBudget} budget to ${selectedCountry} for ${numberOfTravelers}. The ideal setting is ${selectedPlaceType}, and the tripDuration is ${tripDuration} days. Can you help me plan it?`,
 				},

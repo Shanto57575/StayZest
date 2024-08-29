@@ -32,7 +32,7 @@ const Dashboard = () => {
 	const handleLogOut = async () => {
 		try {
 			const response = await axios.post(
-				"http://localhost:5000/api/auth/logout",
+				"https://stay-zest-backend.vercel.app/api/auth/logout",
 				{},
 				{ withCredentials: true }
 			);
@@ -68,7 +68,7 @@ const Dashboard = () => {
 	);
 
 	const SidebarContent = (
-		<div className="h-full flex flex-col bg-white dark:bg-gray-800 text-gray-800 dark:text-white">
+		<div className="h-full flex flex-col font-serif bg-white dark:bg-gray-800 text-gray-800 dark:text-white">
 			<div className="p-5 flex items-center justify-between border-b dark:border-gray-700">
 				<h2 className="text-2xl font-bold text-indigo-600 dark:text-indigo-400">
 					Dashboard

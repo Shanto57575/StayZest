@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
-import toast from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 import {
 	userSignInFailed,
 	userSignInStart,
@@ -33,9 +33,11 @@ const SignIn = () => {
 		try {
 			dispatch(userSignInStart());
 			const response = await axios.post(
-				"http://localhost:5000/api/auth/signin",
+				"https://stay-zest-backend.vercel.app/api/auth/signin",
 				userdata,
-				{ withCredentials: true }
+				{
+					withCredentials: true,
+				}
 			);
 			if (response.data) {
 				dispatch(userSignInSuccess(response.data.user));
@@ -58,6 +60,7 @@ const SignIn = () => {
 
 	return (
 		<div className="min-h-screen font-serif flex items-center justify-center">
+			<Toaster />
 			<div className="w-full max-w-md">
 				<div className="bg-white shadow-2xl rounded-lg overflow-hidden transform hover:shadow-3xl transition-shadow duration-300">
 					<div className="relative">
