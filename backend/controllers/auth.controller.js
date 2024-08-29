@@ -69,8 +69,6 @@ const signUp = async (req, res) => {
 const login = async (req, res) => {
     const { email, password } = req.body;
 
-    console.log("From login controller==>", email, password)
-
     if (!email || !password) {
         return res.status(400).json({ error: 'All fields are required!' });
     }
@@ -92,15 +90,12 @@ const login = async (req, res) => {
 
         const { password: _, ...userData } = user._doc;
 
-        console.log("From login controller==>", userData)
-
         res.status(200).json({ message: "Signed in successfully", user: userData });
     } catch (error) {
         console.error(`Sign In Failed: ${error.message}`);
         res.status(500).json({ error: error.message });
     }
 };
-
 
 const logOut = (req, res) => {
     try {
@@ -117,6 +112,4 @@ const logOut = (req, res) => {
     }
 };
 
-
 export { signUp, login, googleAuth, logOut };
-

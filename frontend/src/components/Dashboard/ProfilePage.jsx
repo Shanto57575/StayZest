@@ -34,7 +34,7 @@ const ProfilePage = () => {
 	});
 
 	const axiosInstance = axios.create({
-		baseURL: "https://stay-zest-backend.vercel.app/api",
+		baseURL: "https://stayzest-backend.onrender.com/api",
 		withCredentials: true,
 	});
 
@@ -127,7 +127,7 @@ const ProfilePage = () => {
 									src={
 										newImage
 											? URL.createObjectURL(newImage)
-											: `https://stay-zest-backend.vercel.app/${user.profilePicture}`
+											: `https://stayzest-backend.onrender.com/${user.profilePicture}`
 									}
 									alt={user.username}
 									className="w-full h-full object-cover"

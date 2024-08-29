@@ -27,7 +27,7 @@ const UserBookings = () => {
 			setLoading(true);
 			try {
 				const response = await axios.get(
-					`https://stay-zest-backend.vercel.app/api/booking/${user?.email}`,
+					`https://stayzest-backend.onrender.com/api/booking/${user?.email}`,
 					{ withCredentials: true }
 				);
 				setBookings(response.data);

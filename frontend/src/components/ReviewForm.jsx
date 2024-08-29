@@ -22,7 +22,7 @@ const ReviewForm = ({ place }) => {
 	const fetchReviews = async () => {
 		try {
 			const response = await axios.get(
-				`https://stay-zest-backend.vercel.app/api/review/reviews-by-place/${place}`,
+				`https://stayzest-backend.onrender.com/api/review/reviews-by-place/${place}`,
 				{ withCredentials: true }
 			);
 			setReviews(response.data);
@@ -41,7 +41,7 @@ const ReviewForm = ({ place }) => {
 		try {
 			if (editingId) {
 				const response = await axios.put(
-					`https://stay-zest-backend.vercel.app/api/review/${editingId}`,
+					`https://stayzest-backend.onrender.com/api/review/${editingId}`,
 					{ comments: text },
 					{ withCredentials: true }
 				);
@@ -54,7 +54,7 @@ const ReviewForm = ({ place }) => {
 			} else {
 				setLoading(true);
 				const response = await axios.post(
-					"https://stay-zest-backend.vercel.app/api/review/add-review",
+					"https://stayzest-backend.onrender.com/api/review/add-review",
 					{ user: user._id, place, comments: text },
 					{ withCredentials: true }
 				);
@@ -81,7 +81,7 @@ const ReviewForm = ({ place }) => {
 	const handleDeleteReview = async (reviewId) => {
 		try {
 			const response = await axios.delete(
-				`https://stay-zest-backend.vercel.app/api/review/${reviewId}`,
+				`https://stayzest-backend.onrender.com/api/review/${reviewId}`,
 				{
 					withCredentials: true,
 				}

@@ -221,19 +221,19 @@ const AdminHome = () => {
 			const [usersResponse, bookingsResponse, paymentsResponse] =
 				await Promise.all([
 					axios.get(
-						"https://stay-zest-backend.vercel.app/api/user/alluserswithbookingcount",
+						"https://stayzest-backend.onrender.com/api/user/alluserswithbookingcount",
 						{
 							withCredentials: true,
 						}
 					),
 					axios.get(
-						"https://stay-zest-backend.vercel.app/api/booking/all-Bookings",
+						"https://stayzest-backend.onrender.com/api/booking/all-Bookings",
 						{
 							withCredentials: true,
 						}
 					),
 					axios.get(
-						"https://stay-zest-backend.vercel.app/api/payment/all-payments",
+						"https://stayzest-backend.onrender.com/api/payment/all-payments",
 						{
 							withCredentials: true,
 						}

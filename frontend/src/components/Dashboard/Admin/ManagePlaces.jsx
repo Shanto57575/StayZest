@@ -53,7 +53,7 @@ const ManagePlaces = () => {
 		try {
 			setLoading(true);
 			const response = await axios.post(
-				"https://stay-zest-backend.vercel.app/api/place/add-place",
+				"https://stayzest-backend.onrender.com/api/place/add-place",
 				data,
 				{ withCredentials: true }
 			);

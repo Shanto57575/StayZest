@@ -40,7 +40,7 @@ const SuccessPage = () => {
 	const confirmBooking = async (sessionId) => {
 		try {
 			const response = await axios.post(
-				"https://stay-zest-backend.vercel.app/api/payment/confirm-booking",
+				"https://stayzest-backend.onrender.com/api/payment/confirm-booking",
 				{ sessionId },
 				{ withCredentials: true }
 			);

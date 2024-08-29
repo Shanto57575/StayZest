@@ -19,7 +19,7 @@ const ManageBookings = () => {
 	const fetchBookings = async () => {
 		try {
 			const response = await axios.get(
-				`https://stay-zest-backend.vercel.app/api/booking/all-Bookings`,
+				`https://stayzest-backend.onrender.com/api/booking/all-Bookings`,
 				{ withCredentials: true }
 			);
 			setBookings(response.data);
@@ -38,7 +38,7 @@ const ManageBookings = () => {
 		setSelectedBookingId(bookingId);
 		try {
 			await axios.put(
-				`https://stay-zest-backend.vercel.app/api/booking/${bookingId}`,
+				`https://stayzest-backend.onrender.com/api/booking/${bookingId}`,
 				{ status: newStatus },
 				{ withCredentials: true }
 			);
@@ -77,7 +77,7 @@ const ManageBookings = () => {
 	const handleCancellation = async () => {
 		try {
 			await axios.put(
-				`https://stay-zest-backend.vercel.app/api/booking/${selectedBookingId}`,
+				`https://stayzest-backend.onrender.com/api/booking/${selectedBookingId}`,
 				{ status: "CANCELLED" },
 				{ withCredentials: true }
 			);

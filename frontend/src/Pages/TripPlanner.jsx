@@ -11,7 +11,7 @@ import {
 	FileCopy,
 } from "@mui/icons-material";
 import axios from "axios";
-import toast from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 import Loader from "../components/Loader";
 
 const TripPlanner = () => {
@@ -71,7 +71,7 @@ const TripPlanner = () => {
 		try {
 			setLoading(true);
 			const response = await axios.post(
-				"https://stay-zest-backend.vercel.app/api/trip/plan",
+				"https://stayzest-backend.onrender.com/api/trip/plan",
 				{
 					prompt: `I want to plan a trip with a ${selectedBudget} budget to ${selectedCountry} for ${numberOfTravelers}. The ideal setting is ${selectedPlaceType}, and the tripDuration is ${tripDuration} days. Can you help me plan it?`,
 				},
@@ -84,11 +84,19 @@ const TripPlanner = () => {
 			} else {
 				setLoading(false);
 				alert("Failed to generate trip plan.");
+				toast.error(
+					<h1 className="font-serif">Failed to generate trip plan! 😔</h1>
+				);
 			}
 		} catch (error) {
 			setLoading(false);
 			console.error("Error:", error);
-			alert("An error occurred while generating the trip plan.");
+			toast.error(
+				<div className="text-center font-serif">
+					<p>Oops! Something went wrong 😕</p>
+					<p>Try again later</p>
+				</div>
+			);
 		}
 	};
 
@@ -321,6 +329,7 @@ const TripPlanner = () => {
 					</div>
 				</div>
 			</div>
+			<Toaster />
 		</div>
 	);
 };

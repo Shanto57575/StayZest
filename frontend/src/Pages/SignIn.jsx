@@ -27,13 +27,13 @@ const SignIn = () => {
 		formState: { errors },
 	} = useForm();
 
-	const from = location?.state?.from?.pathname || "/";
+	// const from = location?.state?.from?.pathname || "/";
 
 	const onSubmit = async (userdata) => {
 		try {
 			dispatch(userSignInStart());
 			const response = await axios.post(
-				"https://stay-zest-backend.vercel.app/api/auth/signin",
+				"https://stayzest-backend.onrender.com/api/auth/signin",
 				userdata,
 				{
 					withCredentials: true,
@@ -42,7 +42,7 @@ const SignIn = () => {
 			if (response.data) {
 				dispatch(userSignInSuccess(response.data.user));
 				setTimeout(() => {
-					navigate(from, { replace: true });
+					navigate("/");
 					toast.success(<h1 className="font-serif">Successfully Logged In</h1>);
 					reset();
 				}, 500);

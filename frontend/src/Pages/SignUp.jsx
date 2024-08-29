@@ -34,7 +34,7 @@ const SignUp = () => {
 		try {
 			dispatch(userSignUpStart());
 			const response = await axios.post(
-				"https://stay-zest-backend.vercel.app/api/auth/signup",
+				"https://stayzest-backend.onrender.com/api/auth/signup",
 				userdata,
 				{ withCredentials: true }
 			);
