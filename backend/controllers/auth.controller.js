@@ -66,7 +66,6 @@ const signUp = async (req, res) => {
     }
 };
 
-// Login Function
 const login = async (req, res) => {
     const { email, password } = req.body;
 

@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import {
 	userSignInFailed,
 	userSignInStart,
@@ -15,8 +15,8 @@ import GoogleSignIn from "../components/GoogleSignIn";
 
 const SignIn = () => {
 	const dispatch = useDispatch();
-	const { loading } = useSelector((state) => state.auth);
 	const [showPassword, setShowPassword] = useState(false);
+	const { loading } = useSelector((state) => state.auth);
 	const navigate = useNavigate();
 	const location = useLocation();
 

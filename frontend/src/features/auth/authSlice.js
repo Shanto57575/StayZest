@@ -93,7 +93,7 @@ const authSlice = createSlice({
                 state.error = null;
             })
             .addCase(googleSignIn.rejected, (state, action) => {
-                state.loading = false; // Ensure loading is turned off
+                state.loading = false;
                 state.error = action.payload;
             });
     }

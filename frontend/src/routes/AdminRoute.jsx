@@ -9,7 +9,7 @@ const AdminRoute = ({ children }) => {
 		return children;
 	}
 
-	return <Navigate to="/" state={{ from: location }} replace={true} />;
+	return <Navigate to="/" state={{ from: location }} replace />;
 };
 
 export default AdminRoute;
