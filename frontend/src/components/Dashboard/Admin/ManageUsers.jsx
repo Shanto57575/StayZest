@@ -11,7 +11,7 @@ import {
 } from "@mui/icons-material";
 import FlightTakeoffIcon from "@mui/icons-material/FlightTakeoff";
 
-const API_BASE_URL = "https://stay-zest-backend.vercel.app/api";
+const API_BASE_URL = "http://localhost:5000/api";
 
 const StatCard = ({ icon: Icon, title, value, bgColor, color }) => (
 	<Fade>

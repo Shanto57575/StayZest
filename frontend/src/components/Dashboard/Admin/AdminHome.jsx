@@ -220,24 +220,15 @@ const AdminHome = () => {
 		try {
 			const [usersResponse, bookingsResponse, paymentsResponse] =
 				await Promise.all([
-					axios.get(
-						"https://stay-zest-backend.vercel.app/api/user/alluserswithbookingcount",
-						{
-							withCredentials: true,
-						}
-					),
-					axios.get(
-						"https://stay-zest-backend.vercel.app/api/booking/all-Bookings",
-						{
-							withCredentials: true,
-						}
-					),
-					axios.get(
-						"https://stay-zest-backend.vercel.app/api/payment/all-payments",
-						{
-							withCredentials: true,
-						}
-					),
+					axios.get("http://localhost:5000/api/user/alluserswithbookingcount", {
+						withCredentials: true,
+					}),
+					axios.get("http://localhost:5000/api/booking/all-Bookings", {
+						withCredentials: true,
+					}),
+					axios.get("http://localhost:5000/api/payment/all-payments", {
+						withCredentials: true,
+					}),
 				]);
 			setUsers(usersResponse.data);
 			setBookings(bookingsResponse.data);

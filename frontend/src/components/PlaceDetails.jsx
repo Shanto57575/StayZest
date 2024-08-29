@@ -81,7 +81,7 @@ const PlaceDetails = () => {
 		try {
 			setProcessing(true);
 			const response = await axios.post(
-				"https://stay-zest-backend.vercel.app/api/payment/create-booking-intent",
+				"http://localhost:5000/api/payment/create-booking-intent",
 				bookingData,
 				{ withCredentials: true }
 			);

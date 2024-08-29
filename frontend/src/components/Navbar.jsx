@@ -41,7 +41,7 @@ const Navbar = () => {
 	const handleLogOut = async () => {
 		try {
 			const response = await axios.post(
-				"https://stay-zest-backend.vercel.app/api/auth/logout",
+				"http://localhost:5000/api/auth/logout",
 				{},
 				{ withCredentials: true }
 			);
