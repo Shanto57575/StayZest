@@ -83,7 +83,6 @@ const TripPlanner = () => {
 				setStep(5);
 			} else {
 				setLoading(false);
-				alert("Failed to generate trip plan.");
 				toast.error(
 					<h1 className="font-serif">Failed to generate trip plan! 😔</h1>
 				);

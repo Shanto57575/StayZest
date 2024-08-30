@@ -127,7 +127,7 @@ const SignUp = () => {
 						/>
 						{errors.email && (
 							<Alert variant="destructive" className="mt-2">
-								<AlertDescription>{errors.email.message}</AlertDescription>
+								<p>{errors.email.message}</p>
 							</Alert>
 						)}
 					</div>
@@ -166,7 +166,7 @@ const SignUp = () => {
 						</div>
 						{errors.password && (
 							<Alert variant="destructive" className="mt-2">
-								<AlertDescription>{errors.password.message}</AlertDescription>
+								<p>{errors.password.message}</p>
 							</Alert>
 						)}
 					</div>

@@ -18,6 +18,15 @@ const generateToken = (res, user) => {
         maxAge: 3 * 24 * 60 * 60 * 1000,
         path: '/'
     });
+    console.log(res.cookie('token', token, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'None',
+        maxAge: 3 * 24 * 60 * 60 * 1000,
+        path: '/',
+        domain: 'https://stayzest-cbf59.web.app'
+    }));
+
 }
 
 const verifyToken = (req, res, next) => {
