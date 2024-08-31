@@ -1,17 +1,12 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import axios from "axios";
-import toast, { Toaster } from "react-hot-toast";
-import {
-	userSignInFailed,
-	userSignInStart,
-	userSignInSuccess,
-} from "../features/auth/authSlice";
+import { signIn } from "../features/auth/authSlice";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import GoogleSignIn from "../components/GoogleSignIn";
+import toast, { Toaster } from "react-hot-toast";
 
 const SignIn = () => {
 	const dispatch = useDispatch();
@@ -27,30 +22,21 @@ const SignIn = () => {
 		formState: { errors },
 	} = useForm();
 
-	// const from = location?.state?.from?.pathname || "/";
+	const from = location?.state?.from?.pathname || "/";
 
-	const onSubmit = async (userdata) => {
+	const onSubmit = async (userData) => {
 		try {
-			dispatch(userSignInStart());
-			const response = await axios.post(
-				"https://stayzest-backend.onrender.com/api/auth/signin",
-				userdata,
-				{
-					withCredentials: true,
-				}
-			);
-			if (response.data) {
-				dispatch(userSignInSuccess(response.data.user));
-				setTimeout(() => {
-					navigate("/");
-					toast.success(<h1 className="font-serif">Successfully Logged In</h1>);
-					reset();
-				}, 500);
+			const singInResult = await dispatch(signIn(userData));
+			if (signIn.fulfilled.match(singInResult)) {
+				reset();
+				navigate(from);
 			}
-		} catch (error) {
-			dispatch(userSignInFailed(error.response?.data.error));
-			toast.error(error.response?.data.error);
-			console.error(error.response?.data.error);
+		} catch (err) {
+			toast.error(
+				<div className="font-serif text-center">
+					An unexpected error occurred, Please try again!
+				</div>
+			);
 		}
 	};
 
@@ -60,7 +46,6 @@ const SignIn = () => {
 
 	return (
 		<div className="min-h-screen font-serif flex items-center justify-center">
-			<Toaster />
 			<div className="w-full max-w-md">
 				<div className="bg-white shadow-2xl rounded-lg overflow-hidden transform hover:shadow-3xl transition-shadow duration-300">
 					<div className="relative">
@@ -196,6 +181,7 @@ const SignIn = () => {
 					&copy; {new Date().getFullYear()} StayZest Corp. All rights reserved.
 				</p>
 			</div>
+			<Toaster />
 		</div>
 	);
 };

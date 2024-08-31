@@ -12,12 +12,12 @@ import AcUnitIcon from "@mui/icons-material/AcUnit";
 import TvIcon from "@mui/icons-material/Tv";
 import BedIcon from "@mui/icons-material/Bed";
 import ShowerIcon from "@mui/icons-material/Shower";
-import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import "react-datepicker/dist/react-datepicker.css";
 import ReviewForm from "./ReviewForm";
+import { axiosInstance } from "../features/auth/authSlice";
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
 
@@ -80,10 +80,9 @@ const PlaceDetails = () => {
 
 		try {
 			setProcessing(true);
-			const response = await axios.post(
-				"https://stayzest-backend.onrender.com/api/payment/create-booking-intent",
-				bookingData,
-				{ withCredentials: true }
+			const response = await axiosInstance.post(
+				"/api/payment/create-booking-intent",
+				bookingData
 			);
 			if (response.data) {
 				setProcessing(false);

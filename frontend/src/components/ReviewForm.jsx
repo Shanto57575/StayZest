@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
 import {
 	FaEdit,
 	FaTrash,
@@ -10,7 +9,7 @@ import {
 import { MdOutlineAccessTimeFilled } from "react-icons/md";
 import { useSelector } from "react-redux";
 import toast from "react-hot-toast";
-import { convertToMDY } from "./converter";
+import { axiosInstance } from "../features/auth/authSlice";
 
 const ReviewForm = ({ place }) => {
 	const [reviews, setReviews] = useState([]);
@@ -21,47 +20,36 @@ const ReviewForm = ({ place }) => {
 
 	const fetchReviews = async () => {
 		try {
-			const response = await axios.get(
-				`https://stayzest-backend.onrender.com/api/review/reviews-by-place/${place}`,
-				{ withCredentials: true }
+			const response = await axiosInstance.get(
+				`/api/review/reviews-by-place/${place}`
 			);
 			setReviews(response.data);
 		} catch (error) {
-			if (error.response && error.response.status === 404) {
-				console.log("No reviews found:", error.response.data.message);
-				setReviews([]);
-			} else {
-				toast.error("Error fetching reviews!");
-			}
+			console.log(error);
 		}
 	};
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
+		setLoading(true);
 		try {
 			if (editingId) {
-				const response = await axios.put(
-					`https://stayzest-backend.onrender.com/api/review/${editingId}`,
-					{ comments: text },
-					{ withCredentials: true }
-				);
+				const response = await axiosInstance.put(`/api/review/${editingId}`, {
+					comments: text,
+				});
+				console.log("response", response);
 				if (response.data) {
-					toast.success(
-						<h1 className="font-serif">Review Updated Successfully</h1>
-					);
 					setEditingId(null);
+					setLoading(false);
 				}
 			} else {
-				setLoading(true);
-				const response = await axios.post(
-					"https://stayzest-backend.onrender.com/api/review/add-review",
-					{ user: user._id, place, comments: text },
-					{ withCredentials: true }
-				);
+				const response = await axiosInstance.post("/api/review/add-review", {
+					user: user._id,
+					place,
+					comments: text,
+				});
+				console.log("from review post response==>", response);
 				if (response.data) {
-					toast.success(
-						<h1 className="font-serif">Review Added Successfully</h1>
-					);
 					setLoading(false);
 				}
 			}
@@ -69,7 +57,6 @@ const ReviewForm = ({ place }) => {
 			fetchReviews();
 		} catch (error) {
 			setLoading(false);
-			toast.error(<h1 className="font-serif">Error with review</h1>);
 		}
 	};
 
@@ -80,25 +67,12 @@ const ReviewForm = ({ place }) => {
 
 	const handleDeleteReview = async (reviewId) => {
 		try {
-			const response = await axios.delete(
-				`https://stayzest-backend.onrender.com/api/review/${reviewId}`,
-				{
-					withCredentials: true,
-				}
-			);
+			const response = await axiosInstance.delete(`/api/review/${reviewId}`);
 			if (response.status === 200) {
-				toast.success(
-					<h1 className="font-serif">Review Deleted Successfully</h1>
-				);
 				fetchReviews();
-			} else {
-				toast.error(<h1 className="font-serif">{response.data.message} </h1>);
 			}
 		} catch (error) {
 			console.error("Error deleting review:", error.response.data.message);
-			toast.error(
-				<h1 className="font-serif">{error.response.data.message}</h1>
-			);
 		}
 	};
 

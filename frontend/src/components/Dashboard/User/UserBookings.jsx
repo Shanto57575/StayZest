@@ -177,8 +177,10 @@ const UserBookings = () => {
 			) : (
 				<div className="text-center py-12 rounded-xl shadow-lg shadow-gray-950">
 					<FlightTakeoffIcon className="text-6xl mb-4 text-purple-500 animate-bounce" />
-					<h2 className="text-3xl font-bold mb-4">No bookings yet!</h2>
-					<p className="text-xl">
+					<h2 className="text-2xl md:text-3xl font-bold mb-4 px-3 py-2">
+						No bookings yet!
+					</h2>
+					<p className="text-md md:text-lg px-3 py-2">
 						Your adventure awaits! ✈️ Start planning your next getaway.
 					</p>
 				</div>

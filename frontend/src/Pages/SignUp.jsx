@@ -2,17 +2,12 @@ import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import axios from "axios";
-import toast, { Toaster } from "react-hot-toast";
-import {
-	userSignUpFailed,
-	userSignUpStart,
-	userSignUpSuccess,
-} from "../features/auth/authSlice";
+import { signUp } from "../features/auth/authSlice";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import { Alert } from "@mui/material";
 import GoogleSignIn from "../components/GoogleSignIn";
+import toast, { Toaster } from "react-hot-toast";
 
 const SignUp = () => {
 	const dispatch = useDispatch();
@@ -30,36 +25,20 @@ const SignUp = () => {
 
 	const from = location?.state?.from?.pathname || "/";
 
-	const onSubmit = async (userdata) => {
+	const onSubmit = async (userData) => {
 		try {
-			dispatch(userSignUpStart());
-			const response = await axios.post(
-				"https://stayzest-backend.onrender.com/api/auth/signup",
-				userdata,
-				{ withCredentials: true }
-			);
-
-			if (response && response.data && response.data.userData) {
-				dispatch(userSignUpSuccess(response.data.userData));
-				toast.success(response.data.message || "Signed Up Successfully!");
-				setTimeout(() => {
-					navigate(from, { replace: true });
-					reset();
-				}, 500);
-			} else {
-				throw new Error("Invalid response structure");
+			const signUpResult = await dispatch(signUp(userData));
+			if (signUp.fulfilled.match(signUpResult)) {
+				reset();
+				navigate(from);
 			}
-		} catch (error) {
-			const errorMessage =
-				error.response?.data?.error || error.message || "Signup failed";
-			dispatch(userSignUpFailed(errorMessage));
-			toast.error(errorMessage);
-			console.error(errorMessage);
+		} catch (err) {
+			toast.error(
+				<div className="font-serif text-center">
+					An unexpected error occurred, Please try again!
+				</div>
+			);
 		}
-	};
-
-	const togglePasswordVisibility = () => {
-		setShowPassword(!showPassword);
 	};
 
 	return (
@@ -87,7 +66,6 @@ const SignUp = () => {
 					</div>
 					<p className="text-gray-700 mt-2">Begin Your Travel Journey</p>
 				</div>
-
 				<form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
 					<div>
 						<label
@@ -204,7 +182,6 @@ const SignUp = () => {
 							"Sign Up"
 						)}
 					</button>
-					<Toaster />
 				</form>
 				{/*  */}
 				<GoogleSignIn />
@@ -218,6 +195,7 @@ const SignUp = () => {
 					</Link>
 				</p>
 			</div>
+			<Toaster />
 		</div>
 	);
 };

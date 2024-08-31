@@ -4,7 +4,7 @@ const generateToken = (res, user) => {
     const token = jwt.sign(
         {
             userId: user._id,
-            role: user.role
+            role: user.role,
         },
         process.env.JWT_SECRET_KEY,
         { expiresIn: '3d' }
@@ -16,17 +16,7 @@ const generateToken = (res, user) => {
         secure: process.env.NODE_ENV === 'production',
         sameSite: 'None',
         maxAge: 3 * 24 * 60 * 60 * 1000,
-        path: '/'
     });
-    console.log(res.cookie('token', token, {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === 'production',
-        sameSite: 'None',
-        maxAge: 3 * 24 * 60 * 60 * 1000,
-        path: '/',
-        domain: 'https://stayzest-cbf59.web.app'
-    }));
-
 }
 
 const verifyToken = (req, res, next) => {
@@ -35,7 +25,7 @@ const verifyToken = (req, res, next) => {
     console.log("verifyToken=>", token)
 
     if (!token) {
-        return res.status(401).json({ error: 'Unauthorized: No token provided' });
+        return res.status(401).json({ error: 'unauthorize access: No token provided' });
     }
 
     try {

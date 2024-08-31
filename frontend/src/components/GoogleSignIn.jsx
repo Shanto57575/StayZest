@@ -1,7 +1,8 @@
 import { useDispatch, useSelector } from "react-redux";
-import { googleSignIn } from "../features/auth/authSlice";
 import { useLocation, useNavigate } from "react-router-dom";
+import { googleSignIn } from "../features/auth/authSlice";
 import GoogleIcon from "@mui/icons-material/Google";
+import toast from "react-hot-toast";
 
 const GoogleSignIn = () => {
 	const dispatch = useDispatch();
@@ -11,8 +12,15 @@ const GoogleSignIn = () => {
 
 	const from = location?.state?.from?.pathname || "/";
 
-	const handleGoogleSignIn = () => {
-		dispatch(googleSignIn({ navigate, from }));
+	const handleGoogleSignIn = async () => {
+		try {
+			const googleSingInResult = await dispatch(googleSignIn());
+			if (googleSignIn.fulfilled.match(googleSingInResult)) {
+				navigate(from);
+			}
+		} catch (err) {
+			toast.error("An unexpected error occurred");
+		}
 	};
 
 	return (

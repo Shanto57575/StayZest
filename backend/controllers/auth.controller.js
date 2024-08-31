@@ -26,7 +26,6 @@ const googleAuth = async (req, res) => {
 
         res.status(200).json({ message: "Signed in successfully", user });
     } catch (error) {
-        console.error(`Google Auth Failed: ${error.message}`);
         res.status(500).json({ error: error.message });
     }
 };
@@ -59,15 +58,15 @@ const signUp = async (req, res) => {
 
         const { password: _, ...userData } = newUser._doc;
 
-        res.status(201).json({ message: "Signed up successfully!", userData });
+        res.status(201).json({ message: "Signed up successfully!", user: userData });
     } catch (error) {
-        console.error(`Sign Up Failed: ${error.message}`);
         res.status(500).json({ error: error.message });
     }
 };
 
 const login = async (req, res) => {
     const { email, password } = req.body;
+    console.log("email, password ==> ", email, password)
 
     if (!email || !password) {
         return res.status(400).json({ error: 'All fields are required!' });
@@ -80,7 +79,7 @@ const login = async (req, res) => {
             return res.status(404).json({ error: "Wrong email or password" });
         }
 
-        const isPasswordValid = bcrypt.compare(password, user.password);
+        const isPasswordValid = await bcrypt.compare(password, user.password);
 
         if (!isPasswordValid) {
             return res.status(401).json({ error: "Invalid credentials" });
@@ -92,23 +91,21 @@ const login = async (req, res) => {
 
         res.status(200).json({ message: "Signed in successfully", user: userData });
     } catch (error) {
-        console.error(`Sign In Failed: ${error.message}`);
         res.status(500).json({ error: error.message });
     }
 };
 
 const logOut = (req, res) => {
     try {
-        res.cookie('token', '', {
+        console.log("req.currentUser=>", req.currentUser)
+        res.clearCookie('token', {
             httpOnly: true,
-            maxAge: 0,
             secure: process.env.NODE_ENV === 'production',
             sameSite: 'None',
         });
-        res.status(200).json({ message: "Logged out successfully!" });
+        res.status(200).json({ message: "Successfully Logged Out!" });
     } catch (error) {
-        console.error('Error during logout:', error);
-        res.status(500).json({ message: "Logout failed!" });
+        res.status(500).json({ error: "Logout failed!" });
     }
 };
 

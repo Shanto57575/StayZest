@@ -4,18 +4,18 @@ import WbSunnyIcon from "@mui/icons-material/WbSunny";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
 import { toggleDarkMode } from "../features/theme/themeSlice";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
 import LogoutIcon from "@mui/icons-material/Logout";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import PortraitIcon from "@mui/icons-material/Portrait";
 import LoginIcon from "@mui/icons-material/Login";
 import EmailIcon from "@mui/icons-material/Email";
-import toast from "react-hot-toast";
-import { userLogOut } from "../features/auth/authSlice";
+import { logout } from "../features/auth/authSlice";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
 import { GiArtificialHive } from "react-icons/gi";
+import { MdEmail } from "react-icons/md";
+import { FaUser } from "react-icons/fa";
 
 const Navbar = () => {
 	const dispatch = useDispatch();
@@ -39,21 +39,8 @@ const Navbar = () => {
 	};
 
 	const handleLogOut = async () => {
-		try {
-			const response = await axios.post(
-				"https://stayzest-backend.onrender.com/api/auth/logout",
-				{},
-				{ withCredentials: true }
-			);
-			if (response.status === 200) {
-				dispatch(userLogOut());
-				localStorage.clear();
-				toast.success(response?.data.message);
-				navigate("/signin");
-			}
-		} catch (error) {
-			toast.error(error?.message);
-		}
+		dispatch(logout());
+		navigate("/signin");
 	};
 
 	useEffect(() => {
@@ -210,7 +197,7 @@ const Navbar = () => {
 					<div className="md:hidden flex items-center">
 						<button
 							onClick={toggleMobileMenu}
-							className="rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition duration-300 transform hover:scale-110"
+							className="rounded-full hover:bg-gray-200 p-2 dark:hover:bg-gray-700 transition duration-300 transform hover:scale-110"
 						>
 							{isMobileMenuOpen ? (
 								<CloseIcon className="text-gray-800 dark:text-white" />
@@ -235,7 +222,18 @@ const Navbar = () => {
 						}`}
 					>
 						<div className="flex justify-between items-center p-4 border-b dark:border-gray-700">
-							<span className="text-lg font-semibold">Menu</span>
+							<div className="ml-">
+								<div className="flex items-center gap-x-2">
+									<FaUser size={16} />
+									<p className="text-lg font-serif text-wrap">
+										{user.username}
+									</p>
+								</div>
+								<div className="flex items-center gap-x-2">
+									<MdEmail size={16} />
+									<p className="font-serif text-sm flex">{user.email}</p>
+								</div>
+							</div>
 							<button
 								onClick={toggleMobileMenu}
 								className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition duration-300"
@@ -255,7 +253,6 @@ const Navbar = () => {
 								)}
 								Change Theme
 							</button>
-
 							<Link
 								to="/trip-planner"
 								className="flex items-center gap-x-2 px-4 py-2 text-sm hover:bg-gradient-to-r hover:from-sky-100 hover:to-indigo-100 dark:hover:from-sky-900 dark:hover:to-indigo-900 transition duration-300"

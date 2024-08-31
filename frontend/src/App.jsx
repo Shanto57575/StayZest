@@ -1,4 +1,9 @@
-import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
+import {
+	createBrowserRouter,
+	RouterProvider,
+	Outlet,
+	useLocation,
+} from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
 import Home from "./Pages/Home";
@@ -23,20 +28,19 @@ import SuccessPage from "./Pages/SuccessPage";
 import CancelPage from "./Pages/CancelPage";
 import TripPlanner from "./Pages/TripPlanner";
 
-const LayoutWithNavbar = () => (
-	<>
-		<Navbar />
-		<div className="container mx-auto px-4 py-8">
-			<Outlet />
-		</div>
-	</>
-);
+const Layout = () => {
+	const location = useLocation();
+	const showNavbar = !location.pathname.startsWith("/dashboard");
 
-const LayoutWithoutNavbar = () => (
-	<div className="container mx-auto px-4 py-8">
-		<Outlet />
-	</div>
-);
+	return (
+		<>
+			{showNavbar && <Navbar />}
+			<div className="container mx-auto px-4 py-8">
+				<Outlet />
+			</div>
+		</>
+	);
+};
 
 const App = () => {
 	const darkMode = useSelector((state) => state.theme?.darkMode);
@@ -51,7 +55,7 @@ const App = () => {
 
 	const router = createBrowserRouter([
 		{
-			element: <LayoutWithNavbar />,
+			element: <Layout />,
 			children: [
 				{
 					element: <PrivateRoutes />,
@@ -68,96 +72,91 @@ const App = () => {
 							path: "trip-planner",
 							element: <TripPlanner />,
 						},
+						{
+							path: "dashboard",
+							element: <Dashboard />,
+							children: [
+								{
+									path: "profile",
+									element: <ProfilePage />,
+								},
+								{
+									path: "admin",
+									element: (
+										<AdminRoute>
+											<AdminHome />
+										</AdminRoute>
+									),
+								},
+								{
+									path: "admin/manage-bookings",
+									element: (
+										<AdminRoute>
+											<ManageBookings />
+										</AdminRoute>
+									),
+								},
+								{
+									path: "admin/manage-reviews",
+									element: (
+										<AdminRoute>
+											<ManageReviews />
+										</AdminRoute>
+									),
+								},
+								{
+									path: "admin/manage-payments",
+									element: (
+										<AdminRoute>
+											<ManagePayments />
+										</AdminRoute>
+									),
+								},
+								{
+									path: "admin/manage-users",
+									element: (
+										<AdminRoute>
+											<ManageUsers />
+										</AdminRoute>
+									),
+								},
+								{
+									path: "admin/manage-places",
+									element: (
+										<AdminRoute>
+											<ManagePlaces />
+										</AdminRoute>
+									),
+								},
+								{
+									path: "guest",
+									element: <UserHome />,
+								},
+								{
+									path: "guest/bookings",
+									element: <UserBookings />,
+								},
+							],
+						},
 					],
 				},
 			],
 		},
 		{
-			element: <LayoutWithoutNavbar />,
-			children: [
-				{
-					path: "/signin",
-					element: <SignIn />,
-				},
-				{
-					path: "/signup",
-					element: <SignUp />,
-				},
-				{
-					path: "checkout-success",
-					element: <SuccessPage />,
-				},
-				{
-					path: "checkout-cancel",
-					element: <CancelPage />,
-				},
-				{
-					path: "dashboard",
-					element: <Dashboard />,
-					children: [
-						{
-							path: "profile",
-							element: <ProfilePage />,
-						},
-						{
-							path: "admin",
-							element: (
-								<AdminRoute>
-									<AdminHome />
-								</AdminRoute>
-							),
-						},
-						{
-							path: "admin/manage-bookings",
-							element: (
-								<AdminRoute>
-									<ManageBookings />
-								</AdminRoute>
-							),
-						},
-						{
-							path: "admin/manage-reviews",
-							element: (
-								<AdminRoute>
-									<ManageReviews />
-								</AdminRoute>
-							),
-						},
-						{
-							path: "admin/manage-payments",
-							element: (
-								<AdminRoute>
-									<ManagePayments />
-								</AdminRoute>
-							),
-						},
-						{
-							path: "admin/manage-users",
-							element: (
-								<AdminRoute>
-									<ManageUsers />
-								</AdminRoute>
-							),
-						},
-						{
-							path: "admin/manage-places",
-							element: (
-								<AdminRoute>
-									<ManagePlaces />
-								</AdminRoute>
-							),
-						},
-						{
-							path: "guest",
-							element: <UserHome />,
-						},
-						{
-							path: "guest/bookings",
-							element: <UserBookings />,
-						},
-					],
-				},
-			],
+			path: "/signin",
+			element: <SignIn />,
+		},
+		{
+			path: "/signup",
+			element: <SignUp />,
+		},
+		{
+			path: "checkout-success",
+			element: <SuccessPage />,
+		},
+		{
+			path: "checkout-cancel",
+			element: <CancelPage />,
 		},
 		{
 			path: "*",

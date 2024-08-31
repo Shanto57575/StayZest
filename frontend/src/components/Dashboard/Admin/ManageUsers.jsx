@@ -2,13 +2,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { Fade } from "react-awesome-reveal";
-import {
-	Person,
-	Book,
-	SupervisorAccount,
-	Home,
-	Group,
-} from "@mui/icons-material";
+import { Person, Book, SupervisorAccount, Group } from "@mui/icons-material";
 import FlightTakeoffIcon from "@mui/icons-material/FlightTakeoff";
 
 const API_BASE_URL = "https://stayzest-backend.onrender.com/api";

@@ -135,7 +135,7 @@ const ErrorContent = () => (
 				Oops! Something went wrong
 			</h2>
 			<p className="text-gray-600 mb-6">
-				We couldn't process your payment. Please try again or contact support.
+				We couldn't process your payment. Please try again later.
 			</p>
 			<Link
 				to="/"

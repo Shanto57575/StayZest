@@ -9,9 +9,12 @@ import {
 	AssignmentInd,
 	CheckCircle,
 } from "@mui/icons-material";
-import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
-import { userSignUpSuccess } from "../../features/auth/authSlice";
+import {
+	axiosInstance,
+	signUp,
+	updateUserProfile,
+} from "../../features/auth/authSlice";
 
 const ProfilePage = () => {
 	const dispatch = useDispatch();
@@ -33,11 +36,6 @@ const ProfilePage = () => {
 		},
 	});
 
-	const axiosInstance = axios.create({
-		baseURL: "https://stayzest-backend.onrender.com/api",
-		withCredentials: true,
-	});
-
 	useEffect(() => {
 		const interval = setInterval(() => {
 			setHue((prev) => (prev + 1) % 360);
@@ -55,39 +53,30 @@ const ProfilePage = () => {
 				formData.append("profilePicture", imageFile);
 			}
 
-			const response = await axiosInstance.put(`/user/${user._id}`, formData, {
-				headers: {
-					"Content-Type": "multipart/form-data",
-				},
-			});
+			const response = await axiosInstance.put(
+				`/api/user/${user._id}`,
+				formData,
+				{
+					headers: {
+						"Content-Type": "multipart/form-data",
+					},
+				}
+			);
 
+			console.log(response);
 			if (response.status === 200) {
-				dispatch(userSignUpSuccess(response.data.user));
-				toast.success(
-					<h1 className="font-serif">Profile updated successfully</h1>,
-					{
-						position: "top-center",
-						icon: "🎉",
-					}
-				);
+				dispatch(updateUserProfile(response.data.user));
 			}
 		} catch (error) {
 			console.error("Update Error:", error);
-			toast.error(
-				error.response?.data?.error ||
-					"An error occurred while updating the profile",
-				{
-					position: "top-center",
-				}
-			);
 		}
 	};
 
 	const onSubmit = (data) => {
 		const isDataChanged =
-			data.username !== user.username ||
-			data.email !== user.email ||
-			(newImage && data.profilePicture !== user.profilePicture);
+			data.username !== user?.username ||
+			data.email !== user?.email ||
+			(newImage && data?.profilePicture !== user?.profilePicture);
 
 		if (isDataChanged) {
 			onUpdate(data, newImage);
@@ -127,9 +116,9 @@ const ProfilePage = () => {
 									src={
 										newImage
 											? URL.createObjectURL(newImage)
-											: `https://stayzest-backend.onrender.com/${user.profilePicture}`
+											: `https://stayzest-backend.onrender.com/${user?.profilePicture}`
 									}
-									alt={user.username}
+									alt={user?.username}
 									className="w-full h-full object-cover"
 								/>
 							</div>
@@ -228,9 +217,9 @@ const ProfilePage = () => {
 											}}
 											placeholder="Username"
 										/>
-										{errors.username && (
+										{errors?.username && (
 											<p className="text-red-400 text-sm mt-1">
-												{errors.username.message}
+												{errors?.username.message}
 											</p>
 										)}
 									</div>
@@ -264,9 +253,9 @@ const ProfilePage = () => {
 											}}
 											placeholder="Email"
 										/>
-										{errors.email && (
+										{errors?.email && (
 											<p className="text-red-400 text-sm mt-1">
-												{errors.email.message}
+												{errors?.email.message}
 											</p>
 										)}
 									</div>

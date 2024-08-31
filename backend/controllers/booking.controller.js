@@ -18,7 +18,9 @@ const getBookingById = async (req, res) => {
     const bookingId = req.params.id;
 
     try {
-        const booking = await Booking.findById(bookingId).populate('place', "title location price").populate('user', "username email")
+        const booking = await Booking.findById(bookingId)
+            .populate('place', "title location price")
+            .populate('user', "username email")
 
         if (!booking) {
             return res.status(404).json({ error: 'Booking Not found' });
@@ -45,10 +47,7 @@ const getBookingByEmail = async (req, res) => {
             return res.status(404).json({ error: 'User not found' });
         }
 
-        const bookings = await Booking.find({
-            user: user._id,
-            status: { $ne: "CANCELLED" },
-        })
+        const bookings = await Booking.find({ user: user._id, status: { $ne: "CANCELLED" } })
             .populate('place', "title location price photos")
             .populate('user', "username email")
             .sort({ createdAt: -1 })

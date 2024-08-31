@@ -27,7 +27,7 @@ const getUserById = async (req, res) => {
 const updateUser = async (req, res) => {
     const userId = req.params.id;
     const userData = req.body;
-
+    console.log("req.file", req.file)
     try {
         if (req.file) {
             userData.profilePicture = req.file.path
@@ -41,7 +41,7 @@ const updateUser = async (req, res) => {
 
         res.status(200).json({ message: 'User updated successfully', user });
     } catch (error) {
-        res.status(200).json({ error });
+        res.status(200).json({ error: error });
     }
 };
 

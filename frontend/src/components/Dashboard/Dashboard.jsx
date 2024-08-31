@@ -13,9 +13,7 @@ import {
 	MdAdminPanelSettings,
 } from "react-icons/md";
 import { toggleDarkMode } from "../../features/theme/themeSlice";
-import { userLogOut } from "../../features/auth/authSlice";
-import toast, { Toaster } from "react-hot-toast";
-import axios from "axios";
+import { logout } from "../../features/auth/authSlice";
 
 const Dashboard = () => {
 	const [isOpen, setIsOpen] = useState(false);
@@ -30,21 +28,8 @@ const Dashboard = () => {
 	const handleDarkModeToggle = () => dispatch(toggleDarkMode());
 
 	const handleLogOut = async () => {
-		try {
-			const response = await axios.post(
-				"https://stayzest-backend.onrender.com/api/auth/logout",
-				{},
-				{ withCredentials: true }
-			);
-			if (response.status === 200) {
-				dispatch(userLogOut());
-				localStorage.clear();
-				toast.success(response?.data.message);
-				navigate("/signin");
-			}
-		} catch (error) {
-			toast.error(error?.message);
-		}
+		dispatch(logout());
+		navigate("/signin");
 	};
 
 	const isActive = (path) => location.pathname === path;
@@ -178,15 +163,11 @@ const Dashboard = () => {
 					<h1 className="text-2xl font-semibold text-indigo-600 dark:text-indigo-400 lg:hidden">
 						Dashboard
 					</h1>
-					<div className="flex items-center space-x-4">
-						{/* Add any header content here, like notifications or user profile */}
-					</div>
 				</header>
 				<main className="flex-1 overflow-x-hidden overflow-y-auto bg-gray-100 dark:bg-gray-900 p-6 scrollbar-hide">
 					<Outlet />
 				</main>
 			</div>
-			<Toaster position="bottom-right" />
 		</div>
 	);
 };

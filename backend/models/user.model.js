@@ -5,7 +5,6 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
         trim: true,
-        minlength: 6,
         maxlength: 20,
     },
     email: {
@@ -29,7 +28,7 @@ const userSchema = new mongoose.Schema({
     },
     role: {
         type: String,
-        enum: ["ADMIN", "HOST", "GUEST"],
+        enum: ["ADMIN", "GUEST"],
         default: "GUEST",
     },
     bookingsCount: {
