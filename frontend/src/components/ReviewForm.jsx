@@ -8,7 +8,6 @@ import {
 } from "react-icons/fa";
 import { MdOutlineAccessTimeFilled } from "react-icons/md";
 import { useSelector } from "react-redux";
-import toast from "react-hot-toast";
 import { axiosInstance } from "../features/auth/authSlice";
 
 const ReviewForm = ({ place }) => {
@@ -69,7 +68,9 @@ const ReviewForm = ({ place }) => {
 		try {
 			const response = await axiosInstance.delete(`/api/review/${reviewId}`);
 			if (response.status === 200) {
-				fetchReviews();
+				const newReviews = reviews.filter((review) => review._id !== reviewId);
+				setReviews(newReviews);
+				// fetchReviews();
 			}
 		} catch (error) {
 			console.error("Error deleting review:", error.response.data.message);
