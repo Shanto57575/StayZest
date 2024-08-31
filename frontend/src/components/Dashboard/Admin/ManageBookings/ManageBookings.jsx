@@ -8,6 +8,7 @@ import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import PendingIcon from "@mui/icons-material/Pending";
 import StatCard from "./StatCard";
 import BookingTable from "./BookingTable";
+import { FaExclamationTriangle } from "react-icons/fa";
 
 const ManageBookings = () => {
 	const [bookings, setBookings] = useState([]);
@@ -112,9 +113,14 @@ const ManageBookings = () => {
 
 	if (error)
 		return (
-			<p className="text-center text-rose-600 font-serif h-screen text-3xl flex justify-center items-center">
-				{error}
-			</p>
+			<div className="h-screen flex items-center text-center justify-center font-serif">
+				<div className="text-center">
+					<FaExclamationTriangle className="text-red-500 text-6xl mx-auto mb-4" />
+					<h2 className="text-2xl font-bold mb-2">Oops!</h2>
+					<h2 className="text-2xl font-bold mb-2">Something went wrong</h2>
+					<p className="text-gray-600 dark:text-gray-400">{error}</p>
+				</div>
+			</div>
 		);
 
 	const totalBookings = bookings.length;

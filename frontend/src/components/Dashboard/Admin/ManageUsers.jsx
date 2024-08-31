@@ -4,6 +4,7 @@ import toast from "react-hot-toast";
 import { Fade } from "react-awesome-reveal";
 import { Person, Book, SupervisorAccount, Group } from "@mui/icons-material";
 import FlightTakeoffIcon from "@mui/icons-material/FlightTakeoff";
+import { FaExclamationTriangle } from "react-icons/fa";
 
 const API_BASE_URL = "https://stayzest-backend.onrender.com/api";
 
@@ -92,9 +93,14 @@ const ManageUsers = () => {
 
 	if (error)
 		return (
-			<p className="text-center text-rose-600 font-serif h-screen text-3xl flex justify-center items-center">
-				{error}
-			</p>
+			<div className="h-screen flex items-center text-center justify-center font-serif">
+				<div className="text-center">
+					<FaExclamationTriangle className="text-red-500 text-6xl mx-auto mb-4" />
+					<h2 className="text-2xl font-bold mb-2">Oops!</h2>
+					<h2 className="text-2xl font-bold mb-2">Something went wrong</h2>
+					<p className="text-gray-600 dark:text-gray-400">{error}</p>
+				</div>
+			</div>
 		);
 
 	return (

@@ -160,7 +160,7 @@ const Dashboard = () => {
 					<button onClick={toggleSidebar} className="lg:hidden text-2xl">
 						{isOpen ? <FiX /> : <FiMenu />}
 					</button>
-					<h1 className="text-2xl font-semibold text-indigo-600 dark:text-indigo-400 lg:hidden">
+					<h1 className="text-2xl font-serif font-semibold text-indigo-600 dark:text-indigo-400 lg:hidden">
 						Dashboard
 					</h1>
 				</header>

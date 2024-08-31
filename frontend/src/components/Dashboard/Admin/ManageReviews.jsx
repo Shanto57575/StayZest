@@ -20,6 +20,8 @@ const ManageReviews = () => {
 	const [text, setText] = useState("");
 	const inputRef = useRef(null);
 
+	console.log("reviews", reviews);
+
 	useEffect(() => {
 		fetchReviews();
 	}, []);
@@ -38,7 +40,7 @@ const ManageReviews = () => {
 					withCredentials: true,
 				}
 			);
-			setReviews(response.data);
+			setReviews(response.data.reviews);
 			setLoading(false);
 		} catch (err) {
 			setError("Failed to fetch reviews");
