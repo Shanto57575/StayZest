@@ -23,7 +23,7 @@ app.use('/uploads', express.static('uploads'));
 app.use(cookieParser());
 
 app.use(cors({
-    origin: process.env.CLIENT_URL,
+    origin: [process.env.CLIENT_URL, 'https://stay-zest-view.vercel.app'],
     credentials: true,
 }));
 
