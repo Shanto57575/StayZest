@@ -594,12 +594,12 @@ const AdminHome = () => {
 			<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-4 bg-gray-700 p-5 rounded-lg font-serif">
 				<div className="bg-gray-800 hover:bg-slate-900 p-4 rounded-lg space-y-2 shadow-md shadow-emerald-500">
 					<PeopleAlt className="text-white mb-4" />
-					<p className="text-white text-2xl">{users.length}k+</p>
+					<p className="text-white text-2xl">{users.length}</p>
 					<h3 className="text-lg font-semibold text-white">Users</h3>
 				</div>
 				<div className="bg-gray-800 hover:bg-slate-900 p-4 rounded-lg space-y-2 shadow-md shadow-blue-500">
 					<EventAvailable className="text-white mb-4" />
-					<p className="text-white text-2xl">{bookings.length}k+</p>
+					<p className="text-white text-2xl">{bookings.length}</p>
 					<h3 className="text-lg font-semibold text-white">Bookings</h3>
 				</div>
 				<div className="bg-gray-800 hover:bg-slate-900 p-4 rounded-lg space-y-2 shadow-md shadow-purple-500">

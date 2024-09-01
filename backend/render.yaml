@@ -20,3 +20,8 @@ services:
         sync: false
       - key: GEMINI_API_KEY
         sync: false
+    scaling:
+      minInstances: 1
+      maxInstances: 1
+      targetMemoryPercent: 60
+    healthCheckPath: /health
