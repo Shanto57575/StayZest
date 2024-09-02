@@ -28,13 +28,13 @@ const getBookingById = async (req, res) => {
 
         res.status(200).json(booking);
     } catch (error) {
-        console.error(`Error fetching booking: ${error.message}`);
         res.status(500).json({ error: error.message });
     }
 };
 
 const getBookingByEmail = async (req, res) => {
     const email = req.params.email;
+    console.log(email)
 
     if (!email) {
         return res.status(400).json({ error: 'Email parameter is required' });
@@ -51,6 +51,7 @@ const getBookingByEmail = async (req, res) => {
             .populate('place', "title location price photos")
             .populate('user', "username email")
             .sort({ createdAt: -1 })
+
         res.status(200).json(bookings);
     } catch (error) {
         console.error(`Error fetching bookings: ${error.message}`);

@@ -9,7 +9,6 @@ const generateToken = (res, user) => {
         process.env.JWT_SECRET_KEY,
         { expiresIn: '3d' }
     );
-    console.log("generateToken=>", token)
 
     res.cookie('token', token, {
         httpOnly: true,
@@ -21,8 +20,6 @@ const generateToken = (res, user) => {
 
 const verifyToken = (req, res, next) => {
     const token = req.cookies.token;
-
-    console.log("verifyToken=>", token)
 
     if (!token) {
         return res.status(401).json({ error: 'unauthorize access: No token provided' });

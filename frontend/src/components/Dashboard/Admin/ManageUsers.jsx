@@ -1,12 +1,11 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import toast from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 import { Fade } from "react-awesome-reveal";
-import { Person, Book, SupervisorAccount, Group } from "@mui/icons-material";
-import FlightTakeoffIcon from "@mui/icons-material/FlightTakeoff";
-import { FaExclamationTriangle } from "react-icons/fa";
-
-const API_BASE_URL = "https://stayzest-backend.onrender.com/api";
+import { Person, Group } from "@mui/icons-material";
+import { FaUsers, FaUserShield, FaExclamationTriangle } from "react-icons/fa";
+import { IoMdBookmarks } from "react-icons/io";
+import useAxiosInterceptor from "../../../hooks/useAxiosInterceptor";
 
 const StatCard = ({ icon: Icon, title, value, bgColor, color }) => (
 	<Fade>
@@ -14,7 +13,7 @@ const StatCard = ({ icon: Icon, title, value, bgColor, color }) => (
 			className={`${bgColor} ${color} rounded-lg shadow-md shadow-white hover:shadow-xl p-4 font-serif`}
 		>
 			<div className="flex flex-col items-center justify-center">
-				<Icon className="mb-2 text-4xl" />
+				<Icon size={24} className="mb-2 text-4xl" />
 				<h3 className="text-lg font-semibold mb-1">{title}</h3>
 				<p className="text-2xl font-bold">{value}</p>
 			</div>
@@ -25,13 +24,13 @@ const ManageUsers = () => {
 	const [users, setUsers] = useState([]);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState(null);
+	const axiosInstance = useAxiosInterceptor();
 
 	useEffect(() => {
 		const fetchAllUsers = async () => {
 			try {
-				const response = await axios.get(
-					`${API_BASE_URL}/user/alluserswithbookingcount`,
-					{ withCredentials: true }
+				const response = await axiosInstance.get(
+					"/api/user/alluserswithbookingcount"
 				);
 				setUsers(response.data);
 				setLoading(false);
@@ -47,7 +46,7 @@ const ManageUsers = () => {
 	const handleRoleChange = async (username, userId, newRole) => {
 		try {
 			const response = await axios.put(
-				`${API_BASE_URL}/user/${userId}`,
+				`https://stayzest-backend.onrender.com/api/user/${userId}`,
 				{ role: newRole },
 				{ withCredentials: true }
 			);
@@ -61,10 +60,7 @@ const ManageUsers = () => {
 				toast.success(
 					<h1 className="font-serif">
 						{username} is now an {newRole}
-					</h1>,
-					{
-						position: "top-center",
-					}
+					</h1>
 				);
 			}
 		} catch (err) {
@@ -86,7 +82,7 @@ const ManageUsers = () => {
 				<div className="relative w-24 h-24">
 					<div className="absolute top-0 left-0 w-full h-full border-4 border-blue-500 rounded-full animate-ping"></div>
 					<div className="absolute top-0 left-0 w-full h-full border-4 border-blue-500 rounded-full animate-pulse"></div>
-					<FlightTakeoffIcon className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-blue-500 text-4xl animate-bounce" />
+					<FaUsers className="absolute top-1/2 left-1/3 transform -translate-x-1/2 -translate-y-1/2 text-blue-500 text-4xl animate-bounce" />
 				</div>
 			</div>
 		);
@@ -105,6 +101,7 @@ const ManageUsers = () => {
 
 	return (
 		<div className="container mx-auto p-4">
+			<Toaster />
 			<Fade cascade>
 				<h1 className="text-3xl font-bold mb-8 font-serif">Manage Users</h1>
 			</Fade>
@@ -113,30 +110,30 @@ const ManageUsers = () => {
 					icon={Group}
 					title="Total Users"
 					value={totalUsers}
-					bgColor="bg-blue-200"
-					color="text-blue-600"
-				/>
-				<StatCard
-					icon={Book}
-					title="Total Bookings"
-					value={totalBookings}
-					bgColor="bg-pink-200"
-					color="text-pink-600"
-				/>
-				<StatCard
-					icon={SupervisorAccount}
-					title="Total Admin"
-					value={totalAdmin}
 					bgColor="bg-cyan-200"
 					color="text-cyan-600"
+				/>
+				<StatCard
+					icon={IoMdBookmarks}
+					title="Total Bookings"
+					value={totalBookings}
+					bgColor="bg-amber-200"
+					color="text-amber-600"
+				/>
+				<StatCard
+					icon={FaUserShield}
+					title="Total Admin"
+					value={totalAdmin}
+					bgColor="bg-emerald-200"
+					color="text-emerald-600"
 				/>
 				<StatCard
 					icon={Person}
 					title="Total Guest"
 					value={totalGuest}
-					bgColor="bg-green-200"
-					color="text-green-600"
-				/>{" "}
+					bgColor="bg-rose-200"
+					color="text-rose-600"
+				/>
 			</div>
 			<div className="overflow-x-auto font-serif">
 				<table className="min-w-full shadow-2xl shadow-black">
@@ -191,13 +188,10 @@ const ManageUsers = () => {
 											className={`px-2 py-1 mt-7 inline-flex text-xs leading-5 font-semibold rounded cursor-pointer ${
 												user.role === "GUEST"
 													? "bg-rose-200 text-rose-700"
-													: user.role === "ADMIN"
-													? "bg-green-200 text-green-700"
-													: "bg-sky-200 text-sky-700"
+													: "bg-green-200 text-green-700"
 											}`}
 										>
 											<option value="GUEST">Guest</option>
-											<option value="HOST">Host</option>
 											<option value="ADMIN">Admin</option>
 										</select>
 									</td>

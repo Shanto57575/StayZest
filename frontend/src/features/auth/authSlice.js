@@ -1,43 +1,10 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
 import { auth } from '../../Firebase/firebase.config';
-import axios from 'axios';
 import toast from 'react-hot-toast';
+import { axiosInstance } from '../../hooks/useAxiosInterceptor';
 
 const googleProvider = new GoogleAuthProvider()
-
-export const axiosInstance = axios.create({
-    baseURL: 'https://stayzest-backend.onrender.com',
-    withCredentials: true
-})
-
-axiosInstance.interceptors.response.use(
-    (response) => {
-        if (response.status === 200 && response.data.message) {
-            setTimeout(() => {
-                toast.success(response.data.message);
-            }, 500);
-        }
-        return response;
-    },
-    async (error) => {
-        if (error.response) {
-            if (error.response.data.error) {
-                toast.error(error.response.data.error);
-            } else {
-                toast.error("An error occurred. Please try again.");
-            }
-
-            if (error.response.status === 401) {
-                navigate('/signin');
-            }
-        } else {
-            toast.error("Network error. Please check your connection.");
-        }
-
-        return Promise.reject(error);
-    }
-);
 
 export const signUp = createAsyncThunk('auth/signUp', async (userData, { rejectWithValue }) => {
     try {
@@ -142,7 +109,6 @@ const authSlice = createSlice({
                 state.loading = false;
                 state.error = action.payload;
             })
-
             .addCase(signIn.pending, (state) => {
                 state.loading = true;
                 state.error = null;

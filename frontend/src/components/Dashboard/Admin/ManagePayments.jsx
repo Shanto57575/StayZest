@@ -325,8 +325,8 @@ const ManagePayments = () => {
 											</div>
 										</td>
 										<td className="px-4 py-4 whitespace-nowrap text-center">
-											<div className="text-sm">{payment.user.email}</div>
-											<div className="text-sm">({payment.user.username})</div>
+											<div className="text-sm">{payment.user?.email}</div>
+											<div className="text-sm">({payment.user?.username})</div>
 										</td>
 										<td className="px-4 py-4 whitespace-nowrap text-center">
 											<div className="text-sm flex items-center">

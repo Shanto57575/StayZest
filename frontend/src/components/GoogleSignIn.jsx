@@ -2,7 +2,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import { googleSignIn } from "../features/auth/authSlice";
 import GoogleIcon from "@mui/icons-material/Google";
-import toast from "react-hot-toast";
 
 const GoogleSignIn = () => {
 	const dispatch = useDispatch();
@@ -19,7 +18,7 @@ const GoogleSignIn = () => {
 				navigate(from);
 			}
 		} catch (err) {
-			toast.error("An unexpected error occurred");
+			console.log(err);
 		}
 	};
 

@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
-import axios from "axios";
 import {
 	PeopleAlt,
 	EventAvailable,
@@ -14,6 +13,8 @@ import "slick-carousel/slick/slick-theme.css";
 import HighchartsMore from "highcharts/highcharts-more";
 import HighchartsExporting from "highcharts/modules/exporting";
 import TrendingUpIcon from "@mui/icons-material/TrendingUp";
+import { MdDashboard } from "react-icons/md";
+import useAxiosInterceptor from "../../../hooks/useAxiosInterceptor";
 
 HighchartsMore(Highcharts);
 HighchartsExporting(Highcharts);
@@ -31,7 +32,7 @@ Highcharts.setOptions({
 		style: {
 			fontFamily: "'Poppins', sans-serif",
 		},
-		borderRadius: 20,
+		borderRadius: 5,
 		plotBorderColor: "#606063",
 	},
 	title: {
@@ -210,40 +211,30 @@ const AdminHome = () => {
 	const [users, setUsers] = useState([]);
 	const [bookings, setBookings] = useState([]);
 	const [payments, setPayments] = useState([]);
+	const [loading, setLoading] = useState(true);
 	const [selectedTimeRange, setSelectedTimeRange] = useState("1");
+	const axiosInstance = useAxiosInterceptor();
 
 	useEffect(() => {
 		fetchData();
 	}, []);
 
 	const fetchData = async () => {
+		setLoading(true);
 		try {
 			const [usersResponse, bookingsResponse, paymentsResponse] =
 				await Promise.all([
-					axios.get(
-						"https://stayzest-backend.onrender.com/api/user/alluserswithbookingcount",
-						{
-							withCredentials: true,
-						}
-					),
-					axios.get(
-						"https://stayzest-backend.onrender.com/api/booking/all-Bookings",
-						{
-							withCredentials: true,
-						}
-					),
-					axios.get(
-						"https://stayzest-backend.onrender.com/api/payment/all-payments",
-						{
-							withCredentials: true,
-						}
-					),
+					axiosInstance.get("/api/user/alluserswithbookingcount"),
+					axiosInstance.get("/api/booking/all-Bookings"),
+					axiosInstance.get("/api/payment/all-payments"),
 				]);
 			setUsers(usersResponse.data);
 			setBookings(bookingsResponse.data);
 			setPayments(paymentsResponse.data);
 		} catch (error) {
 			console.error("Error fetching data:", error);
+		} finally {
+			setLoading(false);
 		}
 	};
 
@@ -374,7 +365,7 @@ const AdminHome = () => {
 	};
 
 	const bookingStatusOptions = {
-		chart: { type: "pie", spacing: [20, 0, 0, 0] },
+		chart: { type: "pie", spacing: [20, 20, 20, 20] },
 		title: { text: "Booking Statuses" },
 		plotOptions: {
 			pie: {
@@ -408,7 +399,7 @@ const AdminHome = () => {
 	};
 
 	const userActivityOptions = {
-		chart: { type: "line", spacing: [20, 0, 0, 0] },
+		chart: { type: "line", spacing: [20, 20, 20, 20] },
 		title: { text: "User Activity" },
 		xAxis: { categories: users.map((user) => user.name) },
 		yAxis: { title: { text: "Number of Activities" } },
@@ -437,7 +428,7 @@ const AdminHome = () => {
 	const paymentSummaryOptions = {
 		chart: {
 			type: "column",
-			spacing: [20, 0, 0, 0],
+			spacing: [20, 20, 20, 20],
 		},
 		title: { text: "Payment Summary" },
 		xAxis: {
@@ -539,8 +530,9 @@ const AdminHome = () => {
 			type: "pie",
 			backgroundColor: "#333333",
 			margin: [0, 0, 0, 0],
-			spacing: [20, 0, 0, 0],
-			height: 300,
+			spacing: [20, 20, 20, 20],
+			height: 320,
+			width: 300,
 		},
 		title: {
 			text: "Trending Places",
@@ -573,7 +565,7 @@ const AdminHome = () => {
 			backgroundColor: "#333333",
 			style: { color: "#FFFFFF" },
 		},
-		center: ["50%", "50%"], // Center the pie chart
+		center: ["50%", "50%"],
 	};
 
 	const settings = {
@@ -586,41 +578,53 @@ const AdminHome = () => {
 		autoplaySpeed: 3000,
 	};
 
+	if (loading) {
+		return (
+			<div className="flex justify-center items-center h-screen">
+				<div className="relative w-24 h-24">
+					<div className="absolute top-0 left-0 w-full h-full border-4 border-blue-500 rounded-full animate-ping"></div>
+					<div className="absolute top-0 left-0 w-full h-full border-4 border-blue-500 rounded-full animate-pulse"></div>
+					<MdDashboard className="absolute top-1/2 left-1/3 transform -translate-x-1/2 -translate-y-1/2 text-blue-500 text-4xl animate-bounce" />
+				</div>
+			</div>
+		);
+	}
+
 	return (
 		<div className="p-2 max-w-full md:max-w-[1000px]">
 			<h1 className="text-2xl sm:text-3xl font-bold font-serif mb-3">
 				Admin Dashboard
 			</h1>
-			<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-4 bg-gray-700 p-5 rounded-lg font-serif">
-				<div className="bg-gray-800 hover:bg-slate-900 p-4 rounded-lg space-y-2 shadow-md shadow-emerald-500">
-					<PeopleAlt className="text-white mb-4" />
-					<p className="text-white text-2xl">{users.length}</p>
-					<h3 className="text-lg font-semibold text-white">Users</h3>
+			<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-4 dark:bg-gray-700 bg-gray-300 shadow-lg shadow-gray-700 dark:shadow-black p-5 rounded-lg font-serif">
+				<div className="dark:bg-gray-800 bg-gray-400 dark:hover:bg-slate-900 hover:bg-slate-500 p-4 rounded-lg space-y-2 shadow-md shadow-white">
+					<PeopleAlt className="mb-4" />
+					<p className="text-2xl">{users.length}</p>
+					<h3 className="text-lg font-semibold">Users</h3>
 				</div>
-				<div className="bg-gray-800 hover:bg-slate-900 p-4 rounded-lg space-y-2 shadow-md shadow-blue-500">
-					<EventAvailable className="text-white mb-4" />
-					<p className="text-white text-2xl">{bookings.length}</p>
-					<h3 className="text-lg font-semibold text-white">Bookings</h3>
+				<div className="dark:bg-gray-800 bg-gray-400 dark:hover:bg-slate-900 hover:bg-slate-500 p-4 rounded-lg space-y-2 shadow-md shadow-white">
+					<EventAvailable className="mb-4" />
+					<p className="text-2xl">{bookings.length}</p>
+					<h3 className="text-lg font-semibold">Bookings</h3>
 				</div>
-				<div className="bg-gray-800 hover:bg-slate-900 p-4 rounded-lg space-y-2 shadow-md shadow-purple-500">
-					<MonetizationOn className="text-white mb-4" />
-					<p className="text-white text-2xl font-sans">
+				<div className="dark:bg-gray-800 bg-gray-400 dark:hover:bg-slate-900 hover:bg-slate-500 p-4 rounded-lg space-y-2 shadow-md shadow-white">
+					<MonetizationOn className="mb-4" />
+					<p className="text-2xl font-sans">
 						${payments.reduce((acc, payment) => acc + payment.price, 0)}
 					</p>
-					<h3 className="text-lg font-semibold text-white">Revenue</h3>
+					<h3 className="text-lg font-semibold">Revenue</h3>
 				</div>
-				<div className="bg-gray-800 hover:bg-slate-900 p-4 rounded-lg space-y-2 shadow-md shadow-rose-500">
-					<TrendingUp className="text-white mb-4" />
-					<p className="text-white text-2xl">
+				<div className="dark:bg-gray-800 bg-gray-400 dark:hover:bg-slate-900 hover:bg-slate-500 p-4 rounded-lg space-y-2 shadow-md shadow-white">
+					<TrendingUp className="mb-4" />
+					<p className="text-2xl">
 						{trendingBookings[0]?.growthRate.toFixed(2)} %
 					</p>
-					<h3 className="text-lg font-semibold text-white">Growth Rate</h3>
+					<h3 className="text-lg font-semibold">Growth Rate</h3>
 				</div>
 			</div>
 
 			<div className="w-full mx-auto font-serif">
 				<h2 className="my-10 font-bold font-serif text-2xl sm:text-4xl ml-2 sm:ml-4">
-					Top trending location <TrendingUpIcon />
+					Trending Locations <TrendingUpIcon />
 				</h2>
 
 				<div className="flex flex-col md:flex-row items-center justify-between">

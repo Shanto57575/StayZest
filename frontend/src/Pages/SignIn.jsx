@@ -6,7 +6,7 @@ import { signIn } from "../features/auth/authSlice";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import GoogleSignIn from "../components/GoogleSignIn";
-import toast, { Toaster } from "react-hot-toast";
+import { Toaster } from "react-hot-toast";
 
 const SignIn = () => {
 	const dispatch = useDispatch();
@@ -32,11 +32,7 @@ const SignIn = () => {
 				navigate(from);
 			}
 		} catch (err) {
-			toast.error(
-				<div className="font-serif text-center">
-					An unexpected error occurred, Please try again!
-				</div>
-			);
+			console.log(err);
 		}
 	};
 
@@ -46,6 +42,7 @@ const SignIn = () => {
 
 	return (
 		<div className="min-h-screen font-serif flex items-center justify-center">
+			<Toaster />
 			<div className="w-full max-w-md">
 				<div className="bg-white shadow-2xl rounded-lg overflow-hidden transform hover:shadow-3xl transition-shadow duration-300">
 					<div className="relative">
@@ -181,7 +178,6 @@ const SignIn = () => {
 					&copy; {new Date().getFullYear()} StayZest Corp. All rights reserved.
 				</p>
 			</div>
-			<Toaster />
 		</div>
 	);
 };

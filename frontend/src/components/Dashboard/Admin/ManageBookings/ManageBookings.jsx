@@ -106,7 +106,7 @@ const ManageBookings = () => {
 				<div className="relative w-24 h-24">
 					<div className="absolute top-0 left-0 w-full h-full border-4 border-blue-500 rounded-full animate-ping"></div>
 					<div className="absolute top-0 left-0 w-full h-full border-4 border-blue-500 rounded-full animate-pulse"></div>
-					<FlightTakeoffIcon className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-blue-500 text-4xl animate-bounce" />
+					<FlightTakeoffIcon className="absolute top-1/2 left-1/3 transform -translate-x-1/2 -translate-y-1/2 text-blue-500 text-4xl animate-bounce" />
 				</div>
 			</div>
 		);
@@ -197,7 +197,6 @@ const ManageBookings = () => {
 					bookings={bookings}
 					handleStatus={handleStatus}
 					searchTerm={searchTerm}
-					setSearchTerm={setSearchTerm}
 				/>
 			</div>
 			<Toaster />

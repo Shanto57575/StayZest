@@ -3,13 +3,9 @@ import { format } from "date-fns";
 import CancelIcon from "@mui/icons-material/Cancel";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import { useState, useEffect } from "react";
+import { Toaster } from "react-hot-toast";
 
-const BookingTable = ({
-	bookings,
-	handleStatus,
-	searchTerm,
-	setSearchTerm,
-}) => {
+const BookingTable = ({ bookings, handleStatus, searchTerm }) => {
 	const [filteredBookings, setFilteredBookings] = useState([]);
 
 	useEffect(() => {
@@ -24,6 +20,7 @@ const BookingTable = ({
 	return (
 		<div>
 			<div className="overflow-x-auto">
+				<Toaster />
 				<table className="w-full mx-auto font-serif bg-white dark:bg-gray-800 shadow-md rounded-lg overflow-hidden">
 					<thead className="bg-gray-50 dark:bg-gray-600 text-gray-700 dark:text-gray-200">
 						<tr>

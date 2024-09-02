@@ -28,8 +28,12 @@ const Dashboard = () => {
 	const handleDarkModeToggle = () => dispatch(toggleDarkMode());
 
 	const handleLogOut = async () => {
-		dispatch(logout());
-		navigate("/signin");
+		try {
+			await dispatch(logout());
+			navigate("/signin");
+		} catch (error) {
+			console.error("Logout failed:", error);
+		}
 	};
 
 	const isActive = (path) => location.pathname === path;

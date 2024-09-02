@@ -14,17 +14,16 @@ const createReview = async (req, res) => {
         await newReview.save();
         res.status(200).json({ message: "Review Added Successfully", newReview });
     } catch (error) {
-        res.status(500).json({ error: "Server error. Could not create review.", error });
+        res.status(500).json({ error: "Failed To Add Review.", error });
     }
 };
 
 const getAllReviews = async (req, res) => {
     try {
         const reviews = await Review.find({}).populate('user', 'username').populate('place', "location country").sort({ createdAt: -1 })
-        res.status(200).json({ message: "All reviews", reviews });
+        res.status(200).json(reviews);
     } catch (error) {
-        console.error("Error fetching reviews:", error);
-        res.status(500).json({ error: "Server error. Could not fetch reviews.", error });
+        res.status(500).json({ error: "Server Error. Failed To Fetch reviews.", error });
     }
 };
 
@@ -35,13 +34,9 @@ const getReviewsByPlace = async (req, res) => {
         const reviews = await Review.find({ place })
             .populate('user', 'username')
 
-        if (reviews.length === 0) {
-            return res.status(404).json({ message: "No review Yet" });
-        }
-
         res.status(200).json(reviews);
     } catch (error) {
-        res.status(500).json({ error: "Server error. Could not fetch reviews.", error });
+        res.status(500).json({ error: "Server Error. Failed To Fetch reviews.", error });
     }
 };
 
@@ -59,7 +54,7 @@ const getReviewById = async (req, res) => {
 
         res.status(200).json(review);
     } catch (error) {
-        res.status(500).json({ error: "Server error. Could not fetch review.", error });
+        res.status(500).json({ error: "Server Error. Failed To Fetch the review.", error });
     }
 };
 
@@ -76,12 +71,12 @@ const updateReview = async (req, res) => {
         const updatedReview = await Review.findByIdAndUpdate(id, { comments }, { new: true });
 
         if (!updatedReview) {
-            return res.status(404).json({ error: "Review not found." });
+            return res.status(404).json({ error: "Review Not Found!" });
         }
 
         res.status(200).json({ message: "review updated successfully", updatedReview });
     } catch (error) {
-        res.status(500).json({ error: "Server error. Could not update review.", error });
+        res.status(500).json({ error: "Server Error. Failed To update the review.", error });
     }
 };
 
@@ -98,7 +93,7 @@ const deleteReview = async (req, res) => {
 
         res.status(200).json({ message: "Review deleted successfully." });
     } catch (error) {
-        res.status(500).json({ error: "Server error. Could not delete review.", error });
+        res.status(500).json({ error: "Server Error. Failed To Delete the review.", error });
     }
 };
 

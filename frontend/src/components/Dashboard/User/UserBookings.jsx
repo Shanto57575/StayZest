@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import axios from "axios";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
 import AddLocationAltIcon from "@mui/icons-material/AddLocationAlt";
@@ -12,6 +11,7 @@ import FlightTakeoffIcon from "@mui/icons-material/FlightTakeoff";
 import Alert from "@mui/material/Alert";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import { useLocation } from "react-router-dom";
+import useAxiosInterceptor from "../../../hooks/useAxiosInterceptor";
 
 const UserBookings = () => {
 	const location = useLocation();
@@ -21,15 +21,13 @@ const UserBookings = () => {
 	const [bookings, setBookings] = useState([]);
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState(null);
+	const axiosInstance = useAxiosInterceptor();
 
 	useEffect(() => {
 		const fetchBookings = async () => {
 			setLoading(true);
 			try {
-				const response = await axios.get(
-					`https://stayzest-backend.onrender.com/api/booking/${user?.email}`,
-					{ withCredentials: true }
-				);
+				const response = await axiosInstance.get(`/api/booking/${user?.email}`);
 				setBookings(response.data);
 				setLoading(false);
 				setError(null);

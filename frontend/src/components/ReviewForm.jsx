@@ -8,7 +8,8 @@ import {
 } from "react-icons/fa";
 import { MdOutlineAccessTimeFilled } from "react-icons/md";
 import { useSelector } from "react-redux";
-import { axiosInstance } from "../features/auth/authSlice";
+import useAxiosInterceptor from "../hooks/useAxiosInterceptor";
+import { Toaster } from "react-hot-toast";
 
 const ReviewForm = ({ place }) => {
 	const [reviews, setReviews] = useState([]);
@@ -16,6 +17,8 @@ const ReviewForm = ({ place }) => {
 	const [editingId, setEditingId] = useState(null);
 	const [loading, setLoading] = useState(false);
 	const user = useSelector((state) => state.auth.currentUser);
+
+	const axiosInstance = useAxiosInterceptor();
 
 	const fetchReviews = async () => {
 		try {
@@ -36,7 +39,6 @@ const ReviewForm = ({ place }) => {
 				const response = await axiosInstance.put(`/api/review/${editingId}`, {
 					comments: text,
 				});
-				console.log("response", response);
 				if (response.data) {
 					setEditingId(null);
 					setLoading(false);
@@ -47,7 +49,6 @@ const ReviewForm = ({ place }) => {
 					place,
 					comments: text,
 				});
-				console.log("from review post response==>", response);
 				if (response.data) {
 					setLoading(false);
 				}
@@ -70,7 +71,6 @@ const ReviewForm = ({ place }) => {
 			if (response.status === 200) {
 				const newReviews = reviews.filter((review) => review._id !== reviewId);
 				setReviews(newReviews);
-				// fetchReviews();
 			}
 		} catch (error) {
 			console.error("Error deleting review:", error.response.data.message);
@@ -83,6 +83,7 @@ const ReviewForm = ({ place }) => {
 
 	return (
 		<div className="max-w-7xl mx-auto p-4 min-h-screen font-serif">
+			<Toaster />
 			<h1 className="text-3xl font-semibold mb-8 text-center">Reviews</h1>
 
 			<div className="lg:flex lg:space-x-8">
@@ -140,8 +141,8 @@ const ReviewForm = ({ place }) => {
 				</div>
 
 				<div className="lg:w-1/2 space-y-6">
-					{reviews.length > 0 ? (
-						reviews.map((review) => (
+					{reviews?.length > 0 ? (
+						reviews?.map((review) => (
 							<div
 								key={review._id}
 								className="p-6 rounded-lg shadow-lg hover:shadow-md shadow-gray-400 dark:shadow-gray-950"

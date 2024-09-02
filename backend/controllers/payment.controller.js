@@ -14,45 +14,34 @@ const getAllPayments = async (req, res) => {
     try {
         const payments = await stripe.paymentIntents.list({
             limit: 100,
-        });
+        })
 
         res.status(200).json(payments);
     } catch (error) {
-        console.error('Error retrieving payments:', error);
         res.status(500).json({ error: 'An error occurred while retrieving payments.' });
     }
 }
 
+
 const getPaymentByEmail = async (req, res) => {
     const { email } = req.params;
+    console.log(`Searching for user with email: ${email}`);
 
     try {
-        const customers = await stripe.customers.list({
-            email,
-            limit: 1,
-        });
+        const user = await User.findOne({ email });
 
-        if (customers.data.length === 0) {
-            return res.status(404).json({ error: 'Customer not found.' });
+        if (!user) {
+            return res.status(404).json({ error: 'User not found.' });
         }
 
-        const customerId = customers.data[0].id;
+        const payments = await Payment.find({ user: user._id }).populate('booking')
 
-        const payments = await stripe.paymentIntents.list({
-            customer: customerId,
-            limit: 100,
-        });
-
-        if (payments.data.length === 0) {
-            return res.status(404).json({ error: 'No payments found for this customer.' });
-        }
-
-        res.status(200).json(payments.data);
+        res.status(200).json(payments);
     } catch (error) {
-        console.error('Error retrieving payment:', error);
-        res.status(500).json({ error: 'An error occurred while retrieving the payment.' });
+        console.error('Error retrieving payments by email:', error.message);
+        res.status(500).json({ error: 'An error occurred while retrieving payments.' });
     }
-}
+};
 
 const createBookingIntent = async (req, res) => {
     try {
@@ -107,6 +96,7 @@ const createBookingIntent = async (req, res) => {
 
         res.status(200).json({ success: true, url: session.url });
     } catch (error) {
+        console.error(error);
         res.status(500).json({ error: error.message });
     }
 };

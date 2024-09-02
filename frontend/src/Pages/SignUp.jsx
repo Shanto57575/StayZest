@@ -7,7 +7,7 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import { Alert } from "@mui/material";
 import GoogleSignIn from "../components/GoogleSignIn";
-import toast, { Toaster } from "react-hot-toast";
+import { Toaster } from "react-hot-toast";
 
 const SignUp = () => {
 	const dispatch = useDispatch();
@@ -33,16 +33,13 @@ const SignUp = () => {
 				navigate(from);
 			}
 		} catch (err) {
-			toast.error(
-				<div className="font-serif text-center">
-					An unexpected error occurred, Please try again!
-				</div>
-			);
+			console.log(err);
 		}
 	};
 
 	return (
 		<div className="min-h-screen font-serif flex items-center justify-center">
+			<Toaster />
 			<div className="w-full max-w-md p-8 bg-white rounded-2xl space-y-6 shadow-2xl shadow-gray-500">
 				<div className="text-center">
 					<div className="flex items-center justify-center mb-3">
@@ -195,7 +192,6 @@ const SignUp = () => {
 					</Link>
 				</p>
 			</div>
-			<Toaster />
 		</div>
 	);
 };

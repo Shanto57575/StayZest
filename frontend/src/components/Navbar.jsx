@@ -39,8 +39,12 @@ const Navbar = () => {
 	};
 
 	const handleLogOut = async () => {
-		dispatch(logout());
-		navigate("/signin");
+		try {
+			await dispatch(logout());
+			navigate("/signin");
+		} catch (error) {
+			console.error("Logout failed:", error);
+		}
 	};
 
 	useEffect(() => {

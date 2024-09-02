@@ -66,7 +66,6 @@ const signUp = async (req, res) => {
 
 const login = async (req, res) => {
     const { email, password } = req.body;
-    console.log("email, password ==> ", email, password)
 
     if (!email || !password) {
         return res.status(400).json({ error: 'All fields are required!' });
@@ -76,13 +75,13 @@ const login = async (req, res) => {
         const user = await User.findOne({ email });
 
         if (!user) {
-            return res.status(404).json({ error: "Wrong email or password" });
+            return res.status(404).json({ error: "User Not Found" });
         }
 
         const isPasswordValid = await bcrypt.compare(password, user.password);
 
         if (!isPasswordValid) {
-            return res.status(401).json({ error: "Invalid credentials" });
+            return res.status(401).json({ error: "Invalid Credentials" });
         }
 
         generateToken(res, user);
@@ -97,7 +96,6 @@ const login = async (req, res) => {
 
 const logOut = (req, res) => {
     try {
-        console.log("req.currentUser=>", req.currentUser)
         res.clearCookie('token', {
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',

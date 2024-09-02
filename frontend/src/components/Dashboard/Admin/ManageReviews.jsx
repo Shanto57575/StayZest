@@ -1,5 +1,4 @@
 import { useState, useEffect, useRef } from "react";
-import axios from "axios";
 import {
 	FaEdit,
 	FaTrash,
@@ -10,7 +9,8 @@ import {
 import { FaLocationDot } from "react-icons/fa6";
 import { convertToMDY } from "../../converter";
 import { MdOutlineAccessTimeFilled } from "react-icons/md";
-import toast from "react-hot-toast";
+import { Toaster } from "react-hot-toast";
+import useAxiosInterceptor from "../../../hooks/useAxiosInterceptor";
 
 const ManageReviews = () => {
 	const [reviews, setReviews] = useState([]);
@@ -19,8 +19,7 @@ const ManageReviews = () => {
 	const [edit, setEdit] = useState(null);
 	const [text, setText] = useState("");
 	const inputRef = useRef(null);
-
-	console.log("reviews", reviews);
+	const axiosInstance = useAxiosInterceptor();
 
 	useEffect(() => {
 		fetchReviews();
@@ -34,13 +33,8 @@ const ManageReviews = () => {
 
 	const fetchReviews = async () => {
 		try {
-			const response = await axios.get(
-				"https://stayzest-backend.onrender.com/api/review/all-reviews",
-				{
-					withCredentials: true,
-				}
-			);
-			setReviews(response.data.reviews);
+			const response = await axiosInstance.get("/api/review/all-reviews");
+			setReviews(response.data);
 			setLoading(false);
 		} catch (err) {
 			setError("Failed to fetch reviews");
@@ -55,19 +49,10 @@ const ManageReviews = () => {
 
 	const handleUpdate = async () => {
 		try {
-			const response = await axios.put(
-				`https://stayzest-backend.onrender.com/api/review/${edit}`,
-				{ comments: text },
-				{ withCredentials: true }
-			);
+			const response = await axiosInstance.put(`/api/review/${edit}`, {
+				comments: text,
+			});
 			if (response.data) {
-				toast.success(
-					<h1 className="font-serif">Review Updated Successfully</h1>,
-					{
-						position: "top-center",
-					}
-				);
-				// Update the reviews state with the updated comment
 				setReviews(
 					reviews.map((review) =>
 						review._id === edit ? { ...review, comments: text } : review
@@ -77,34 +62,18 @@ const ManageReviews = () => {
 				setText("");
 			}
 		} catch (err) {
-			toast.error(<h1 className="font-serif">Failed to Update review</h1>);
+			console.error("Error updating review:", error.response?.data?.error);
 		}
 	};
 
 	const handleDelete = async (id) => {
 		try {
-			const response = await axios.delete(
-				`https://stayzest-backend.onrender.com/api/review/${id}`,
-				{
-					withCredentials: true,
-				}
-			);
+			const response = await axiosInstance.delete(`/api/review/${id}`);
 			if (response.status === 200) {
-				toast.success(
-					<h1 className="font-serif">Review Deleted Successfully</h1>,
-					{
-						position: "top-center",
-					}
-				);
 				fetchReviews();
-			} else {
-				toast.error(<h1 className="font-serif">{response.data.message} </h1>);
 			}
 		} catch (error) {
-			console.error("Error deleting review:", error.response?.data.message);
-			toast.error(
-				<h1 className="font-serif">{error.response?.data.message}</h1>
-			);
+			console.error("Error deleting review:", error.response?.data?.error);
 		}
 	};
 
@@ -132,6 +101,7 @@ const ManageReviews = () => {
 
 	return (
 		<div className="font-serif">
+			<Toaster />
 			<h1 className="text-4xl font-bold mb-6">Manage Reviews</h1>
 			<div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
 				{reviews &&

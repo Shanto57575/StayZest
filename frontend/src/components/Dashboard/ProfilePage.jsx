@@ -10,11 +10,8 @@ import {
 	CheckCircle,
 } from "@mui/icons-material";
 import toast, { Toaster } from "react-hot-toast";
-import {
-	axiosInstance,
-	signUp,
-	updateUserProfile,
-} from "../../features/auth/authSlice";
+import { signUp, updateUserProfile } from "../../features/auth/authSlice";
+import useAxiosInterceptor from "../../hooks/useAxiosInterceptor";
 
 const ProfilePage = () => {
 	const dispatch = useDispatch();
@@ -22,6 +19,7 @@ const ProfilePage = () => {
 	const [isEditing, setIsEditing] = useState(false);
 	const [newImage, setNewImage] = useState(null);
 	const [hue, setHue] = useState(0);
+	const axiosInstance = useAxiosInterceptor();
 
 	const {
 		control,
@@ -63,7 +61,6 @@ const ProfilePage = () => {
 				}
 			);
 
-			console.log(response);
 			if (response.status === 200) {
 				dispatch(updateUserProfile(response.data.user));
 			}
@@ -97,12 +94,13 @@ const ProfilePage = () => {
 
 	return (
 		<div className="min-h-screen flex items-center justify-center p-4 sm:p-2 md:p-4 overflow-hidden">
+			<Toaster />
 			<div className="w-full max-w-screen-xl mx-auto bg-gray-800 rounded-3xl overflow-hidden shadow-2xl relative">
 				<div className="absolute inset-0 flex">
 					<div className="w-1/2 h-full bg-gray-700 transform skew-x-6 -ml-10"></div>
 					<div className="w-1/2 h-full bg-gray-600 transform -skew-x-6 -mr-10"></div>
 				</div>
-				<div className="relative z-10 flex flex-col md:flex-row h-full py-16">
+				<div className="relative z-10 flex flex-col md:flex-row h-full py-16 px-2 md:px-5">
 					<div className="w-full md:w-1/2 md:p-4 flex flex-col items-center justify-center space-y-4 md:space-y-6">
 						<div className="relative group">
 							<div
@@ -289,7 +287,6 @@ const ProfilePage = () => {
 					</div>
 				</div>
 			</div>
-			<Toaster />
 		</div>
 	);
 };
