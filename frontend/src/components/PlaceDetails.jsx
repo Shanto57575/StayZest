@@ -224,7 +224,7 @@ const PlaceDetails = () => {
 						<div className="border rounded-2xl p-6 shadow-lg bg-white">
 							<div className="flex justify-between items-center mb-4">
 								<span className="text-3xl font-bold">
-									${viewDetails.price}{" "}
+									${viewDetails.price}/
 									<span className="text-base font-normal">Night</span>
 								</span>
 								<div className="flex items-center bg-gray-100 px-3 py-1 rounded-full">
@@ -260,9 +260,14 @@ const PlaceDetails = () => {
 										selectsEnd
 										startDate={checkIn}
 										endDate={checkOut}
-										minDate={checkIn || new Date()}
+										minDate={
+											checkIn
+												? new Date(checkIn.getTime() + 24 * 60 * 60 * 1000)
+												: new Date()
+										}
 										placeholderText="Select date"
 										className="w-full border-none focus:ring-0"
+										disabled={!checkIn}
 									/>
 								</div>
 								{validation && (

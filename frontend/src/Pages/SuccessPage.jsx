@@ -106,10 +106,10 @@ const ConfirmedContent = () => {
 				<FaCheckCircle className="text-green-500 text-6xl mx-auto mb-4" />
 			</motion.div>
 			<h2 className="text-3xl font-bold text-gray-800 mb-2">
-				Payment Successful!
+				Payment Successful 🙌
 			</h2>
 			<p className="text-gray-600 mb-6 space-y-2">
-				<p>
+				<p className="text-xl">
 					Booking:{" "}
 					<span className="text-cyan-800 bg-cyan-200 border px-5 py-2.5">
 						PENDING

@@ -115,19 +115,19 @@ const UserHome = () => {
 
 	return (
 		<motion.div
-			className="h-screen p-6 font-serif"
+			className="h-screen font-serif"
 			initial={{ opacity: 0 }}
 			animate={{ opacity: 1 }}
 			transition={{ duration: 1 }}
 		>
-			<div className="text-4xl font-extrabold mb-6">
+			<div className="text-center text-xl md:text-2xl lg:text-4xl font-extrabold mb-6">
 				Welcome Back, {user?.username}
 			</div>
 
 			{/* Box cards */}
-			<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+			<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mb-8">
 				<Zoom>
-					<div className="px-4 py-11 shadow-md shadow-white rounded-lg flex items-center transition-transform transform hover:scale-105 hover:shadow-xl">
+					<div className="px-4 py-10 shadow-md shadow-white rounded-lg flex items-center transition-transform transform hover:scale-105 hover:shadow-xl">
 						<FaUser size={30} className="text-purple-600 mr-4" />
 						<div>
 							<div className="text-2xl font-semibold">
@@ -174,7 +174,7 @@ const UserHome = () => {
 			</div>
 
 			{/* Charts */}
-			<div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+			<div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-8">
 				<Fade>
 					<div className="p-6 shadow-md dark:shadow-cyan-200 shadow-gray-900 rounded-lg">
 						<HighchartsReact
@@ -197,12 +197,9 @@ const UserHome = () => {
 			<div className="mb-10">
 				<h2 className="text-3xl font-semibold mb-4">Recent Bookings</h2>
 				{recentBookings.length > 0 ? (
-					<ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+					<ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
 						{recentBookings.slice(0, 3).map((booking) => (
-							<li
-								key={booking._id}
-								className="relative group flex items-center"
-							>
+							<li key={booking._id} className="relative group">
 								<Zoom>
 									<div
 										onMouseEnter={() =>
@@ -215,16 +212,16 @@ const UserHome = () => {
 												)
 											)
 										}
-										className="relative w-72 h-48"
+										className="relative w-full h-48 sm:h-64 lg:h-72 rounded-lg overflow-hidden"
 									>
 										<img
 											src={booking.place?.photos?.[0]}
 											alt={booking.place?.title || "No Image"}
-											className="w-full h-full object-cover rounded-lg shadow-md"
+											className="object-cover w-full h-full"
 										/>
-										<div className="absolute inset-0 bg-black opacity-0 hover:opacity-100 hover:bg-opacity-70 transition duration-300 flex items-center justify-center rounded-lg">
-											<div className="text-white italic">
-												<div className="text-3xl text-blue-400">
+										<div className="absolute inset-0 bg-black opacity-0 hover:opacity-100 hover:bg-opacity-70 transition duration-300 flex items-center justify-center">
+											<div className="text-white italic p-4">
+												<div className="text-2xl sm:text-3xl text-blue-400">
 													{booking.place?.location || "N/A"}
 												</div>
 												<div className="mt-2 text-lg">
@@ -261,7 +258,7 @@ const UserHome = () => {
 					</ul>
 				) : (
 					<p className="font-bold italic text-purple-600 text-center text-3xl">
-						No recent bookings.
+						No Bookings Yet
 					</p>
 				)}
 			</div>

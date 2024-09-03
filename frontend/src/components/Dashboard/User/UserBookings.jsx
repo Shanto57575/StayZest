@@ -10,7 +10,7 @@ import CancelIcon from "@mui/icons-material/Cancel";
 import FlightTakeoffIcon from "@mui/icons-material/FlightTakeoff";
 import Alert from "@mui/material/Alert";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import useAxiosInterceptor from "../../../hooks/useAxiosInterceptor";
 
 const UserBookings = () => {
@@ -129,7 +129,7 @@ const UserBookings = () => {
 									</span>
 								</div>
 							</div>
-							<div className="p-6 ">
+							<div className="p-6">
 								<h2 className="text-2xl font-semibold mb-4 line-clamp-2">
 									{booking?.place?.title || "Unnamed Booking"}
 								</h2>
@@ -175,9 +175,15 @@ const UserBookings = () => {
 					<h2 className="text-2xl md:text-3xl font-bold mb-4 px-3 py-2">
 						No bookings yet!
 					</h2>
-					<p className="text-md md:text-lg px-3 py-2">
+					<p className="text-md md:text-lg px-3 py-2 mb-5">
 						Your adventure awaits! ✈️ Start planning your next getaway.
 					</p>
+					<Link
+						to="/"
+						className="bg-blue-500 text-white rounded-sm px-5 py-3 hover:bg-blue-700 duration-500"
+					>
+						Book Now
+					</Link>
 				</div>
 			)}
 		</div>
