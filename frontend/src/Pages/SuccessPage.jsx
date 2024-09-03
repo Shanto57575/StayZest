@@ -110,12 +110,13 @@ const ConfirmedContent = () => {
 			</h2>
 			<p className="text-gray-600 mb-6 space-y-2">
 				<p className="text-xl">
-					Booking:{" "}
-					<span className="text-cyan-800 bg-cyan-200 border px-5 py-2.5">
+					BOOKING STATUS :{" "}
+					<span className="text-cyan-700 mb-1 font-bold text-sm bg-cyan-200 border px-5 py-2 rounded">
 						PENDING
 					</span>
 				</p>
-				<p>Thank you for your payment. Wait For the confirmation!.</p>
+				<p>Thank you for your payment!</p>
+				<p>Please, Wait For the confirmation</p>
 			</p>
 
 			<Link

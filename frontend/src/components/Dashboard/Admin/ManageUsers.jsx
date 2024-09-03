@@ -7,6 +7,8 @@ import { FaUsers, FaUserShield, FaExclamationTriangle } from "react-icons/fa";
 import { IoMdBookmarks } from "react-icons/io";
 import useAxiosInterceptor from "../../../hooks/useAxiosInterceptor";
 import Tooltip from "@mui/material/Tooltip";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../../../features/auth/authSlice";
 
 const StatCard = ({ icon: Icon, title, value, bgColor, color }) => (
 	<Fade>
@@ -26,6 +28,8 @@ const ManageUsers = () => {
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState(null);
 	const axiosInstance = useAxiosInterceptor();
+	const { currentUser } = useSelector((state) => state.auth);
+	const dispatch = useDispatch();
 
 	useEffect(() => {
 		const fetchAllUsers = async () => {
@@ -44,13 +48,11 @@ const ManageUsers = () => {
 		fetchAllUsers();
 	}, []);
 
-	const handleRoleChange = async (username, userId, newRole) => {
+	const handleRoleChange = async (userId, newRole) => {
 		try {
-			const response = await axios.put(
-				`https://stayzest-backend.onrender.com/api/user/${userId}`,
-				{ role: newRole },
-				{ withCredentials: true }
-			);
+			const response = await axiosInstance.patch(`/api/user/${userId}`, {
+				role: newRole,
+			});
 
 			if (response.data) {
 				setUsers((prevUsers) =>
@@ -58,14 +60,13 @@ const ManageUsers = () => {
 						user._id === userId ? { ...user, role: newRole } : user
 					)
 				);
-				toast.success(
-					<h1 className="font-serif">
-						{username} is now an {newRole}
-					</h1>
-				);
+
+				if (userId === currentUser._id && newRole !== "ADMIN") {
+					dispatch(logout());
+				}
 			}
 		} catch (err) {
-			toast.error("Failed to update user role. Please try again later.");
+			console.log(err);
 		}
 	};
 
@@ -182,11 +183,7 @@ const ManageUsers = () => {
 										<select
 											value={user.role}
 											onChange={(e) =>
-												handleRoleChange(
-													user.username,
-													user._id,
-													e.target.value
-												)
+												handleRoleChange(user._id, e.target.value)
 											}
 											className={`px-2 py-1 mt-7 inline-flex text-xs leading-5 font-semibold rounded cursor-pointer ${
 												user.role === "GUEST"

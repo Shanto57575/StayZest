@@ -4,6 +4,7 @@ import {
     getAllUsers,
     getAllUsersWithBookingCount,
     getUserById,
+    updateRole,
     updateUser
 } from '../controllers/user.controller.js';
 import { verifyToken } from '../utils/jwtUtils.js';
@@ -16,6 +17,7 @@ userRoutes.get('/allusers', verifyToken, isAdmin, getAllUsers);
 userRoutes.get('/allUserswithBookingCount', verifyToken, isAdmin, getAllUsersWithBookingCount);
 userRoutes.get('/:id', verifyToken, getUserById);
 userRoutes.put('/:id', verifyToken, upload.single('profilePicture'), updateUser);
+userRoutes.patch('/:id', verifyToken, isAdmin, updateRole);
 userRoutes.delete('/:id', verifyToken, isAdmin, deleteUser);
 
 export default userRoutes;

@@ -14,7 +14,6 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
 import { GiArtificialHive } from "react-icons/gi";
-import { MdEmail } from "react-icons/md";
 import { FaUser } from "react-icons/fa";
 
 const Navbar = () => {
