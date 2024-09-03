@@ -156,19 +156,6 @@ const authSlice = createSlice({
                 state.loading = false;
                 state.error = null;
             })
-        // .addCase(fetchAllUsers.pending, (state) => {
-        //     state.loading = true;
-        //     state.error = null;
-        // })
-        // .addCase(fetchAllUsers.fulfilled, (state, action) => {
-        //     state.loading = false;
-        //     state.users = action.payload;
-        //     state.error = null;
-        // })
-        // .addCase(fetchAllUsers.rejected, (state, action) => {
-        //     state.loading = false;
-        //     state.error = action.payload;
-        // });
     },
 });
 

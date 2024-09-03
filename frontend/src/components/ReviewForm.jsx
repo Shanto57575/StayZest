@@ -9,7 +9,6 @@ import {
 import { MdOutlineAccessTimeFilled } from "react-icons/md";
 import { useSelector } from "react-redux";
 import useAxiosInterceptor from "../hooks/useAxiosInterceptor";
-import { Toaster } from "react-hot-toast";
 
 const ReviewForm = ({ place }) => {
 	const [reviews, setReviews] = useState([]);
@@ -83,7 +82,6 @@ const ReviewForm = ({ place }) => {
 
 	return (
 		<div className="max-w-7xl mx-auto p-4 min-h-screen font-serif">
-			<Toaster />
 			<h1 className="text-3xl font-semibold mb-8 text-center">Reviews</h1>
 
 			<div className="lg:flex lg:space-x-8">

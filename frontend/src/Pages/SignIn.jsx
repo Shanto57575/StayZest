@@ -6,11 +6,11 @@ import { signIn } from "../features/auth/authSlice";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import GoogleSignIn from "../components/GoogleSignIn";
-import { Toaster } from "react-hot-toast";
 
 const SignIn = () => {
 	const dispatch = useDispatch();
 	const [showPassword, setShowPassword] = useState(false);
+	const [error, setError] = useState("");
 	const { loading } = useSelector((state) => state.auth);
 	const navigate = useNavigate();
 	const location = useLocation();
@@ -30,6 +30,8 @@ const SignIn = () => {
 			if (signIn.fulfilled.match(singInResult)) {
 				reset();
 				navigate(from);
+			} else if (signIn.rejected.match(singInResult)) {
+				setError("Invalid credentials");
 			}
 		} catch (err) {
 			console.log(err);
@@ -41,8 +43,7 @@ const SignIn = () => {
 	};
 
 	return (
-		<div className="min-h-screen font-serif flex items-center justify-center">
-			<Toaster />
+		<div className="min-h-screen font-serif flex items-center justify-center mx-2 md:mx-0">
 			<div className="w-full max-w-md">
 				<div className="bg-white shadow-2xl rounded-lg overflow-hidden transform hover:shadow-3xl transition-shadow duration-300">
 					<div className="relative">
@@ -124,6 +125,9 @@ const SignIn = () => {
 										</p>
 									)}
 								</div>
+								{error && (
+									<p className="text-sm font-bold text-rose-600">{error}</p>
+								)}
 								<div>
 									<button
 										type="submit"

@@ -84,14 +84,12 @@ const SuccessPage = () => {
 };
 
 const ProcessingContent = () => (
-	<div className="text-center">
+	<div className="text-center mx-2 md:mx-0 font-serif">
 		<div className="animate-spin rounded-full h-16 w-16 border-b-2 border-gray-900 mx-auto mb-4"></div>
 		<h2 className="text-2xl font-bold text-gray-800 mb-2">
 			Processing Payment
 		</h2>
-		<p className="text-gray-600">
-			Please wait while we confirm your booking...
-		</p>
+		<p className="text-gray-600">Please wait...</p>
 	</div>
 );
 
@@ -99,7 +97,7 @@ const ConfirmedContent = () => {
 	const { currentUser } = useSelector((state) => state.auth);
 
 	return (
-		<div className="text-center">
+		<div className="text-center font-serif">
 			<motion.div
 				initial={{ scale: 0 }}
 				animate={{ scale: 1 }}
@@ -110,8 +108,14 @@ const ConfirmedContent = () => {
 			<h2 className="text-3xl font-bold text-gray-800 mb-2">
 				Payment Successful!
 			</h2>
-			<p className="text-gray-600 mb-6">
-				Thank you for your payment. Wait For the confirmation!.
+			<p className="text-gray-600 mb-6 space-y-2">
+				<p>
+					Booking:{" "}
+					<span className="text-cyan-800 bg-cyan-200 border px-5 py-2.5">
+						PENDING
+					</span>
+				</p>
+				<p>Thank you for your payment. Wait For the confirmation!.</p>
 			</p>
 
 			<Link
@@ -128,7 +132,7 @@ const ConfirmedContent = () => {
 };
 
 const ErrorContent = () => (
-	<div className="h-screen flex items-center text-center justify-center font-serif">
+	<div className="h-screen flex items-center text-center justify-center font-serif mx-2 md:mx-0">
 		<div className="text-center">
 			<FaExclamationTriangle className="text-red-500 text-6xl mx-auto mb-4" />
 			<h2 className="text-2xl font-bold text-gray-800 mb-2">

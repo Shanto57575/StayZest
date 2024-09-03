@@ -32,11 +32,8 @@ const UserBookings = () => {
 				setLoading(false);
 				setError(null);
 			} catch (err) {
-				setError(
-					err.response
-						? err.response.data.error
-						: "An unexpected error occurred"
-				);
+				console.log(err);
+				setError(err.response ? err.response.data.error : err?.message);
 				setLoading(false);
 				setBookings([]);
 			}
@@ -80,9 +77,9 @@ const UserBookings = () => {
 
 	if (error) {
 		return (
-			<Alert className="mb-6 text-white bg-red-500">
-				<p>Error : {error}!</p>
-			</Alert>
+			<plaintext className="bg-rose-600 text-white p-6 rounded-md text-xl text-center">
+				<p className="break-words">{error}</p>
+			</plaintext>
 		);
 	}
 

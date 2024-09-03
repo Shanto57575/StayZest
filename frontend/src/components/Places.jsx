@@ -10,7 +10,7 @@ import {
 import { formatDate } from "./converter";
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import EditPlaceModal from "./EditPlaceModal";
 import InfoIcon from "@mui/icons-material/Info";
 import Tooltip from "@mui/material/Tooltip";
@@ -30,8 +30,13 @@ const Places = () => {
 	const [sortBy, setSortBy] = useState("price_asc");
 	const [filterCountry, setFilterCountry] = useState("");
 	const [searchTitle, setSearchTitle] = useState("");
+	const [searchTitleInput, setSearchTitleInput] = useState("");
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [editingPlace, setEditingPlace] = useState(null);
+
+	useEffect(() => {
+		dispatch(setPage(1));
+	}, [sortBy, filterCountry, searchTitle]);
 
 	useEffect(() => {
 		dispatch(
@@ -44,6 +49,31 @@ const Places = () => {
 			})
 		);
 	}, [dispatch, currentPage, sortBy, filterCountry, searchTitle]);
+
+	const handleSortChange = (e) => {
+		setSortBy(e.target.value);
+		dispatch(setPage(1));
+	};
+
+	const handleFilterCountryChange = (e) => {
+		setFilterCountry(e.target.value);
+		dispatch(setPage(1));
+	};
+
+	const handleSearchTitleChange = (e) => {
+		const newValue = e.target.value;
+		setSearchTitleInput(newValue);
+
+		if (newValue === "") {
+			setSearchTitle("");
+			dispatch(setPage(1));
+		}
+	};
+
+	const handleSearchSubmit = () => {
+		setSearchTitle(searchTitleInput);
+		dispatch(setPage(1));
+	};
 
 	const handlePageChange = (newPage) => {
 		dispatch(setPage(newPage));
@@ -64,17 +94,10 @@ const Places = () => {
 			await dispatch(
 				updatePlace({ placeId: editingPlace._id, updatedData })
 			).unwrap();
-			toast.success("Place updated successfully!", {
-				duration: 3000,
-				className:
-					"bg-gradient-to-r from-green-400 to-green-600 text-white font-bold",
-			});
+			toast.success(<h1 className="font-serif">Place updated successfully</h1>);
 			handleCloseModal();
 		} catch (err) {
-			toast.error("Failed to update place. Please try again.", {
-				className:
-					"bg-gradient-to-r from-red-400 to-red-600 text-white font-bold",
-			});
+			toast.error(<h1 className="font-serif">Failed to update place</h1>);
 		}
 	};
 
@@ -170,7 +193,7 @@ const Places = () => {
 					<div className="flex flex-wrap items-center justify-between gap-4">
 						<select
 							value={sortBy}
-							onChange={(e) => setSortBy(e.target.value)}
+							onChange={handleSortChange}
 							className="w-full md:w-48 font-serif px-4 py-2 rounded-full bg-white dark:bg-gray-800 border-2 border-sky-300 dark:border-sky-600 focus:border-sky-500 focus:ring focus:ring-sky-200 dark:focus:ring-sky-800 transition duration-300"
 						>
 							<option value="price_asc">Price: Low to High</option>
@@ -178,7 +201,7 @@ const Places = () => {
 						</select>
 						<select
 							value={filterCountry}
-							onChange={(e) => setFilterCountry(e.target.value)}
+							onChange={handleFilterCountryChange}
 							className="w-full md:w-48 font-serif px-4 py-2 rounded-full bg-white dark:bg-gray-800 border-2 border-sky-300 dark:border-sky-600 focus:border-sky-500 focus:ring focus:ring-sky-200 dark:focus:ring-sky-800 transition duration-300"
 						>
 							<option value="">All Countries</option>
@@ -191,16 +214,23 @@ const Places = () => {
 							<option value="FRANCE">France</option>
 							<option value="Switzerland">Switzerland</option>
 						</select>
-						<input
-							type="text"
-							placeholder="Search by title"
-							value={searchTitle}
-							onChange={(e) => setSearchTitle(e.target.value)}
-							className="w-full md:w-48 font-serif px-4 py-2 rounded-full bg-white dark:bg-gray-800 border-2 border-sky-300 dark:border-sky-600 focus:border-sky-500 focus:ring focus:ring-sky-200 dark:focus:ring-sky-800 transition duration-300"
-						/>
+						<div className="relative w-full md:w-64">
+							<input
+								type="text"
+								placeholder="Search place"
+								value={searchTitleInput}
+								onChange={handleSearchTitleChange}
+								className="w-full font-serif pl-4 pr-12 py-2 rounded-full bg-white dark:bg-gray-800 border-2 border-sky-300 dark:border-sky-600 focus:border-sky-500 focus:ring focus:ring-sky-200 dark:focus:ring-sky-800 transition duration-300"
+							/>
+							<button
+								onClick={handleSearchSubmit}
+								className="absolute right-1 top-1/2 transform -translate-y-1/2 bg-blue-500 text-white px-3 py-1 rounded-full hover:bg-blue-600 transition duration-300"
+							>
+								Search
+							</button>
+						</div>
 					</div>
 				</div>
-
 				{placeLoading ? (
 					<div className="flex justify-center items-center h-screen">
 						<div className="relative w-24 h-24">
@@ -333,8 +363,6 @@ const Places = () => {
 						}}
 					/>
 				)}
-
-				<Toaster />
 			</div>
 		</div>
 	);

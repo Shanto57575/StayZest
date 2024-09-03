@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Fade } from "react-awesome-reveal";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import FlightTakeoffIcon from "@mui/icons-material/FlightTakeoff";
 import CancelIcon from "@mui/icons-material/Cancel";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
@@ -199,7 +199,6 @@ const ManageBookings = () => {
 					searchTerm={searchTerm}
 				/>
 			</div>
-			<Toaster />
 		</Fade>
 	);
 };

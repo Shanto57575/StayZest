@@ -9,7 +9,6 @@ import {
 import { FaLocationDot } from "react-icons/fa6";
 import { convertToMDY } from "../../converter";
 import { MdOutlineAccessTimeFilled } from "react-icons/md";
-import { Toaster } from "react-hot-toast";
 import useAxiosInterceptor from "../../../hooks/useAxiosInterceptor";
 
 const ManageReviews = () => {
@@ -100,15 +99,16 @@ const ManageReviews = () => {
 		);
 
 	return (
-		<div className="font-serif">
-			<Toaster />
-			<h1 className="text-4xl font-bold mb-6">Manage Reviews</h1>
-			<div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+		<div className="w-full font-serif">
+			<h1 className="text-xl md:text-3xl lg:text-4xl font-bold mb-6">
+				Manage Reviews
+			</h1>
+			<div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
 				{reviews &&
 					reviews?.map((review) => (
 						<div
 							key={review._id}
-							className="p-4 rounded-lg shadow-lg hover:shadow-md dark:shadow-gray-950 shadow-gray-400"
+							className="px-4 py-6 rounded-lg shadow-lg hover:shadow-md dark:shadow-gray-950 shadow-gray-400"
 						>
 							<div className="space-y-2">
 								<div className="flex flex-wrap items-center justify-between space-y-2 text-sm">
@@ -146,11 +146,11 @@ const ManageReviews = () => {
 								) : (
 									<div className="flex items-center gap-x-1">
 										<FaComment className="inline-block mr-2" size={20} />
-										<h2 className="text-xs">{review.comments}</h2>
+										<h2 className="text-xs break-words">{review.comments}</h2>
 									</div>
 								)}
 							</div>
-							<p className="text-gray-600 mb-4">{review.text}</p>
+							<p className="text-gray-600 mb-4 break-words">{review.text}</p>
 							<div className="flex justify-end space-x-2">
 								{edit === review._id ? (
 									<button

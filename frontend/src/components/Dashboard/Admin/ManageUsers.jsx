@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import { Fade } from "react-awesome-reveal";
 import { Person, Group } from "@mui/icons-material";
 import { FaUsers, FaUserShield, FaExclamationTriangle } from "react-icons/fa";
 import { IoMdBookmarks } from "react-icons/io";
 import useAxiosInterceptor from "../../../hooks/useAxiosInterceptor";
+import Tooltip from "@mui/material/Tooltip";
 
 const StatCard = ({ icon: Icon, title, value, bgColor, color }) => (
 	<Fade>
@@ -101,7 +102,6 @@ const ManageUsers = () => {
 
 	return (
 		<div className="container mx-auto p-4">
-			<Toaster />
 			<Fade cascade>
 				<h1 className="text-3xl font-bold mb-8 font-serif">Manage Users</h1>
 			</Fade>
@@ -143,10 +143,10 @@ const ManageUsers = () => {
 								userImage
 							</th>
 							<th className="px-6 py-3 text-xs font-medium  uppercase tracking-wider">
-								username
+								userName
 							</th>
 							<th className="px-6 py-3  text-xs font-medium  uppercase tracking-wider">
-								email
+								Email
 							</th>
 							<th className="px-6 py-3  text-xs font-medium  uppercase tracking-wider">
 								Total Bookings
@@ -161,14 +161,17 @@ const ManageUsers = () => {
 							users.map((user) => (
 								<tr key={user._id}>
 									<td className="px-6 py-4 whitespace-nowrap">
-										<img
-											className="h-12 w-12 rounded-full text-center mx-auto"
-											src={user.profilePicture}
-											// src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
-											alt=""
-										/>
+										<Tooltip title={user.username} placement="top">
+											<img
+												className="h-12 w-12 rounded-full text-center mx-auto"
+												// src={user.profilePicture}
+												src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
+												alt=""
+											/>
+										</Tooltip>
 									</td>
-									<td className="px-6 py-4 whitespace-nowrap italic">
+
+									<td className="px-6 py-4 whitespace-nowrap">
 										{user.username}
 									</td>
 									<td className="px-6 py-4 whitespace-nowrap">{user.email}</td>

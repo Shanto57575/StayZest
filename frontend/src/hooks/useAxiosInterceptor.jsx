@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import axios from "axios";
 import toast from "react-hot-toast";
-import { logout } from "../features/auth/authSlice";
+import { logout, signIn } from "../features/auth/authSlice";
 
 export const axiosInstance = axios.create({
 	baseURL: "https://stayzest-backend.onrender.com",
@@ -27,12 +27,21 @@ const useAxiosInterceptor = () => {
 			(error) => {
 				if (error.response) {
 					if (error.response.status === 404) {
-						toast.error(error.response.data.error || "Resource not found.");
+						toast.error(
+							<h1 className="text-center font-serif">
+								{error.response.data.error || "Resource not found"}
+							</h1>
+						);
 					} else if (error.response.status === 401) {
+						dispatch(signIn(null));
 						dispatch(logout());
 					}
 				} else {
-					toast.error("Network error. Please check your connection.");
+					toast.error(
+						<h1 className="text-center font-serif">
+							Network error. Please check your connection
+						</h1>
+					);
 				}
 				return Promise.reject(error);
 			}

@@ -24,7 +24,9 @@ const Navbar = () => {
 	const darkMode = useSelector((state) => state.theme.darkMode);
 	const user = useSelector((state) => state.auth.currentUser);
 	const navigate = useNavigate();
+	const dropdownRef = useRef(null);
 	const mobileMenuRef = useRef(null);
+	const mobileMenuButtonRef = useRef(null);
 
 	const handleDarkModeToggle = () => {
 		dispatch(toggleDarkMode());
@@ -48,6 +50,27 @@ const Navbar = () => {
 	};
 
 	useEffect(() => {
+		const handleClickOutside = (event) => {
+			if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+				setIsOpen(false);
+			}
+			if (
+				isMobileMenuOpen &&
+				mobileMenuRef.current &&
+				!mobileMenuRef.current.contains(event.target) &&
+				!mobileMenuButtonRef.current.contains(event.target)
+			) {
+				setIsMobileMenuOpen(false);
+			}
+		};
+
+		document.addEventListener("mousedown", handleClickOutside);
+		return () => {
+			document.removeEventListener("mousedown", handleClickOutside);
+		};
+	}, [isMobileMenuOpen]);
+
+	useEffect(() => {
 		const handleResize = () => {
 			if (window.innerWidth >= 768) {
 				setIsMobileMenuOpen(false);
@@ -57,27 +80,6 @@ const Navbar = () => {
 		window.addEventListener("resize", handleResize);
 		return () => window.removeEventListener("resize", handleResize);
 	}, []);
-
-	useEffect(() => {
-		const handleClickOutside = (event) => {
-			if (
-				mobileMenuRef.current &&
-				!mobileMenuRef.current.contains(event.target)
-			) {
-				setIsMobileMenuOpen(false);
-			}
-		};
-
-		if (isMobileMenuOpen) {
-			document.addEventListener("mousedown", handleClickOutside);
-		} else {
-			document.removeEventListener("mousedown", handleClickOutside);
-		}
-
-		return () => {
-			document.removeEventListener("mousedown", handleClickOutside);
-		};
-	}, [isMobileMenuOpen]);
 
 	const navLinks = [
 		{ to: "/dashboard/profile", icon: <PortraitIcon />, text: "Profile" },
@@ -143,7 +145,7 @@ const Navbar = () => {
 								<DarkModeIcon className="text-indigo-600" />
 							)}
 						</button>
-						<div className="relative">
+						<div className="relative" ref={dropdownRef}>
 							<button
 								onClick={toggleDropdown}
 								className="flex items-center space-x-2 p-2 shadow-md shadow-gray-700 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition duration-300 group"
@@ -200,6 +202,7 @@ const Navbar = () => {
 
 					<div className="md:hidden flex items-center">
 						<button
+							ref={mobileMenuButtonRef}
 							onClick={toggleMobileMenu}
 							className="rounded-full hover:bg-gray-200 p-2 dark:hover:bg-gray-700 transition duration-300 transform hover:scale-110"
 						>
@@ -214,29 +217,29 @@ const Navbar = () => {
 			</div>
 
 			{isMobileMenuOpen && (
-				<div
-					ref={mobileMenuRef}
-					className={`fixed inset-0 bg-gray-900 bg-opacity-80 z-40 transition-opacity duration-300 ${
-						isMobileMenuOpen ? "opacity-100" : "opacity-0 pointer-events-none"
-					}`}
-				>
+				<div className="fixed inset-0 bg-gray-900 bg-opacity-80 z-40 transition-opacity duration-300">
 					<div
-						className={`fixed top-0 right-0 w-3/4 bg-white dark:bg-gray-800 h-full overflow-y-auto shadow-lg transform transition-transform duration-300 ${
-							isMobileMenuOpen ? "translate-x-0" : "translate-x-full"
-						}`}
+						ref={mobileMenuRef}
+						className="fixed top-0 right-0 bg-white dark:bg-gray-800 h-full overflow-y-auto shadow-lg transform transition-transform duration-300"
 					>
 						<div className="flex justify-between items-center p-4 border-b dark:border-gray-700">
-							<div className="ml-">
+							<div className="flex items-center gap-x-16">
 								<div className="flex items-center gap-x-2">
 									<FaUser size={16} />
 									<p className="text-lg font-serif text-wrap">
 										{user.username}
 									</p>
 								</div>
-								<div className="flex items-center gap-x-2">
-									<MdEmail size={16} />
-									<p className="font-serif text-sm flex">{user.email}</p>
-								</div>
+								<button
+									onClick={handleDarkModeToggle}
+									className="flex items-center text-sm p-2 hover:bg-gradient-to-r hover:from-sky-100 hover:to-indigo-100 dark:hover:from-sky-900 dark:hover:to-indigo-900 transition duration-300"
+								>
+									{darkMode ? (
+										<WbSunnyIcon className="text-yellow-400" />
+									) : (
+										<DarkModeIcon className="text-indigo-600" />
+									)}
+								</button>
 							</div>
 							<button
 								onClick={toggleMobileMenu}
@@ -245,18 +248,7 @@ const Navbar = () => {
 								<CloseIcon className="text-gray-800 dark:text-white" />
 							</button>
 						</div>
-						<div className="flex flex-col space-y-2 p-4 font-serif">
-							<button
-								onClick={handleDarkModeToggle}
-								className="flex items-center gap-x-2 px-4 py-2 text-sm hover:bg-gradient-to-r hover:from-sky-100 hover:to-indigo-100 dark:hover:from-sky-900 dark:hover:to-indigo-900 transition duration-300"
-							>
-								{darkMode ? (
-									<WbSunnyIcon className="text-yellow-400" />
-								) : (
-									<DarkModeIcon className="text-indigo-600" />
-								)}
-								Change Theme
-							</button>
+						<div className="space-y-2 p-4 font-serif">
 							<Link
 								to="/trip-planner"
 								className="flex items-center gap-x-2 px-4 py-2 text-sm hover:bg-gradient-to-r hover:from-sky-100 hover:to-indigo-100 dark:hover:from-sky-900 dark:hover:to-indigo-900 transition duration-300"

@@ -7,7 +7,6 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import { Alert } from "@mui/material";
 import GoogleSignIn from "../components/GoogleSignIn";
-import { Toaster } from "react-hot-toast";
 
 const SignUp = () => {
 	const dispatch = useDispatch();
@@ -38,8 +37,7 @@ const SignUp = () => {
 	};
 
 	return (
-		<div className="min-h-screen font-serif flex items-center justify-center">
-			<Toaster />
+		<div className="min-h-screen font-serif flex items-center justify-center mx-2 md:mx-0">
 			<div className="w-full max-w-md p-8 bg-white rounded-2xl space-y-6 shadow-2xl shadow-gray-500">
 				<div className="text-center">
 					<div className="flex items-center justify-center mb-3">

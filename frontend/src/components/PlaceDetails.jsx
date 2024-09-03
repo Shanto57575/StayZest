@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchPlaceDetails } from "../features/places/placesSlice";
@@ -12,29 +12,58 @@ import AcUnitIcon from "@mui/icons-material/AcUnit";
 import TvIcon from "@mui/icons-material/Tv";
 import BedIcon from "@mui/icons-material/Bed";
 import ShowerIcon from "@mui/icons-material/Shower";
+import {
+	FaEdit,
+	FaTrash,
+	FaUserCircle,
+	FaComment,
+	FaPaperPlane,
+} from "react-icons/fa";
+import { MdOutlineAccessTimeFilled } from "react-icons/md";
 import "react-datepicker/dist/react-datepicker.css";
-import ReviewForm from "./ReviewForm";
 import useAxiosInterceptor from "../hooks/useAxiosInterceptor";
+import { toast } from "react-hot-toast";
 
 const PlaceDetails = () => {
-	const dispatch = useDispatch();
-	const { placeId } = useParams();
-	const axiosInstance = useAxiosInterceptor();
-	const { viewDetails, placeLoading, error } = useSelector(
-		(state) => state.places
-	);
-	const { currentUser } = useSelector((state) => state.auth);
-	const userId = currentUser?._id;
-
 	const [checkIn, setCheckIn] = useState(null);
 	const [checkOut, setCheckOut] = useState(null);
 	const [validation, setValidation] = useState("");
 	const [guests, setGuests] = useState({ adults: 1, children: 0 });
 	const [processing, setProcessing] = useState(false);
 
+	// Review state
+	const [reviews, setReviews] = useState([]);
+	const [text, setText] = useState("");
+	const [editingId, setEditingId] = useState(null);
+	const [reviewLoading, setReviewLoading] = useState(false);
+
+	const dispatch = useDispatch();
+	const { placeId } = useParams();
+	const axiosInstance = useAxiosInterceptor();
+	const { viewDetails, placeLoading, error } = useSelector(
+		(state) => state.places
+	);
+	const user = useSelector((state) => state.auth?.currentUser);
+	const userId = user?._id;
+
 	useEffect(() => {
 		dispatch(fetchPlaceDetails(placeId));
 	}, [dispatch, placeId]);
+
+	useEffect(() => {
+		fetchReviews();
+	}, [placeId]);
+
+	const fetchReviews = async () => {
+		try {
+			const response = await axiosInstance.get(
+				`/api/review/reviews-by-place/${placeId}`
+			);
+			setReviews(response.data);
+		} catch (error) {
+			console.error("Error fetching reviews:", error);
+		}
+	};
 
 	const handleGuestsChange = (type, operation) => {
 		const totalCurrentGuests = guests.adults + guests.children;
@@ -87,6 +116,51 @@ const PlaceDetails = () => {
 			}
 		} catch (error) {
 			setProcessing(false);
+			toast.error("Error processing booking");
+		}
+	};
+
+	const handleReviewSubmit = async (e) => {
+		e.preventDefault();
+		setReviewLoading(true);
+		try {
+			if (editingId) {
+				const response = await axiosInstance.put(`/api/review/${editingId}`, {
+					comments: text,
+				});
+				if (response.data) {
+					setEditingId(null);
+				}
+			} else {
+				const response = await axiosInstance.post("/api/review/add-review", {
+					user: userId,
+					place: placeId,
+					comments: text,
+				});
+			}
+			setText("");
+			fetchReviews();
+		} catch (error) {
+			console.log(error);
+		} finally {
+			setReviewLoading(false);
+		}
+	};
+
+	const handleEdit = (review) => {
+		setEditingId(review._id);
+		setText(review.comments);
+	};
+
+	const handleDeleteReview = async (reviewId) => {
+		try {
+			const response = await axiosInstance.delete(`/api/review/${reviewId}`);
+			if (response.status === 200) {
+				const newReviews = reviews.filter((review) => review._id !== reviewId);
+				setReviews(newReviews);
+			}
+		} catch (error) {
+			console.error(error);
 		}
 	};
 
@@ -109,6 +183,8 @@ const PlaceDetails = () => {
 	if (!viewDetails) {
 		return <div className="text-center">No place details found</div>;
 	}
+
+	console.log(viewDetails);
 
 	return (
 		<>
@@ -323,36 +399,163 @@ const PlaceDetails = () => {
 						<h2 className="text-2xl font-semibold mb-4">
 							What this place offers
 						</h2>
-						<ul className="grid grid-cols-1 md:grid-cols-2 gap-4">
+						<ul className="flex flex-wrap items-center justify-between gap-5">
 							<li className="flex items-center space-x-2">
-								<BedIcon className="dark:text-cyan-400 text-cyan-600" />{" "}
-								<span>{viewDetails.bedrooms} Bedrooms</span>
+								<BedIcon
+									fontSize="large"
+									className="dark:text-cyan-400 text-cyan-600"
+								/>{" "}
+								<span className="text-xl">{viewDetails.bedrooms} Bedrooms</span>
 							</li>
 							<li className="flex items-center space-x-2">
-								<ShowerIcon className="dark:text-cyan-400 text-cyan-600" />{" "}
-								<span>{viewDetails.bathrooms} Bathrooms</span>
+								<ShowerIcon
+									fontSize="large"
+									className="dark:text-cyan-400 text-cyan-600"
+								/>{" "}
+								<span className="text-xl">
+									{viewDetails.bathrooms} Bathrooms
+								</span>
 							</li>
 							<li className="flex items-center space-x-2">
-								<WifiIcon className="dark:text-cyan-400 text-cyan-600" />{" "}
-								<span>Free WiFi</span>
+								<WifiIcon
+									fontSize="large"
+									className="dark:text-cyan-400 text-cyan-600"
+								/>{" "}
+								<span className="text-xl">Free WiFi</span>
 							</li>
 							<li className="flex items-center space-x-2">
-								<LocalParkingIcon className="dark:text-cyan-400 text-cyan-600" />{" "}
-								<span>Free parking</span>
+								<LocalParkingIcon
+									fontSize="large"
+									className="dark:text-cyan-400 text-cyan-600"
+								/>{" "}
+								<span className="text-xl">Free parking</span>
 							</li>
 							<li className="flex items-center space-x-2">
-								<AcUnitIcon className="dark:text-cyan-400 text-cyan-600" />{" "}
-								<span>Air conditioning</span>
+								<AcUnitIcon
+									fontSize="large"
+									className="dark:text-cyan-400 text-cyan-600"
+								/>{" "}
+								<span className="text-xl">Air conditioning</span>
 							</li>
 							<li className="flex items-center space-x-2">
-								<TvIcon className="dark:text-cyan-400 text-cyan-600" />{" "}
-								<span>TV</span>
+								<TvIcon
+									fontSize="large"
+									className="dark:text-cyan-400 text-cyan-600"
+								/>{" "}
+								<span className="text-xl">TV</span>
 							</li>
 						</ul>
 					</div>
 				</div>
 			</div>
-			{viewDetails && <ReviewForm place={placeId} />}
+
+			{/* REVIEW */}
+			<div className="max-w-7xl mx-auto p-4 min-h-screen font-serif">
+				<h1 className="text-3xl font-semibold mb-8 text-center">Reviews</h1>
+
+				<div className="lg:flex lg:space-x-8">
+					<div className="lg:w-1/2 mb-8 lg:mb-0">
+						<form
+							onSubmit={handleReviewSubmit}
+							className="space-y-4 p-6 rounded-lg dark:bg-gray-800 shadow-lg shadow-gray-400 dark:shadow-gray-950"
+						>
+							<div className="flex flex-col">
+								<label htmlFor="username" className="mb-1 text-sm font-medium">
+									Username
+								</label>
+								<input
+									defaultValue={user.username}
+									type="text"
+									name="username"
+									id="username"
+									className="border border-gray-300 dark:bg-gray-900 p-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+									readOnly
+								/>
+							</div>
+
+							<div className="flex flex-col">
+								<label htmlFor="review" className="mb-1 text-sm font-medium">
+									Your Review
+								</label>
+								<textarea
+									id="review"
+									value={text}
+									onChange={(e) => setText(e.target.value)}
+									rows="4"
+									className="w-full p-2 rounded mb-2 border dark:bg-gray-900 border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+									placeholder="Write a review..."
+									required
+								/>
+							</div>
+
+							{reviewLoading ? (
+								<button
+									type="submit"
+									className="w-full bg-blue-500 px-4 py-2 rounded hover:bg-blue-600 transition duration-300 flex items-center justify-center"
+								>
+									loading...
+								</button>
+							) : (
+								<button
+									type="submit"
+									className="w-full bg-blue-500 px-4 py-2 rounded hover:bg-blue-600 transition duration-300 flex items-center justify-center"
+								>
+									<FaPaperPlane className="mr-2" />
+									{editingId ? "Update Review" : "Add Review"}
+								</button>
+							)}
+						</form>
+					</div>
+
+					<div className="lg:w-1/2 space-y-6">
+						{reviews?.length > 0 ? (
+							reviews?.map((review) => (
+								<div
+									key={review._id}
+									className="p-6 rounded-lg shadow-lg hover:shadow-md shadow-gray-400 dark:shadow-gray-950"
+								>
+									<div className="flex items-center mb-4">
+										<FaUserCircle className="mr-2" size={24} />
+										<span className="font-medium">{review.user.username}</span>
+										{(review.user.username === user.username ||
+											user.role === "ADMIN") && (
+											<div className="ml-auto flex space-x-2">
+												<button
+													onClick={() => handleEdit(review)}
+													className="text-blue-500 hover:text-blue-600 transition duration-300"
+												>
+													<FaEdit size={18} />
+												</button>
+												<button
+													onClick={() => handleDeleteReview(review._id)}
+													className="text-red-500 hover:text-red-600 transition duration-300"
+												>
+													<FaTrash size={18} />
+												</button>
+											</div>
+										)}
+									</div>
+									<p className="mb-2 break-words">
+										<FaComment className="inline-block mr-2" size={16} />
+										{review.comments}
+									</p>
+									<p>
+										<MdOutlineAccessTimeFilled
+											className="inline-block mr-2"
+											size={16}
+										/>
+										{new Date(review.createdAt).toLocaleString()}
+									</p>
+								</div>
+							))
+						) : (
+							<p className="text-center px-6 py-10 rounded-lg shadow-lg hover:shadow-md shadow-gray-400 dark:shadow-gray-950">
+								No reviews yet. Be the first to review!
+							</p>
+						)}
+					</div>
+				</div>
+			</div>
 		</>
 	);
 };

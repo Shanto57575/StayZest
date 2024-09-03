@@ -1,9 +1,7 @@
-import React from "react";
 import { format } from "date-fns";
 import CancelIcon from "@mui/icons-material/Cancel";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import { useState, useEffect } from "react";
-import { Toaster } from "react-hot-toast";
 
 const BookingTable = ({ bookings, handleStatus, searchTerm }) => {
 	const [filteredBookings, setFilteredBookings] = useState([]);
@@ -20,18 +18,16 @@ const BookingTable = ({ bookings, handleStatus, searchTerm }) => {
 	return (
 		<div>
 			<div className="overflow-x-auto">
-				<Toaster />
 				<table className="w-full mx-auto font-serif bg-white dark:bg-gray-800 shadow-md rounded-lg overflow-hidden">
 					<thead className="bg-gray-50 dark:bg-gray-600 text-gray-700 dark:text-gray-200">
 						<tr>
 							<th className="py-3 px-4 text-center">Place</th>
+							<th className="py-3 px-4 text-center">Booking Date</th>
 							<th className="py-3 px-4 text-center">CheckIn</th>
 							<th className="py-3 px-4 text-center">CheckOut</th>
 							<th className="py-3 px-4 text-center">Price</th>
 							<th className="py-3 px-4 text-center">User</th>
 							<th className="py-3 px-4 text-center">Status</th>
-							<th className="py-3 px-4 text-center">Action</th>
-							<th className="py-3 px-4 text-center">Booking Date</th>
 						</tr>
 					</thead>
 					<tbody className="divide-y divide-gray-200 dark:divide-gray-600 text-center">
@@ -47,6 +43,9 @@ const BookingTable = ({ bookings, handleStatus, searchTerm }) => {
 										alt={booking.place?.title}
 									/>
 									<span className="text-xs mt-1">{booking.place?.title}</span>
+								</td>
+								<td className="text-sm">
+									{format(new Date(booking.createdAt), "MMM dd, yyyy")}
 								</td>
 								<td className="py-3 px-4 text-sm">
 									{format(new Date(booking.checkIn), "MMM dd, yyyy")}
@@ -64,46 +63,22 @@ const BookingTable = ({ bookings, handleStatus, searchTerm }) => {
 										({booking.user?.email ? booking.user?.email : "...."})
 									</span>
 								</td>
-								<td className="py-3 px-4">
-									<span
-										className={`py-2 px-4 rounded-full text-xs hover:tracking-wider duration-500 ${
+								<td>
+									<select
+										value={booking.status}
+										onChange={(e) => handleStatus(booking._id, e.target.value)}
+										className={`p-2 mx-3 inline-flex text-xs leading-5 font-semibold rounded cursor-pointer ${
 											booking.status === "PENDING"
-												? "bg-yellow-200 text-yellow-600"
-												: booking.status === "CONFIRMED"
-												? "bg-green-200 text-green-600"
-												: "bg-red-200 text-red-600"
+												? "bg-amber-200 text-amber-700"
+												: booking.status === "CANCELLED"
+												? "bg-rose-200 text-rose-700"
+												: "bg-green-200 text-green-700"
 										}`}
 									>
-										{booking.status}
-									</span>
-								</td>
-								<td className="">
-									<button
-										onClick={() => handleStatus(booking._id, "CONFIRMED")}
-										className={`rounded-full bg-green-500 text-white ${
-											booking.status === "PENDING"
-												? "hover:bg-green-600"
-												: "cursor-not-allowed opacity-50"
-										} mr-2`}
-										disabled={booking.status !== "PENDING"}
-									>
-										<CheckCircleIcon />
-									</button>
-
-									<button
-										onClick={() => handleStatus(booking._id, "CANCELLED")}
-										className={`rounded-full bg-red-500 text-white ${
-											booking.status === "PENDING"
-												? "hover:bg-red-600"
-												: "cursor-not-allowed opacity-50"
-										}`}
-										disabled={booking.status !== "PENDING"}
-									>
-										<CancelIcon />
-									</button>
-								</td>
-								<td className="text-sm">
-									{format(new Date(booking.createdAt), "MMM dd, yyyy")}
+										<option value="PENDING">PENDING</option>
+										<option value="CONFIRMED">CONFIRMED</option>
+										<option value="CANCELLED">CANCELLED</option>
+									</select>
 								</td>
 							</tr>
 						))}

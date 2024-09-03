@@ -9,7 +9,7 @@ import {
 	AssignmentInd,
 	CheckCircle,
 } from "@mui/icons-material";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import { signUp, updateUserProfile } from "../../features/auth/authSlice";
 import useAxiosInterceptor from "../../hooks/useAxiosInterceptor";
 
@@ -94,7 +94,6 @@ const ProfilePage = () => {
 
 	return (
 		<div className="min-h-screen flex items-center justify-center p-4 sm:p-2 md:p-4 overflow-hidden">
-			<Toaster />
 			<div className="w-full max-w-screen-xl mx-auto bg-gray-800 rounded-3xl overflow-hidden shadow-2xl relative">
 				<div className="absolute inset-0 flex">
 					<div className="w-1/2 h-full bg-gray-700 transform skew-x-6 -ml-10"></div>

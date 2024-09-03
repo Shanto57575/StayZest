@@ -27,6 +27,8 @@ import ManageBookings from "./components/Dashboard/Admin/ManageBookings/ManageBo
 import SuccessPage from "./Pages/SuccessPage";
 import CancelPage from "./Pages/CancelPage";
 import TripPlanner from "./Pages/TripPlanner";
+import { Toaster } from "react-hot-toast";
+import Footer from "./components/Footer";
 
 const Layout = () => {
 	const location = useLocation();
@@ -38,6 +40,7 @@ const Layout = () => {
 			<div className="container mx-auto px-4 py-8">
 				<Outlet />
 			</div>
+			{showNavbar && <Footer />}
 		</>
 	);
 };
@@ -56,6 +59,7 @@ const App = () => {
 	const router = createBrowserRouter([
 		{
 			element: <Layout />,
+			errorElement: <ErrorPage />,
 			children: [
 				{
 					element: <PrivateRoutes />,
@@ -165,7 +169,8 @@ const App = () => {
 	]);
 
 	return (
-		<div className="bg-white dark:bg-gray-900 text-gray-900 dark:text-white">
+		<div className="bg-white dark:bg-gray-900 text-gray-900 dark:text-white min-h-screen">
+			<Toaster />
 			<RouterProvider router={router} />
 		</div>
 	);

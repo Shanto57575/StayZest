@@ -11,7 +11,7 @@ import {
 	FileCopy,
 } from "@mui/icons-material";
 import axios from "axios";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import Loader from "../components/Loader";
 
 const TripPlanner = () => {
@@ -24,7 +24,8 @@ const TripPlanner = () => {
 	const [loading, setLoading] = useState(false);
 	const [tripPlan, setTripPlan] = useState(null);
 
-	const budgetOptions = ["Budget", "Moderate", "Luxury"];
+	const budgetOptions = ["Affordable", "Moderate", "Premium"];
+
 	const placeTypes = [
 		"🏞️ Lakefront",
 		"🌊 Beachfront",
@@ -63,7 +64,7 @@ const TripPlanner = () => {
 			<span className="mr-2 text-xs sm:text-sm">
 				Planning your Dream trip...
 			</span>
-			<div className="animate-spin rounded-full h-4 w-4 sm:h-6 sm:w-6 border-y-2 border-white"></div>
+			<div className="animate-spin rounded-full h-4 w-4 sm:h-6 sm:w-6 border-y-2 border-black dark:border-white"></div>
 		</div>
 	);
 
@@ -114,16 +115,16 @@ const TripPlanner = () => {
 		switch (step) {
 			case 0:
 				return (
-					<div className="space-y-4 sm:space-y-6">
-						<h2 className="text-2xl sm:text-3xl font-bold mb-4 sm:mb-8">
-							What's your budget? 💰
+					<div className="p-5 md:p-0">
+						<h2 className="text-2xl text-center sm:text-3xl font-bold mb-4 sm:mb-8">
+							What's your price range?
 						</h2>
 						<div className="flex flex-col space-y-3 sm:space-y-4">
 							{budgetOptions.map((budget) => (
 								<button
 									key={budget}
 									onClick={() => setSelectedBudget(budget)}
-									className={`py-3 sm:py-4 px-4 sm:px-6 rounded-full text-lg sm:text-xl font-semibold border-2 border-gray-300 transition-all duration-300 transform hover:scale-105 ${
+									className={`py-3 sm:py-4 px-4 sm:px-6 rounded-full text-sm md:text-lg lg:text-xl font-semibold border-2 border-gray-300 transition-all duration-300 transform hover:scale-105 ${
 										selectedBudget === budget
 											? "bg-blue-500 shadow-lg"
 											: "bg-white bg-opacity-10 hover:bg-opacity-20"
@@ -137,9 +138,9 @@ const TripPlanner = () => {
 				);
 			case 1:
 				return (
-					<div className="space-y-4 sm:space-y-6">
-						<h2 className="text-2xl sm:text-3xl font-bold mb-4 sm:mb-8">
-							Where to? 📍
+					<div className="p-5 md:p-0">
+						<h2 className="text-2xl text-center sm:text-3xl font-bold mb-4 sm:mb-8">
+							Destination? 📍
 						</h2>
 						<div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
 							{countries.map((country) => (
@@ -160,8 +161,8 @@ const TripPlanner = () => {
 				);
 			case 2:
 				return (
-					<div className="space-y-4 sm:space-y-6">
-						<h2 className="text-2xl sm:text-3xl font-bold mb-4 sm:mb-8">
+					<div className="p-5 md:p-0">
+						<h2 className="text-2xl text-center sm:text-3xl font-bold mb-4 sm:mb-8">
 							Your ideal setting? 🌀
 						</h2>
 						<div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
@@ -183,8 +184,8 @@ const TripPlanner = () => {
 				);
 			case 3:
 				return (
-					<div className="space-y-4 sm:space-y-6">
-						<h2 className="text-2xl sm:text-3xl font-bold mb-4 sm:mb-8">
+					<div className="p-5 md:p-0">
+						<h2 className="text-2xl text-center sm:text-3xl font-bold mb-4 sm:mb-8">
 							How many travelers? 👥
 						</h2>
 						<div className="flex flex-col space-y-3 sm:space-y-4">
@@ -206,13 +207,13 @@ const TripPlanner = () => {
 				);
 			case 4:
 				return (
-					<div className="space-y-4 sm:space-y-6">
-						<h2 className="text-2xl sm:text-3xl font-bold mb-4 sm:mb-8">
+					<div className="p-5 md:p-0">
+						<h2 className="text-2xl text-center sm:text-3xl font-bold mb-4 sm:mb-8">
 							How long is your adventure? 🌲
 						</h2>
 						<input
 							type="text"
-							placeholder="e.g., 3 days, 1 week, 1 month"
+							placeholder="E.g, 3 days, 1 week, 1 month"
 							value={tripDuration}
 							onChange={(e) => setTripDuration(e.target.value)}
 							className="w-full py-3 sm:py-4 px-4 sm:px-6 rounded-full text-lg sm:text-xl bg-white bg-opacity-10 border-2 border-gray-700 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-white"
@@ -237,7 +238,7 @@ const TripPlanner = () => {
 	return (
 		<div className="min-h-screen font-serif flex items-center justify-center">
 			<div className="w-full max-w-3xl mt-6">
-				<h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-center my-10">
+				<h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-center my-10">
 					Dream Trip Planner
 				</h1>
 				<div className="rounded-3xl shadow-lg shadow-black overflow-hidden p-3 md:p-12">
@@ -295,7 +296,7 @@ const TripPlanner = () => {
 							<button
 								disabled={loading}
 								onClick={getTripPlan}
-								className="py-2 sm:py-3 px-4 sm:px-6 rounded-full border hover:bg-indigo-600 text-sm sm:text-base font-semibold transition-all duration-300 hover:shadow-lg transform hover:scale-105 flex items-center"
+								className="py-2 sm:py-3 px-4 sm:px-6 rounded-full border hover:bg-indigo-600 hover:text-white border-black dark:border-white hover:border-none text-sm sm:text-base font-semibold transition-all duration-300 hover:shadow-lg transform hover:scale-105 flex items-center"
 							>
 								{loading ? <LoadingSpinner /> : "Plan My Trip 🍁"}
 							</button>
@@ -328,7 +329,6 @@ const TripPlanner = () => {
 					</div>
 				</div>
 			</div>
-			<Toaster />
 		</div>
 	);
 };

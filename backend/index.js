@@ -27,7 +27,12 @@ app.use(cookieParser());
 app.use(compression());
 
 // CORS configuration
-const allowedOrigins = [process.env.CLIENT_URL, 'https://stay-zest-view.vercel.app', 'http://localhost:5173'];
+const allowedOrigins = [
+    process.env.CLIENT_URL,
+    'https://stay-zest-view.vercel.app',
+    'http://localhost:5173'
+];
+
 app.use(cors({
     origin: function (origin, callback) {
         if (!origin || allowedOrigins.indexOf(origin) !== -1) {

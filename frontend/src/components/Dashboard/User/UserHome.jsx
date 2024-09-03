@@ -197,7 +197,7 @@ const UserHome = () => {
 			<div className="mb-10">
 				<h2 className="text-3xl font-semibold mb-4">Recent Bookings</h2>
 				{recentBookings.length > 0 ? (
-					<ul className="grid grid-cols-3 gap-4">
+					<ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
 						{recentBookings.slice(0, 3).map((booking) => (
 							<li
 								key={booking._id}
@@ -218,9 +218,7 @@ const UserHome = () => {
 										className="relative w-72 h-48"
 									>
 										<img
-											src={
-												booking.place?.photos?.[0] || "/default-placeholder.png"
-											}
+											src={booking.place?.photos?.[0]}
 											alt={booking.place?.title || "No Image"}
 											className="w-full h-full object-cover rounded-lg shadow-md"
 										/>

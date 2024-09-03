@@ -3,7 +3,7 @@ import { useForm, useFieldArray } from "react-hook-form";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import { Fade } from "react-awesome-reveal";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import axios from "axios";
 
 const ManagePlaces = () => {
@@ -407,7 +407,6 @@ const ManagePlaces = () => {
 								"SUBMIT"
 							)}
 						</button>
-						{/* <Toaster /> */}
 					</div>
 				</div>
 			</form>
