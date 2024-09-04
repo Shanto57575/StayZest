@@ -1,8 +1,8 @@
 import express from 'express';
-import isAdmin from '../utils/protectedRoutes.js';
 import { verifyToken } from '../utils/jwtUtils.js';
 import { getAllBookings } from '../controllers/booking.controller.js';
 import { confirmBooking, createBookingIntent, getPaymentByEmail } from '../controllers/payment.controller.js';
+import { isAdmin } from '../utils/protectedRoutes.js';
 
 const paymentRoutes = express.Router();
 

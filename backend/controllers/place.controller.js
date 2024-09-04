@@ -120,6 +120,7 @@ const updatePlace = async (req, res) => {
 
 const removePlace = async (req, res) => {
     const placeId = req.params.id
+    console.log(placeId)
 
     try {
         const place = await Place.findByIdAndDelete(placeId);

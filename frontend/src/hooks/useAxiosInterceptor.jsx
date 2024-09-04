@@ -26,19 +26,22 @@ const useAxiosInterceptor = () => {
 			},
 			(error) => {
 				if (error.response) {
-					if (error.response.status === 404) {
+					const { status, data } = error.response;
+
+					if (status === 404 || status === 403) {
 						toast.error(
-							<h1 className="text-center font-serif">
-								{error.response.data.error || "Resource not found"}
+							<h1 className="font-serif">
+								{data.error || "Resource Not Found"}
 							</h1>
 						);
-					} else if (error.response.status === 401) {
+					} else if (status === 401) {
 						dispatch(signIn(null));
 						dispatch(logout());
+						toast.error(<h1 className="font-serif">Unauthorized Access</h1>);
 					}
 				} else {
 					toast.error(
-						<h1 className="text-center font-serif">
+						<h1 className="font-serif">
 							Network error. Please check your connection
 						</h1>
 					);

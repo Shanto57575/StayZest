@@ -115,7 +115,7 @@ const ProfilePage = () => {
 											? URL.createObjectURL(newImage)
 											: `https://stayzest-backend.onrender.com/${user?.profilePicture}`
 									}
-									alt={user?.username}
+									alt="............Loading...."
 									className="w-full h-full object-cover"
 								/>
 							</div>
@@ -154,7 +154,7 @@ const ProfilePage = () => {
 								>
 									{user?.role}
 								</span>
-								{user?.role === "ADMIN" ? (
+								{user?.role === "ADMIN" || user?.role === "SUPER_ADMIN" ? (
 									<AdminPanelSettings
 										style={{ color: `hsl(${hue}, 70%, 60%)` }}
 									/>

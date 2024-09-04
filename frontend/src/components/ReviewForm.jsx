@@ -149,7 +149,8 @@ const ReviewForm = ({ place }) => {
 									<FaUserCircle className="mr-2" size={24} />
 									<span className="font-medium">{review.user.username}</span>
 									{(review.user.username === user.username ||
-										user.role === "ADMIN") && (
+										user.role === "ADMIN" ||
+										user.role === "SUPER_ADMIN") && (
 										<div className="ml-auto flex space-x-2">
 											<button
 												onClick={() => handleEdit(review)}

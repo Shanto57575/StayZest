@@ -7,7 +7,7 @@ import {
     updateBooking
 } from '../controllers/booking.controller.js';
 import { verifyToken } from '../utils/jwtUtils.js';
-import isAdmin from '../utils/protectedRoutes.js';
+import { isAdmin } from '../utils/protectedRoutes.js';
 
 const bookingRoutes = express.Router();
 

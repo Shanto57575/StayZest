@@ -47,6 +47,7 @@ const updateUser = async (req, res) => {
 const updateRole = async (req, res) => {
     const userId = req.params.id;
     const userData = req.body;
+    console.log(userId, userData)
 
     try {
         const user = await User.findByIdAndUpdate(userId, userData, { new: true })

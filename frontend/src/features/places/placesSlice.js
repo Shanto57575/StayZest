@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { axiosInstance } from '../../hooks/useAxiosInterceptor';
 
 export const fetchPlaces = createAsyncThunk('places/fetchPlaces', async ({ page, limit, sortBy, filterCountry, searchTitle }) => {
     const response = await axios.get("https://stayzest-backend.onrender.com/api/place/all-places", {
@@ -20,12 +21,15 @@ export const updatePlace = createAsyncThunk('places/updatePlace', async ({ place
     return response.data;
 });
 
-export const deletePlace = createAsyncThunk('places/deletePlace', async (placeId) => {
-    await axios.delete(`https://stayzest-backend.onrender.com/api/place/${placeId}`, {
-        withCredentials: true
-    });
-    return placeId;
-});
+export const deletePlace = createAsyncThunk('places/deletePlace', async (placeId, { rejectWithValue }) => {
+    try {
+        const response = await axiosInstance.delete(`/api/place/${placeId}`);
+        return response.data;
+    } catch (err) {
+        return rejectWithValue(err);
+    }
+}
+);
 
 const placesSlice = createSlice({
     name: "places",

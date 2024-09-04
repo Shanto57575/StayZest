@@ -28,7 +28,7 @@ const userSchema = new mongoose.Schema({
     },
     role: {
         type: String,
-        enum: ["ADMIN", "GUEST"],
+        enum: ["SUPER_ADMIN", "ADMIN", "GUEST"],
         default: "GUEST",
     },
     bookingsCount: {

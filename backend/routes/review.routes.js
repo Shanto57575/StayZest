@@ -1,7 +1,7 @@
 import express from 'express';
 import { verifyToken } from '../utils/jwtUtils.js';
-import isAdmin from '../utils/protectedRoutes.js';
 import { createReview, deleteReview, getAllReviews, getReviewsByPlace, updateReview } from '../controllers/review.controller.js';
+import { isAdmin } from '../utils/protectedRoutes.js';
 
 const reviewRoutes = express.Router();
 

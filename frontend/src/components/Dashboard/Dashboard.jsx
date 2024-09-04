@@ -74,19 +74,27 @@ const Dashboard = () => {
 				</button>
 			</div>
 			<nav className="flex-grow p-4 space-y-3 overflow-y-auto">
-				<MenuItem
-					to={`/dashboard/${userTypes?.toLowerCase()}`}
-					icon={MdDashboard}
-					text="Dashboard"
-				/>
+				{userTypes === "GUEST" && (
+					<MenuItem
+						to={`/dashboard/guest`}
+						icon={MdDashboard}
+						text="Dashboard"
+					/>
+				)}
 				<MenuItem
 					to="/dashboard/profile"
 					icon={MdAdminPanelSettings}
 					text="My Profile"
 				/>
 
-				{userTypes === "ADMIN" && (
+				{(userTypes === "ADMIN" || userTypes === "SUPER_ADMIN") && (
 					<>
+						<MenuItem
+							to={`/dashboard/admin`}
+							icon={MdDashboard}
+							text="Dashboard"
+						/>
+
 						<MenuItem
 							to="/dashboard/admin/manage-users"
 							icon={MdPeople}

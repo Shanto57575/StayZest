@@ -102,6 +102,10 @@ const Places = () => {
 	};
 
 	const handlePlaceDelete = async (placeId) => {
+		if (currentUser.role === "ADMIN") {
+			toast.error(<h1 className="font-serif">Access Denied!</h1>);
+			return;
+		}
 		toast((t) => (
 			<div className="flex flex-col items-center">
 				<h2 className="text-lg font-semibold text-center">
@@ -113,11 +117,6 @@ const Places = () => {
 							toast.dismiss(t.id);
 							try {
 								await dispatch(deletePlace(placeId)).unwrap();
-								toast.success("Place deleted successfully!", {
-									duration: 3000,
-									className:
-										"bg-gradient-to-r from-sky-400 to-sky-600 text-white font-bold",
-								});
 								if (places.length === 1 && currentPage > 1) {
 									dispatch(setPage(currentPage - 1));
 								} else {
@@ -132,10 +131,7 @@ const Places = () => {
 									);
 								}
 							} catch (err) {
-								toast.error("Failed to delete place. Please try again.", {
-									className:
-										"bg-gradient-to-r from-red-400 to-red-600 text-white font-bold",
-								});
+								console.log(err);
 							}
 						}}
 						className="bg-blue-500 text-white px-4 py-2 rounded-lg"
@@ -281,7 +277,7 @@ const Places = () => {
 												{formatDate(place.availability[0].startDate)} -{" "}
 												{formatDate(place.availability[0].endDate)}
 											</p>
-											{currentUser.role !== "ADMIN" && (
+											{currentUser.role == "GUEST" && (
 												<Link
 													className="text-center mt-2 bg-transparent border-b-4 w-32 mx-auto rounded-xl py-2 text-white hover:border-t-2 font-bold duration-700"
 													to={`details/${place._id}`}
@@ -289,7 +285,8 @@ const Places = () => {
 													View Details
 												</Link>
 											)}
-											{currentUser.role === "ADMIN" && (
+											{(currentUser.role === "ADMIN" ||
+												currentUser.role == "SUPER_ADMIN") && (
 												<div className="flex justify-end mt-4 space-x-2">
 													<Tooltip title="View Details" placement="top" arrow>
 														<Link

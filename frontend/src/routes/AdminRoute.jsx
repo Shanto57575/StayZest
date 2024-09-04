@@ -5,7 +5,7 @@ const AdminRoute = ({ children }) => {
 	const userRole = useSelector((state) => state.auth.currentUser?.role);
 	const location = useLocation();
 
-	if (userRole === "ADMIN") {
+	if (userRole === "ADMIN" || userRole === "SUPER_ADMIN") {
 		return children;
 	}
 

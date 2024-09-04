@@ -79,11 +79,11 @@ const Navbar = () => {
 		window.addEventListener("resize", handleResize);
 		return () => window.removeEventListener("resize", handleResize);
 	}, []);
-
+	console.log(user);
 	const navLinks = [
 		{ to: "/dashboard/profile", icon: <PortraitIcon />, text: "Profile" },
 		{
-			to: `/dashboard/${user?.role?.toLowerCase()}`,
+			to: user?.role === "GUEST" ? `/dashboard/guest` : `/dashboard/admin`,
 			icon: <DashboardIcon />,
 			text: "Dashboard",
 		},

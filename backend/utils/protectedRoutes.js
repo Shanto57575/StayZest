@@ -1,5 +1,6 @@
 const isAdmin = (req, res, next) => {
-    if (req.currentUser && req.currentUser.role === 'ADMIN') {
+    const userRole = req.currentUser.role;
+    if (userRole && (userRole === 'ADMIN' || userRole === 'SUPER_ADMIN')) {
         next()
     }
     else {
@@ -7,4 +8,17 @@ const isAdmin = (req, res, next) => {
     }
 }
 
-export default isAdmin
+const isSUPER_ADMIN = (req, res, next) => {
+    console.log("req.currentUser=>", req.currentUser)
+    if (req.currentUser && req.currentUser.role === 'SUPER_ADMIN') {
+        next()
+    }
+    else {
+        res.status(403).json({ error: "Access Denied! Contact Super_Admin" })
+    }
+}
+
+export {
+    isAdmin,
+    isSUPER_ADMIN
+}
