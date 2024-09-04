@@ -2,6 +2,13 @@
 
 StayZest is a Full-Featured booking application that allows users to explore and book holiday destinations. It offers seamless payment integration, review management, and an AI-powered trip planner. StayZest also provides an admin dashboard for managing the app's content and user interactions.
 
+### Try Admin Functionality:
+
+```
+Email: admin09@gmail.com
+Password: admin123
+```
+
 ## Features
 
 ### User Features
