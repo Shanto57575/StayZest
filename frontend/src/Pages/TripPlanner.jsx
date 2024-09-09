@@ -13,6 +13,7 @@ import {
 import axios from "axios";
 import toast from "react-hot-toast";
 import Loader from "../components/Loader";
+import { useSelector } from "react-redux";
 
 const TripPlanner = () => {
 	const [step, setStep] = useState(0);
@@ -90,7 +91,6 @@ const TripPlanner = () => {
 			}
 		} catch (error) {
 			setLoading(false);
-			console.error("Error:", error);
 			toast.error(
 				<div className="text-center font-serif">
 					<p>Oops! Something went wrong 😕</p>

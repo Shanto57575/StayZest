@@ -11,7 +11,6 @@ const tripPlanner = async (req, res) => {
         const response = await run(prompt);
         return res.status(200).json({ plan: response });
     } catch (error) {
-        console.error("Error in trip planner:", error);
         res.status(500).json({ error: "An error occurred while generating the trip plan." });
     }
 };

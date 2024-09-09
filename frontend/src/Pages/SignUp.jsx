@@ -5,7 +5,6 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { signUp } from "../features/auth/authSlice";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
-import { Alert } from "@mui/material";
 import GoogleSignIn from "../components/GoogleSignIn";
 
 const SignUp = () => {
@@ -31,9 +30,7 @@ const SignUp = () => {
 				reset();
 				navigate(from);
 			}
-		} catch (err) {
-			console.log(err);
-		}
+		} catch (err) {}
 	};
 
 	return (
@@ -70,14 +67,25 @@ const SignUp = () => {
 							Username
 						</label>
 						<input
-							{...register("username", { required: "Username is required" })}
+							{...register("username", {
+								required: "username is required",
+								minLength: {
+									value: 6,
+									message: "username must be at least 6 characters",
+								},
+								maxLength: {
+									value: 20,
+									message:
+										"username must be at less than or equal 20 characters",
+								},
+							})}
 							className="w-full px-4 py-3 rounded-lg bg-black text-white border-transparent focus:border-gray-900 focus:border-b-4 focus:ring-0 text-sm"
 							placeholder="shanto7"
 						/>
 						{errors.username && (
-							<Alert className="mt-2">
-								<p>{errors.username.message}</p>
-							</Alert>
+							<p className="mt-2 text-sm text-red-600">
+								{errors.username.message}
+							</p>
 						)}
 					</div>
 					<div>
@@ -99,9 +107,9 @@ const SignUp = () => {
 							placeholder="you@example.com"
 						/>
 						{errors.email && (
-							<Alert variant="destructive" className="mt-2">
-								<p>{errors.email.message}</p>
-							</Alert>
+							<p className="mt-2 text-sm text-red-600">
+								{errors.email.message}
+							</p>
 						)}
 					</div>
 
@@ -138,9 +146,9 @@ const SignUp = () => {
 							</button>
 						</div>
 						{errors.password && (
-							<Alert variant="destructive" className="mt-2">
-								<p>{errors.password.message}</p>
-							</Alert>
+							<p className="mt-2 text-sm text-red-600">
+								{errors.password.message}
+							</p>
 						)}
 					</div>
 

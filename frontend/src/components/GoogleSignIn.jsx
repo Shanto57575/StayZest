@@ -17,9 +17,7 @@ const GoogleSignIn = () => {
 			if (googleSignIn.fulfilled.match(googleSingInResult)) {
 				navigate(from);
 			}
-		} catch (err) {
-			console.log(err);
-		}
+		} catch (err) {}
 	};
 
 	return (

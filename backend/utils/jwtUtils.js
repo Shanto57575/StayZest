@@ -1,41 +1,64 @@
 import jwt from "jsonwebtoken";
 
-const generateToken = (res, user) => {
-    const token = jwt.sign(
+const generateTokens = (user) => {
+    const accessToken = jwt.sign(
         {
             userId: user._id,
             role: user.role,
         },
-        process.env.JWT_SECRET_KEY,
-        { expiresIn: '3d' }
+        process.env.JWT_ACCESS_SECRET,
+        { expiresIn: '15m' }
     );
 
-    res.cookie('token', token, {
-        httpOnly: true,
-        secure: true,
-        sameSite: 'None',
-        maxAge: 3 * 24 * 60 * 60 * 1000,
-    });
-}
+    const refreshToken = jwt.sign(
+        {
+            userId: user._id,
+        },
+        process.env.JWT_REFRESH_SECRET,
+        { expiresIn: '7d' }
+    );
+
+    return { accessToken, refreshToken };
+};
+
+const verifyAccessToken = (token) => {
+    try {
+        return jwt.verify(token, process.env.JWT_ACCESS_SECRET);
+    } catch (error) {
+        return null;
+    }
+};
+
+const verifyRefreshToken = (token) => {
+    try {
+        return jwt.verify(token, process.env.JWT_REFRESH_SECRET);
+    } catch (error) {
+        return null;
+    }
+};
 
 const verifyToken = (req, res, next) => {
-    const token = req.cookies.token;
+    const accessToken = req.cookies.accessToken;
 
-    if (!token) {
-        return res.status(401).json({ error: 'unauthorize access: No token provided' });
+    if (!accessToken) {
+        return res.status(401).json({ error: 'Unauthorized access: No token provided' });
     }
 
     try {
-        const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY);
+        const decoded = verifyAccessToken(accessToken);
+        if (!decoded) {
+            setTimeout(() => {
+                res.status(401).json({ error: 'Unauthorized: Invalid or expired token' });
+            }, 100);
+            return;
+        }
         req.currentUser = decoded;
         next();
     } catch (error) {
-        if (error.name === 'TokenExpiredError') {
-            return res.status(401).json({ error: 'Unauthorized: Token expired' });
-        }
-        console.error(`Token Verification Failed: ${error.message}`);
-        return res.status(401).json({ error: 'Unauthorized: Invalid token' });
+        setTimeout(() => {
+            res.status(401).json({ error: 'Unauthorized: Invalid token' });
+        }, 100);
     }
-}
+};
 
-export { generateToken, verifyToken };
+export { generateTokens, verifyAccessToken, verifyRefreshToken, verifyToken };

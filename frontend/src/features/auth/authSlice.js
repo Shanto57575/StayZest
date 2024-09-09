@@ -8,7 +8,6 @@ const googleProvider = new GoogleAuthProvider()
 
 export const signUp = createAsyncThunk('auth/signUp', async (userData, { rejectWithValue }) => {
     try {
-        console.log("userData", userData)
         const response = await axiosInstance.post('/api/auth/signup', userData)
         const newUser = response.data.user
 
@@ -25,7 +24,7 @@ export const signIn = createAsyncThunk('auth/signIn', async (userData, { rejectW
         const response = await axiosInstance.post('/api/auth/signin', userData);
         return response.data.user;
     } catch (error) {
-        return rejectWithValue(error.response?.data?.error || 'Sign in failed');
+        return rejectWithValue(error?.message || error.response?.data?.error || 'Sign in failed');
     }
 }
 );
@@ -71,6 +70,18 @@ export const updateUserProfile = createAsyncThunk(
     }
 );
 
+export const refreshToken = createAsyncThunk(
+    'auth/refreshToken',
+    async (_, { rejectWithValue }) => {
+        try {
+            const response = await axiosInstance.post('/api/auth/refresh-token');
+            return response.data;
+        } catch (error) {
+            return rejectWithValue(error.response?.data?.error || 'Failed to refresh token');
+        }
+    }
+);
+
 export const logout = createAsyncThunk(
     'auth/logout',
     async (_, { rejectWithValue }) => {
@@ -89,6 +100,7 @@ const authSlice = createSlice({
         users: [],
         loading: false,
         error: null,
+        isRefreshing: false,
     },
     reducers: {},
     extraReducers: (builder) => {
@@ -151,11 +163,26 @@ const authSlice = createSlice({
                 state.loading = false;
                 state.error = action.payload;
             })
+            .addCase(refreshToken.pending, (state) => {
+                state.isRefreshing = true;
+            })
+            .addCase(refreshToken.fulfilled, (state) => {
+                state.isRefreshing = false;
+                state.error = null;
+            })
+            .addCase(refreshToken.rejected, (state, action) => {
+                state.isRefreshing = false;
+                state.currentUser = null;
+                state.error = action.payload;
+            })
             .addCase(logout.fulfilled, (state) => {
                 state.currentUser = null;
                 state.loading = false;
                 state.error = null;
             })
+            .addCase(logout.rejected, (state, action) => {
+                state.error = action.payload;
+            });
     },
 });
 

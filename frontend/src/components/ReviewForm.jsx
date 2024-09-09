@@ -25,9 +25,7 @@ const ReviewForm = ({ place }) => {
 				`/api/review/reviews-by-place/${place}`
 			);
 			setReviews(response.data);
-		} catch (error) {
-			console.log(error);
-		}
+		} catch (error) {}
 	};
 
 	const handleSubmit = async (e) => {
@@ -71,9 +69,7 @@ const ReviewForm = ({ place }) => {
 				const newReviews = reviews.filter((review) => review._id !== reviewId);
 				setReviews(newReviews);
 			}
-		} catch (error) {
-			console.error("Error deleting review:", error.response.data.message);
-		}
+		} catch (error) {}
 	};
 
 	useEffect(() => {

@@ -9,7 +9,6 @@ const getAllBookings = async (req, res) => {
             .sort({ createdAt: -1 })
         res.status(200).json(bookings);
     } catch (error) {
-        console.error(`Error fetching bookings: ${error.message}`);
         res.status(500).json({ error: error.message });
     }
 };
@@ -34,7 +33,6 @@ const getBookingById = async (req, res) => {
 
 const getBookingByEmail = async (req, res) => {
     const email = req.params.email;
-    console.log(email)
 
     if (!email) {
         return res.status(400).json({ error: 'Email parameter is required' });
@@ -54,7 +52,6 @@ const getBookingByEmail = async (req, res) => {
 
         res.status(200).json(bookings);
     } catch (error) {
-        console.error(`Error fetching bookings: ${error.message}`);
         res.status(500).json({ error: error.message });
     }
 };
@@ -72,7 +69,6 @@ const updateBooking = async (req, res) => {
 
         res.status(200).json({ message: 'Booking updated successfully', booking });
     } catch (error) {
-        console.error(`Error updating booking: ${error.message}`);
         res.status(500).json({ error: error.message });
     }
 };
@@ -89,7 +85,6 @@ const cancelBooking = async (req, res) => {
 
         res.status(200).json({ message: 'Booking deleted successfully' });
     } catch (error) {
-        console.error(`Error deleting booking: ${error.message}`);
         res.status(500).json({ error: error.message });
     }
 };

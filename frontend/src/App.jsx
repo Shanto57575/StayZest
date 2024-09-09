@@ -6,7 +6,6 @@ import {
 } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
-import Home from "./Pages/Home";
 import PlaceDetails from "./components/PlaceDetails";
 import SignIn from "./Pages/SignIn";
 import SignUp from "./Pages/SignUp";
@@ -29,6 +28,7 @@ import CancelPage from "./Pages/CancelPage";
 import TripPlanner from "./Pages/TripPlanner";
 import { Toaster } from "react-hot-toast";
 import Footer from "./components/Footer";
+import Places from "./components/Places";
 
 const Layout = () => {
 	const location = useLocation();
@@ -58,6 +58,7 @@ const App = () => {
 
 	const router = createBrowserRouter([
 		{
+			path: "/",
 			element: <Layout />,
 			errorElement: <ErrorPage />,
 			children: [
@@ -65,8 +66,8 @@ const App = () => {
 					element: <PrivateRoutes />,
 					children: [
 						{
-							path: "/",
-							element: <Home />,
+							index: true,
+							element: <Places />,
 						},
 						{
 							path: "details/:placeId",

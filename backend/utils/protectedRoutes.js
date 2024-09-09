@@ -9,7 +9,6 @@ const isAdmin = (req, res, next) => {
 }
 
 const isSUPER_ADMIN = (req, res, next) => {
-    console.log("req.currentUser=>", req.currentUser)
     if (req.currentUser && req.currentUser.role === 'SUPER_ADMIN') {
         next()
     }

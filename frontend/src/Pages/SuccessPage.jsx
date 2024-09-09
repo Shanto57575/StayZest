@@ -51,7 +51,6 @@ const SuccessPage = () => {
 				setStatus("error");
 			}
 		} catch (error) {
-			console.error("Error in confirmBooking:", error);
 			setStatus("error");
 		}
 	};

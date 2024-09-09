@@ -43,9 +43,7 @@ const Navbar = () => {
 		try {
 			await dispatch(logout());
 			navigate("/signin");
-		} catch (error) {
-			console.error("Logout failed:", error);
-		}
+		} catch (error) {}
 	};
 
 	useEffect(() => {
@@ -79,7 +77,7 @@ const Navbar = () => {
 		window.addEventListener("resize", handleResize);
 		return () => window.removeEventListener("resize", handleResize);
 	}, []);
-	console.log(user);
+
 	const navLinks = [
 		{ to: "/dashboard/profile", icon: <PortraitIcon />, text: "Profile" },
 		{

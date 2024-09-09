@@ -25,7 +25,6 @@ const getAllPayments = async (req, res) => {
 
 const getPaymentByEmail = async (req, res) => {
     const { email } = req.params;
-    console.log(`Searching for user with email: ${email}`);
 
     try {
         const user = await User.findOne({ email });
@@ -38,7 +37,6 @@ const getPaymentByEmail = async (req, res) => {
 
         res.status(200).json(payments);
     } catch (error) {
-        console.error('Error retrieving payments by email:', error.message);
         res.status(500).json({ error: 'An error occurred while retrieving payments.' });
     }
 };
@@ -96,7 +94,6 @@ const createBookingIntent = async (req, res) => {
 
         res.status(200).json({ success: true, url: session.url });
     } catch (error) {
-        console.error(error);
         res.status(500).json({ error: error.message });
     }
 };
@@ -152,7 +149,6 @@ const confirmBooking = async (req, res) => {
             res.status(400).json({ error: 'Payment not successful' });
         }
     } catch (error) {
-        console.error('Error in confirmBooking:', error);
         res.status(500).json({ error: error.message });
     }
 };

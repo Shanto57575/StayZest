@@ -1,6 +1,134 @@
+// import User from "../models/user.model.js";
+// import bcrypt from 'bcrypt';
+// import { generateToken } from "../utils/jwtUtils.js";
+
+// const googleAuth = async (req, res) => {
+//     const { uid, email, username, profilePicture } = req.body;
+
+//     try {
+//         let user = await User.findOne({ email });
+
+//         if (!user) {
+//             const truncatedUsername = username.length > 20 ? username.substring(0, 20) : username;
+
+//             user = new User({
+//                 username: truncatedUsername,
+//                 email,
+//                 googleId: uid,
+//                 profilePicture,
+//                 role: "GUEST"
+//             });
+
+//             await user.save();
+//         }
+
+//         generateToken(res, user);
+
+//         res.status(200).json({ message: "Signed in successfully", user });
+//     } catch (error) {
+//         res.status(500).json({ error: error.message });
+//     }
+// };
+
+// const signUp = async (req, res) => {
+//     const { username, email, password } = req.body;
+
+//     if (!username || !email || !password) {
+//         return res.status(400).json({ error: 'All fields are required!' });
+//     }
+
+//     try {
+//         let existingUser = await User.findOne({ email });
+
+//         if (existingUser) {
+//             return res.status(400).json({ error: 'Email already in use' });
+//         }
+
+//         const hashedPassword = await bcrypt.hash(password, 10);
+
+//         const newUser = new User({
+//             username,
+//             email,
+//             password: hashedPassword
+//         });
+
+//         await newUser.save();
+
+//         generateToken(res, newUser);
+
+//         const { password: _, ...userData } = newUser._doc;
+
+//         res.status(201).json({ message: "Signed up successfully!", user: userData });
+//     } catch (error) {
+//         res.status(500).json({ error: error.message });
+//     }
+// };
+
+// const login = async (req, res) => {
+//     const { email, password } = req.body;
+
+//     if (!email || !password) {
+//         return res.status(400).json({ error: 'All fields are required!' });
+//     }
+
+//     try {
+//         const user = await User.findOne({ email });
+
+//         if (!user) {
+//             return res.status(404).json({ error: "User Not Found" });
+//         }
+
+//         const isPasswordValid = await bcrypt.compare(password, user.password);
+
+//         if (!isPasswordValid) {
+//             return res.status(401).json({ error: "Invalid Credentials" });
+//         }
+
+//         const accessToken = generateToken(res, user);
+
+//         const { password: _, ...userData } = user._doc;
+//         userData.token = accessToken
+
+//         res.status(200).json({ message: "Signed in successfully", user: userData });
+//     } catch (error) {
+//         res.status(500).json({ error: error.message });
+//     }
+// };
+
+// const logOut = (req, res) => {
+//     try {
+//         res.clearCookie('token', {
+//             httpOnly: true,
+//             secure: true,
+//             sameSite: 'None',
+//         });
+//         res.status(200).json({ message: "Successfully Logged Out!" });
+//     } catch (error) {
+//         res.status(500).json({ error: "Logout failed!" });
+//     }
+// };
+
+// export { signUp, login, googleAuth, logOut };
+
 import User from "../models/user.model.js";
 import bcrypt from 'bcrypt';
-import { generateToken } from "../utils/jwtUtils.js";
+import { generateTokens, verifyRefreshToken } from "../utils/jwtUtils.js";
+
+const setTokens = (res, accessToken, refreshToken) => {
+    res.cookie('accessToken', accessToken, {
+        httpOnly: true,
+        secure: true,
+        sameSite: 'None',
+        maxAge: 15 * 60 * 1000, // 15 minutes
+    });
+
+    res.cookie('refreshToken', refreshToken, {
+        httpOnly: true,
+        secure: true,
+        sameSite: 'None',
+        maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+    });
+};
 
 const googleAuth = async (req, res) => {
     const { uid, email, username, profilePicture } = req.body;
@@ -10,7 +138,6 @@ const googleAuth = async (req, res) => {
 
         if (!user) {
             const truncatedUsername = username.length > 20 ? username.substring(0, 20) : username;
-
             user = new User({
                 username: truncatedUsername,
                 email,
@@ -18,11 +145,11 @@ const googleAuth = async (req, res) => {
                 profilePicture,
                 role: "GUEST"
             });
-
             await user.save();
         }
 
-        generateToken(res, user);
+        const { accessToken, refreshToken } = generateTokens(user);
+        setTokens(res, accessToken, refreshToken);
 
         res.status(200).json({ message: "Signed in successfully", user });
     } catch (error) {
@@ -54,7 +181,8 @@ const signUp = async (req, res) => {
 
         await newUser.save();
 
-        generateToken(res, newUser);
+        const { accessToken, refreshToken } = generateTokens(newUser);
+        setTokens(res, accessToken, refreshToken);
 
         const { password: _, ...userData } = newUser._doc;
 
@@ -62,6 +190,7 @@ const signUp = async (req, res) => {
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
+
 };
 
 const login = async (req, res) => {
@@ -84,7 +213,8 @@ const login = async (req, res) => {
             return res.status(401).json({ error: "Invalid Credentials" });
         }
 
-        generateToken(res, user);
+        const { accessToken, refreshToken } = generateTokens(user);
+        setTokens(res, accessToken, refreshToken);
 
         const { password: _, ...userData } = user._doc;
 
@@ -92,19 +222,48 @@ const login = async (req, res) => {
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
+
 };
 
 const logOut = (req, res) => {
-    try {
-        res.clearCookie('token', {
-            httpOnly: true,
-            secure: true,
-            sameSite: 'None',
-        });
-        res.status(200).json({ message: "Successfully Logged Out!" });
-    } catch (error) {
-        res.status(500).json({ error: "Logout failed!" });
-    }
+    res.clearCookie('accessToken', {
+        httpOnly: true,
+        secure: true,
+        sameSite: 'None',
+    });
+
+    res.clearCookie('refreshToken', {
+        httpOnly: true,
+        secure: true,
+        sameSite: 'None',
+    });
+
+    res.status(200).json({ message: "Successfully Logged Out!" });
 };
 
-export { signUp, login, googleAuth, logOut };
+const refreshAccessToken = async (req, res) => {
+    const refreshToken = req.cookies.refreshToken;
+
+    if (!refreshToken) {
+        return res.status(401).json({ error: 'Refresh token not found' });
+    }
+
+    const decoded = verifyRefreshToken(refreshToken);
+
+    if (!decoded) {
+        return res.status(401).json({ error: 'Invalid refresh token' });
+    }
+
+    const user = await User.findById(decoded.userId);
+
+    if (!user) {
+        return res.status(404).json({ error: 'User not found' });
+    }
+
+    const { accessToken: newAccessToken, refreshToken: newRefreshToken } = generateTokens(user);
+    setTokens(res, newAccessToken, newRefreshToken);
+
+    res.status(200).json({ message: 'Access token refreshed successfully' });
+};
+
+export { signUp, login, googleAuth, logOut, refreshAccessToken };

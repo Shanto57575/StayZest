@@ -32,7 +32,6 @@ const UserBookings = () => {
 				setLoading(false);
 				setError(null);
 			} catch (err) {
-				console.log(err);
 				setError(err.response ? err.response.data.error : err?.message);
 				setLoading(false);
 				setBookings([]);

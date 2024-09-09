@@ -53,7 +53,6 @@ const ManageUsers = () => {
 			const response = await axiosInstance.patch(`/api/user/${userId}`, {
 				role: newRole,
 			});
-			console.log(response);
 			if (response.data) {
 				setUsers((prevUsers) =>
 					prevUsers.map((user) =>
@@ -65,9 +64,7 @@ const ManageUsers = () => {
 					dispatch(logout());
 				}
 			}
-		} catch (err) {
-			console.log(err);
-		}
+		} catch (err) {}
 	};
 
 	const totalUsers = users.length;

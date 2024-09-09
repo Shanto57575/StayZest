@@ -1,12 +1,12 @@
 import express from 'express';
-import { googleAuth, login, logOut, signUp } from '../controllers/auth.controller.js';
-import { verifyToken } from '../utils/jwtUtils.js';
+import { googleAuth, login, logOut, refreshAccessToken, signUp } from '../controllers/auth.controller.js';
 
 const authRoutes = express.Router();
 
 authRoutes.post('/signup', signUp);
 authRoutes.post('/signin', login);
 authRoutes.post('/google', googleAuth);
-authRoutes.post('/logout', verifyToken, logOut);
+authRoutes.post('/refresh-token', refreshAccessToken);
+authRoutes.post('/logout', logOut);
 
 export default authRoutes;

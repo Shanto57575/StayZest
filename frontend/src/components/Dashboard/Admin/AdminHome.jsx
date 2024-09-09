@@ -212,7 +212,7 @@ const AdminHome = () => {
 	const [bookings, setBookings] = useState([]);
 	const [payments, setPayments] = useState([]);
 	const [loading, setLoading] = useState(true);
-	const [selectedTimeRange, setSelectedTimeRange] = useState("1");
+	const [selectedTimeRange, setSelectedTimeRange] = useState("30");
 	const axiosInstance = useAxiosInterceptor();
 
 	useEffect(() => {
@@ -232,7 +232,6 @@ const AdminHome = () => {
 			setBookings(bookingsResponse.data);
 			setPayments(paymentsResponse.data);
 		} catch (error) {
-			console.error("Error fetching data:", error);
 		} finally {
 			setLoading(false);
 		}

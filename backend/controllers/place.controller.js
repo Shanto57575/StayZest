@@ -40,7 +40,6 @@ const addPlace = async (req, res) => {
         res.status(201).json({ message: "New Places added successfully!", createdPlace })
 
     } catch (error) {
-        console.error(`Failed to Add New Place !${error.message}`);
         res.status(500).json({ error: error.message });
     }
 }
@@ -85,7 +84,6 @@ const getAllPlace = async (req, res) => {
             }
         );
     } catch (error) {
-        console.log(error)
         res.status(500).json({ error: error.message });
     }
 }
@@ -120,7 +118,6 @@ const updatePlace = async (req, res) => {
 
 const removePlace = async (req, res) => {
     const placeId = req.params.id
-    console.log(placeId)
 
     try {
         const place = await Place.findByIdAndDelete(placeId);

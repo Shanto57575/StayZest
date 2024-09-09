@@ -60,9 +60,7 @@ const ManageReviews = () => {
 				setEdit(null);
 				setText("");
 			}
-		} catch (err) {
-			console.error("Error updating review:", error.response?.data?.error);
-		}
+		} catch (err) {}
 	};
 
 	const handleDelete = async (id) => {
@@ -71,9 +69,7 @@ const ManageReviews = () => {
 			if (response.status === 200) {
 				fetchReviews();
 			}
-		} catch (error) {
-			console.error("Error deleting review:", error.response?.data?.error);
-		}
+		} catch (error) {}
 	};
 
 	if (loading)

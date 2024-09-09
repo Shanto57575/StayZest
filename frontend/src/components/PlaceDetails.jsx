@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchPlaceDetails } from "../features/places/placesSlice";
@@ -60,9 +60,7 @@ const PlaceDetails = () => {
 				`/api/review/reviews-by-place/${placeId}`
 			);
 			setReviews(response.data);
-		} catch (error) {
-			console.error("Error fetching reviews:", error);
-		}
+		} catch (error) {}
 	};
 
 	const handleGuestsChange = (type, operation) => {
@@ -132,7 +130,7 @@ const PlaceDetails = () => {
 					setEditingId(null);
 				}
 			} else {
-				const response = await axiosInstance.post("/api/review/add-review", {
+				await axiosInstance.post("/api/review/add-review", {
 					user: userId,
 					place: placeId,
 					comments: text,
@@ -141,7 +139,6 @@ const PlaceDetails = () => {
 			setText("");
 			fetchReviews();
 		} catch (error) {
-			console.log(error);
 		} finally {
 			setReviewLoading(false);
 		}
@@ -159,9 +156,7 @@ const PlaceDetails = () => {
 				const newReviews = reviews.filter((review) => review._id !== reviewId);
 				setReviews(newReviews);
 			}
-		} catch (error) {
-			console.error(error);
-		}
+		} catch (error) {}
 	};
 
 	if (placeLoading) {
@@ -183,8 +178,6 @@ const PlaceDetails = () => {
 	if (!viewDetails) {
 		return <div className="text-center">No place details found</div>;
 	}
-
-	console.log(viewDetails);
 
 	return (
 		<>

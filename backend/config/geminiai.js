@@ -63,7 +63,6 @@ const run = async (prompt) => {
         const result = await chatSession.sendMessage(prompt);
         return result.response.text();
     } catch (error) {
-        console.error("Error:", error);
         throw error;
     }
 };

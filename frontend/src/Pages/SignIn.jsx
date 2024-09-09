@@ -10,7 +10,7 @@ import GoogleSignIn from "../components/GoogleSignIn";
 const SignIn = () => {
 	const dispatch = useDispatch();
 	const [showPassword, setShowPassword] = useState(false);
-	const [error, setError] = useState("");
+	const [failure, setFailure] = useState("");
 	const { loading } = useSelector((state) => state.auth);
 	const navigate = useNavigate();
 	const location = useLocation();
@@ -31,11 +31,9 @@ const SignIn = () => {
 				reset();
 				navigate(from);
 			} else if (signIn.rejected.match(singInResult)) {
-				setError("Invalid credentials");
+				setFailure("Invalid credentials");
 			}
-		} catch (err) {
-			console.log(err);
-		}
+		} catch (err) {}
 	};
 
 	const togglePasswordVisibility = () => {
@@ -71,6 +69,7 @@ const SignIn = () => {
 								</div>
 								<p className="text-gray-700 mt-2">Welcome Back,</p>
 							</div>
+
 							<form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
 								<div>
 									<label htmlFor="email" className="text-gray-800 ml-2">
@@ -78,11 +77,6 @@ const SignIn = () => {
 									</label>
 									<input
 										{...register("email", {
-											pattern: {
-												value:
-													/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
-												message: "Invalid email address",
-											},
 											required: "Email is required",
 										})}
 										className="w-full px-4 py-3 rounded-lg bg-black text-white border-transparent focus:border-gray-900 focus:border-b-4 focus:ring-0 text-sm"
@@ -94,6 +88,7 @@ const SignIn = () => {
 										</p>
 									)}
 								</div>
+
 								<div>
 									<label htmlFor="password" className="text-gray-800 ml-2">
 										Password
@@ -125,8 +120,11 @@ const SignIn = () => {
 										</p>
 									)}
 								</div>
-								{error && (
-									<p className="text-sm font-bold text-rose-600">{error}</p>
+
+								{failure && (
+									<p className="text-sm font-bold text-red-600 bg-rose-200 hover:bg-rose-300 px-4 py-2 rounded-md text-center">
+										{failure}
+									</p>
 								)}
 								<div>
 									<button
@@ -163,6 +161,7 @@ const SignIn = () => {
 									</button>
 								</div>
 							</form>
+
 							<GoogleSignIn />
 						</div>
 					</div>
@@ -171,7 +170,7 @@ const SignIn = () => {
 							Don't have an account?{" "}
 							<Link
 								to="/signup"
-								className="font-medium text-sky-600 hover:text-sky-700"
+								className="font-medium text-sky-600 hover:text-purple-700"
 							>
 								Sign up
 							</Link>

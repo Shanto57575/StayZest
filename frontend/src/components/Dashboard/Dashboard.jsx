@@ -31,9 +31,7 @@ const Dashboard = () => {
 		try {
 			await dispatch(logout());
 			navigate("/signin");
-		} catch (error) {
-			console.error("Logout failed:", error);
-		}
+		} catch (error) {}
 	};
 
 	const isActive = (path) => location.pathname === path;

@@ -18,7 +18,6 @@ const getUserById = async (req, res) => {
         }
         res.status(200).json(user)
     } catch (error) {
-        console.error(error);
         res.status(500).json({ error: error.message });
     }
 }
@@ -47,11 +46,9 @@ const updateUser = async (req, res) => {
 const updateRole = async (req, res) => {
     const userId = req.params.id;
     const userData = req.body;
-    console.log(userId, userData)
 
     try {
         const user = await User.findByIdAndUpdate(userId, userData, { new: true })
-        console.log("userRole==>", user)
 
         if (!user) {
             return res.status(404).json({ error: "User Not Found" });
@@ -113,7 +110,6 @@ const getAllUsersWithBookingCount = async (req, res) => {
 
         res.status(200).json(users);
     } catch (error) {
-        console.error(error);
         res.status(500).json({ message: 'Failed to fetch users' });
     }
 };

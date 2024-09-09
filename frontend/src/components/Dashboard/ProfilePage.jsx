@@ -64,9 +64,7 @@ const ProfilePage = () => {
 			if (response.status === 200) {
 				dispatch(updateUserProfile(response.data.user));
 			}
-		} catch (error) {
-			console.error("Update Error:", error);
-		}
+		} catch (error) {}
 	};
 
 	const onSubmit = (data) => {
