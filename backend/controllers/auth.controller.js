@@ -3,18 +3,16 @@ import bcrypt from 'bcrypt';
 import { generateTokens, verifyAccessToken, verifyRefreshToken } from "../utils/jwtUtils.js";
 
 const setTokens = (res, accessToken, refreshToken) => {
-    const isProduction = process.env.NODE_ENV === 'production';
-
     res.cookie('accessToken', accessToken, {
         httpOnly: true,
-        secure: isProduction,
+        secure: true,
         sameSite: 'Strict',
         maxAge: 60 * 60 * 1000,
     });
 
     res.cookie('refreshToken', refreshToken, {
         httpOnly: true,
-        secure: isProduction,
+        secure: true,
         sameSite: 'Strict',
         maxAge: 15 * 24 * 60 * 60 * 1000,
     });
@@ -174,17 +172,16 @@ const checkAuth = async (req, res) => {
 };
 
 const logOut = (req, res) => {
-    console.log("Backend Logout")
     res.clearCookie('accessToken', {
         httpOnly: true,
-        secure: false,
-        sameSite: 'Lax',
+        secure: true,
+        sameSite: 'Strict',
     });
 
     res.clearCookie('refreshToken', {
         httpOnly: true,
-        secure: false,
-        sameSite: 'Lax',
+        secure: true,
+        sameSite: 'Strict',
     });
 
     res.status(200).json({ message: "Successfully Logged Out!" });

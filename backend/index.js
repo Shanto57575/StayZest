@@ -22,8 +22,6 @@ const PORT = process.env.PORT || 3000;
 app.use(cookieParser());
 const allowedOrigins = [
     process.env.CLIENT_URL,
-    'https://stayzest-cbf59.web.app',
-    'https://stay-zest-view.vercel.app'
 ];
 
 app.use(cors({
