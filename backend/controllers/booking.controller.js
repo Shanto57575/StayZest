@@ -67,7 +67,7 @@ const updateBooking = async (req, res) => {
             return res.status(404).json({ error: 'Booking not found' });
         }
 
-        res.status(200).json({ message: 'Booking updated successfully', booking });
+        res.status(200).json({ booking });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }

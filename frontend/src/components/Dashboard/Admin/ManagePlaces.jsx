@@ -56,9 +56,6 @@ const ManagePlaces = () => {
 			setLoading(true);
 			const response = await axiosInstance.post("/api/place/add-place", data);
 			if (response.data) {
-				toast.success(<h1 className="font-serif">New Place added 👌</h1>, {
-					position: "top-center",
-				});
 				setLoading(false);
 				reset();
 			}
