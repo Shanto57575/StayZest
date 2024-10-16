@@ -8,14 +8,14 @@ const setTokens = (res, accessToken, refreshToken) => {
     res.cookie('accessToken', accessToken, {
         httpOnly: true,
         secure: isProduction,
-        sameSite: 'Lax',
+        sameSite: 'Strict',
         maxAge: 60 * 60 * 1000,
     });
 
     res.cookie('refreshToken', refreshToken, {
         httpOnly: true,
         secure: isProduction,
-        sameSite: 'Lax',
+        sameSite: 'Strict',
         maxAge: 15 * 24 * 60 * 60 * 1000,
     });
 };
