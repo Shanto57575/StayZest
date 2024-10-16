@@ -43,7 +43,7 @@ Password: admin123
 ## Installation
 
 1. Clone the repository:
-   ```bash
+   ```
    git clone https://github.com/Shanto57575/StayZest
    ```
 2. Navigate to the project directory: `cd StayZest`
@@ -62,7 +62,7 @@ cd frontend
 npm install
 ```
 
-5. Set up environment variables in the `.env `file for backend and `.env.local` for frontend.
+5. To set up environment variables, check the `env.sample` files for both the frontend and backend, and then create a .env.local file in the frontend and a .env file in the backend.
 
 6. Start the development server for both frontend and backend: `npm run dev`
 
