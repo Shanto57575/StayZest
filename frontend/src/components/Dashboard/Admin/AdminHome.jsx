@@ -225,8 +225,8 @@ const AdminHome = () => {
 			const [usersResponse, bookingsResponse, paymentsResponse] =
 				await Promise.all([
 					axiosInstance.get("/api/user/alluserswithbookingcount"),
-					axiosInstance.get("/api/booking/all-Bookings"),
-					axiosInstance.get("/api/payment/all-payments"),
+					axiosInstance.get("/api/booking/allBookings"),
+					axiosInstance.get("/api/payment/allpayments"),
 				]);
 			setUsers(usersResponse.data);
 			setBookings(bookingsResponse.data);
@@ -627,7 +627,7 @@ const AdminHome = () => {
 				</h2>
 
 				<div className="flex flex-col md:flex-row items-center justify-between">
-					<div className="w-full md:w-80 h-80 mx-auto">
+					<div className="w-full">
 						<HighchartsReact
 							highcharts={Highcharts}
 							options={popularityOptions}

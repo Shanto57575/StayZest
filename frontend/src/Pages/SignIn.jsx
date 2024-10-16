@@ -43,7 +43,7 @@ const SignIn = () => {
 	return (
 		<div className="min-h-screen font-serif flex items-center justify-center mx-2 md:mx-0">
 			<div className="w-full max-w-md">
-				<div className="bg-white shadow-2xl rounded-lg overflow-hidden transform hover:shadow-3xl transition-shadow duration-300">
+				<div className="shadow-2xl rounded-lg overflow-hidden transform hover:shadow-3xl transition-shadow duration-300">
 					<div className="relative">
 						<div className="absolute inset-0 bg-gradient-to-r from-cyan-400 to-blue-500 transform -skew-y-6 sm:skew-y-0 sm:-rotate-6 sm:rounded-lg"></div>
 						<div className="relative bg-white p-8">

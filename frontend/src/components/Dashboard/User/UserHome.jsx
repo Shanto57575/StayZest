@@ -5,9 +5,8 @@ import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 import { FaDollarSign, FaUser } from "react-icons/fa";
 import { TbAlarmAverage } from "react-icons/tb";
-import { format } from "date-fns";
 import { motion } from "framer-motion";
-import { Fade, Flip, Rotate, Zoom } from "react-awesome-reveal";
+import { Fade, Zoom } from "react-awesome-reveal";
 
 const UserHome = () => {
 	const axiosInstance = useAxiosInterceptor();

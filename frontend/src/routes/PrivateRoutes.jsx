@@ -1,14 +1,41 @@
-import { useSelector } from "react-redux";
-import { Navigate, Outlet, useLocation } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Navigate } from "react-router-dom";
+import { axiosInstance } from "../hooks/useAxiosInterceptor";
 import FlightTakeoffIcon from "@mui/icons-material/FlightTakeoff";
+import { useDispatch } from "react-redux";
+import { refreshToken } from "../features/auth/authSlice";
 
-const PrivateRoutes = () => {
-	const { currentUser, loading, isRefreshing } = useSelector(
-		(state) => state.auth
-	);
-	const location = useLocation();
+const PrivateRoutes = ({ children }) => {
+	const [auth, setAuth] = useState(null);
 
-	if (loading || isRefreshing)
+	const dispatch = useDispatch();
+
+	const checkAuthentication = async () => {
+		try {
+			const response = await axiosInstance.get("/api/auth/check");
+			if (response.status === 200) {
+				console.log("response in private route: ", response);
+				setAuth(true);
+			}
+		} catch (error) {
+			if (error.response && error.response.status === 401) {
+				const refreshResponse = await dispatch(refreshToken());
+				if (refreshResponse.error) {
+					setAuth(false);
+				} else {
+					await checkAuthentication();
+				}
+			} else {
+				setAuth(false);
+			}
+		}
+	};
+
+	useEffect(() => {
+		checkAuthentication();
+	}, []);
+
+	if (auth === null)
 		return (
 			<div className="flex justify-center items-center h-screen">
 				<div className="relative w-24 h-24">
@@ -19,11 +46,7 @@ const PrivateRoutes = () => {
 			</div>
 		);
 
-	if (!currentUser) {
-		return <Navigate to="/signin" state={{ from: location }} replace />;
-	}
-
-	return <Outlet />;
+	return auth ? children : <Navigate to="/signin" />;
 };
 
 export default PrivateRoutes;

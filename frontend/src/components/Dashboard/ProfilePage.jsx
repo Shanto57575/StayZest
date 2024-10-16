@@ -10,8 +10,7 @@ import {
 	CheckCircle,
 } from "@mui/icons-material";
 import toast from "react-hot-toast";
-import { signUp, updateUserProfile } from "../../features/auth/authSlice";
-import useAxiosInterceptor from "../../hooks/useAxiosInterceptor";
+import { updateUserProfile } from "../../features/auth/authSlice";
 
 const ProfilePage = () => {
 	const dispatch = useDispatch();
@@ -19,7 +18,7 @@ const ProfilePage = () => {
 	const [isEditing, setIsEditing] = useState(false);
 	const [newImage, setNewImage] = useState(null);
 	const [hue, setHue] = useState(0);
-	const axiosInstance = useAxiosInterceptor();
+	const [isUpdating, setIsUpdating] = useState(false);
 
 	const {
 		control,
@@ -41,41 +40,35 @@ const ProfilePage = () => {
 		return () => clearInterval(interval);
 	}, []);
 
-	const onUpdate = async (data, imageFile) => {
-		try {
-			const formData = new FormData();
-			formData.append("username", data.username);
-			formData.append("email", data.email);
-
-			if (imageFile) {
-				formData.append("profilePicture", imageFile);
-			}
-
-			const response = await axiosInstance.put(
-				`/api/user/${user._id}`,
-				formData,
-				{
-					headers: {
-						"Content-Type": "multipart/form-data",
-					},
-				}
-			);
-
-			if (response.status === 200) {
-				dispatch(updateUserProfile(response.data.user));
-			}
-		} catch (error) {}
-	};
-
-	const onSubmit = (data) => {
+	const onSubmit = async (data) => {
 		const isDataChanged =
 			data.username !== user?.username ||
 			data.email !== user?.email ||
 			(newImage && data?.profilePicture !== user?.profilePicture);
 
 		if (isDataChanged) {
-			onUpdate(data, newImage);
-			setIsEditing(false);
+			setIsUpdating(true);
+			const formData = new FormData();
+			formData.append("username", data.username);
+			formData.append("email", data.email);
+
+			if (newImage) {
+				formData.append("profilePicture", newImage);
+			}
+
+			try {
+				await dispatch(
+					updateUserProfile({ userId: user._id, formData })
+				).unwrap();
+				setIsEditing(false);
+				toast.success(
+					<h1 className="font-serif">Profile updated successfully</h1>
+				);
+			} catch (error) {
+				toast.error(error || "Failed to update profile");
+			} finally {
+				setIsUpdating(false);
+			}
 		} else {
 			toast.error(<h1 className="font-serif">No changes have been made!</h1>, {
 				position: "top-center",
@@ -260,13 +253,14 @@ const ProfilePage = () => {
 								<div className="text-center">
 									<button
 										type="submit"
+										disabled={isUpdating}
 										className="w-full font-bold py-2 px-3 rounded-lg transition-all duration-300 hover:scale-105 hover:shadow-lg"
 										style={{
 											backgroundColor: `hsl(${hue}, 70%, 60%)`,
-											color: "rgb(31, 41, 55)", // dark blue-gray
+											color: "rgb(31, 41, 55)",
 										}}
 									>
-										Save Changes
+										{isUpdating ? "Updating..." : "Save Changes"}
 									</button>
 								</div>
 							)}

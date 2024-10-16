@@ -63,85 +63,100 @@ const App = () => {
 			errorElement: <ErrorPage />,
 			children: [
 				{
-					element: <PrivateRoutes />,
+					path: "/",
+					element: (
+						<PrivateRoutes>
+							<Places />
+						</PrivateRoutes>
+					),
+				},
+				{
+					path: "details/:placeId",
+					element: (
+						<PrivateRoutes>
+							<PlaceDetails />
+						</PrivateRoutes>
+					),
+				},
+				{
+					path: "trip-planner",
+					element: (
+						<PrivateRoutes>
+							<TripPlanner />
+						</PrivateRoutes>
+					),
+				},
+				{
+					path: "dashboard",
+					element: (
+						<PrivateRoutes>
+							<Dashboard />
+						</PrivateRoutes>
+					),
 					children: [
 						{
-							index: true,
-							element: <Places />,
+							path: "profile",
+							element: (
+								<PrivateRoutes>
+									<ProfilePage />
+								</PrivateRoutes>
+							),
 						},
 						{
-							path: "details/:placeId",
-							element: <PlaceDetails />,
+							path: "admin",
+							element: (
+								<AdminRoute>
+									<AdminHome />
+								</AdminRoute>
+							),
 						},
 						{
-							path: "trip-planner",
-							element: <TripPlanner />,
+							path: "admin/manage-bookings",
+							element: (
+								<AdminRoute>
+									<ManageBookings />
+								</AdminRoute>
+							),
 						},
 						{
-							path: "dashboard",
-							element: <Dashboard />,
-							children: [
-								{
-									path: "profile",
-									element: <ProfilePage />,
-								},
-								{
-									path: "admin",
-									element: (
-										<AdminRoute>
-											<AdminHome />
-										</AdminRoute>
-									),
-								},
-								{
-									path: "admin/manage-bookings",
-									element: (
-										<AdminRoute>
-											<ManageBookings />
-										</AdminRoute>
-									),
-								},
-								{
-									path: "admin/manage-reviews",
-									element: (
-										<AdminRoute>
-											<ManageReviews />
-										</AdminRoute>
-									),
-								},
-								{
-									path: "admin/manage-payments",
-									element: (
-										<AdminRoute>
-											<ManagePayments />
-										</AdminRoute>
-									),
-								},
-								{
-									path: "admin/manage-users",
-									element: (
-										<AdminRoute>
-											<ManageUsers />
-										</AdminRoute>
-									),
-								},
-								{
-									path: "admin/manage-places",
-									element: (
-										<AdminRoute>
-											<ManagePlaces />
-										</AdminRoute>
-									),
-								},
-								{
-									path: "guest",
-									element: <UserHome />,
-								},
-								{
-									path: "guest/bookings",
-									element: <UserBookings />,
-								},
-							],
+							path: "admin/manage-reviews",
+							element: (
+								<AdminRoute>
+									<ManageReviews />
+								</AdminRoute>
+							),
+						},
+						{
+							path: "admin/manage-payments",
+							element: (
+								<AdminRoute>
+									<ManagePayments />
+								</AdminRoute>
+							),
+						},
+						{
+							path: "admin/manage-users",
+							element: (
+								<AdminRoute>
+									<ManageUsers />
+								</AdminRoute>
+							),
+						},
+						{
+							path: "admin/manage-places",
+							element: (
+								<AdminRoute>
+									<ManagePlaces />
+								</AdminRoute>
+							),
+						},
+						{
+							path: "guest",
+							element: <UserHome />,
+						},
+						{
+							path: "guest/bookings",
+							element: <UserBookings />,
 						},
 					],
 				},
@@ -157,11 +172,19 @@ const App = () => {
 		},
 		{
 			path: "checkout-success",
-			element: <SuccessPage />,
+			element: (
+				<PrivateRoutes>
+					<SuccessPage />
+				</PrivateRoutes>
+			),
 		},
 		{
 			path: "checkout-cancel",
-			element: <CancelPage />,
+			element: (
+				<PrivateRoutes>
+					<CancelPage />
+				</PrivateRoutes>
+			),
 		},
 		{
 			path: "*",

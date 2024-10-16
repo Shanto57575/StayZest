@@ -1,23 +1,25 @@
-import axios from 'axios';
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { axiosInstance } from '../../hooks/useAxiosInterceptor';
+import { axiosInstance } from "../../hooks/useAxiosInterceptor";
 
-export const fetchPlaces = createAsyncThunk('places/fetchPlaces', async ({ page, limit, sortBy, filterCountry, searchTitle }) => {
-    const response = await axios.get("https://stayzest-backend.onrender.com/api/place/all-places", {
-        params: { page, limit, sortBy, filterCountry, searchTitle }
-    })
-    return response.data
+export const fetchPlaces = createAsyncThunk('places/fetchPlaces', async ({ page, limit, sortBy, filterCountry, searchTitle }, { rejectWithValue }) => {
+    try {
+        const response = await axiosInstance.get("/api/place/allPlaces", {
+            params: { page, limit, sortBy, filterCountry, searchTitle }
+        })
+        console.log("response =>", response)
+        return response.data
+    } catch (error) {
+        return rejectWithValue(error.response?.data?.error || 'Failed to fetch places');
+    }
 })
 
 export const fetchPlaceDetails = createAsyncThunk('places/fetchPlaceDetails', async (placeId) => {
-    const response = await axios.get(`https://stayzest-backend.onrender.com/api/place/${placeId}`)
+    const response = await axiosInstance.get(`/api/place/${placeId}`)
     return response.data
 })
 
 export const updatePlace = createAsyncThunk('places/updatePlace', async ({ placeId, updatedData }) => {
-    const response = await axios.put(`https://stayzest-backend.onrender.com/api/place/${placeId}`, updatedData, {
-        withCredentials: true
-    });
+    const response = await axiosInstance.put(`/api/place/${placeId}`, updatedData);
     return response.data;
 });
 
@@ -50,17 +52,20 @@ const placesSlice = createSlice({
         builder
             .addCase(fetchPlaces.pending, (state) => {
                 state.placeLoading = true
+                console.log("action Inside fetchPlaces", state)
                 state.error = null
             })
             .addCase(fetchPlaces.fulfilled, (state, action) => {
                 state.placeLoading = false
+                console.log("action Inside fetchPlaces", action)
                 state.places = action.payload.places
                 state.totalPages = action.payload.totalPages
                 state.currentPage = action.payload.currentPage
             })
             .addCase(fetchPlaces.rejected, (state, action) => {
                 state.placeLoading = false
-                state.error = action.error.message
+                console.log("action Inside fetchPlaces", action)
+                state.error = action.payload
             })
             .addCase(fetchPlaceDetails.pending, (state) => {
                 state.placeLoading = true

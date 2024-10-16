@@ -10,10 +10,9 @@ import {
 	ArrowBack,
 	FileCopy,
 } from "@mui/icons-material";
-import axios from "axios";
 import toast from "react-hot-toast";
 import Loader from "../components/Loader";
-import { useSelector } from "react-redux";
+import useAxiosInterceptor from "../hooks/useAxiosInterceptor";
 
 const TripPlanner = () => {
 	const [step, setStep] = useState(0);
@@ -24,6 +23,7 @@ const TripPlanner = () => {
 	const [numberOfTravelers, setNumberOfTravelers] = useState("");
 	const [loading, setLoading] = useState(false);
 	const [tripPlan, setTripPlan] = useState(null);
+	const axiosInstance = useAxiosInterceptor();
 
 	const budgetOptions = ["Affordable", "Moderate", "Premium"];
 
@@ -72,13 +72,9 @@ const TripPlanner = () => {
 	const getTripPlan = async () => {
 		try {
 			setLoading(true);
-			const response = await axios.post(
-				"https://stayzest-backend.onrender.com/api/trip/plan",
-				{
-					prompt: `I want to plan a trip with a ${selectedBudget} budget to ${selectedCountry} for ${numberOfTravelers}. The ideal setting is ${selectedPlaceType}, and the tripDuration is ${tripDuration} days. Can you help me plan it?`,
-				},
-				{ withCredentials: true }
-			);
+			const response = await axiosInstance.post("/api/trip/plan", {
+				prompt: `I want to plan a trip with a ${selectedBudget} budget to ${selectedCountry} for ${numberOfTravelers}. The ideal setting is ${selectedPlaceType}, and the tripDuration is ${tripDuration} days. Can you help me plan it?`,
+			});
 			if (response.status === 200) {
 				setTripPlan(response.data.plan);
 				setLoading(false);

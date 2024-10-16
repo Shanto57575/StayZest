@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import axios from "axios";
 import { motion } from "framer-motion";
 import confetti from "canvas-confetti";
 import { FaCheckCircle, FaExclamationTriangle } from "react-icons/fa";
 import { useSelector } from "react-redux";
+import useAxiosInterceptor from "../hooks/useAxiosInterceptor";
 
 const SuccessPage = () => {
 	const [status, setStatus] = useState("processing");
 	const location = useLocation();
+	const axiosInstance = useAxiosInterceptor();
 
 	useEffect(() => {
 		const urlParams = new URLSearchParams(location.search);
@@ -39,10 +40,9 @@ const SuccessPage = () => {
 
 	const confirmBooking = async (sessionId) => {
 		try {
-			const response = await axios.post(
-				"https://stayzest-backend.onrender.com/api/payment/confirm-booking",
-				{ sessionId },
-				{ withCredentials: true }
+			const response = await axiosInstance.post(
+				"/api/payment/confirm-booking",
+				{ sessionId }
 			);
 			if (response.data.success) {
 				localStorage.setItem(`confirmedSession-${sessionId}`, "true");

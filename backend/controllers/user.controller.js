@@ -27,6 +27,7 @@ const updateUser = async (req, res) => {
     const userData = req.body;
 
     try {
+        console.log("req => ", req.params.id, req.body, req.file)
         if (req.file) {
             userData.profilePicture = req.file.path
         }
@@ -39,7 +40,8 @@ const updateUser = async (req, res) => {
 
         res.status(200).json({ message: 'User updated successfully', user });
     } catch (error) {
-        res.status(200).json({ error: error });
+        console.log("ERROR=>", error)
+        res.status(500).json({ error: error });
     }
 };
 
@@ -56,7 +58,7 @@ const updateRole = async (req, res) => {
 
         res.status(200).json({ message: `${user.username} is an  ${user.role} Now`, user: user.role });
     } catch (error) {
-        res.status(200).json({ error: error });
+        res.status(500).json({ error: error.message });
     }
 };
 

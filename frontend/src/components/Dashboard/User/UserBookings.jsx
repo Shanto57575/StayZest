@@ -8,7 +8,6 @@ import WatchLaterIcon from "@mui/icons-material/WatchLater";
 import CheckIcon from "@mui/icons-material/Check";
 import CancelIcon from "@mui/icons-material/Cancel";
 import FlightTakeoffIcon from "@mui/icons-material/FlightTakeoff";
-import Alert from "@mui/material/Alert";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import { Link, useLocation } from "react-router-dom";
 import useAxiosInterceptor from "../../../hooks/useAxiosInterceptor";
@@ -17,6 +16,7 @@ const UserBookings = () => {
 	const location = useLocation();
 	const user =
 		location.state?.user || useSelector((state) => state.auth.currentUser);
+	console.log("Inside userbookings =>", location.state, user);
 
 	const [bookings, setBookings] = useState([]);
 	const [loading, setLoading] = useState(false);

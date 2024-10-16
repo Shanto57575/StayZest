@@ -30,6 +30,7 @@ const Dashboard = () => {
 	const handleLogOut = async () => {
 		try {
 			await dispatch(logout());
+			localStorage.clear();
 			navigate("/signin");
 		} catch (error) {}
 	};
@@ -84,7 +85,6 @@ const Dashboard = () => {
 					icon={MdAdminPanelSettings}
 					text="My Profile"
 				/>
-
 				{(userTypes === "ADMIN" || userTypes === "SUPER_ADMIN") && (
 					<>
 						<MenuItem
@@ -92,7 +92,6 @@ const Dashboard = () => {
 							icon={MdDashboard}
 							text="Dashboard"
 						/>
-
 						<MenuItem
 							to="/dashboard/admin/manage-users"
 							icon={MdPeople}
@@ -127,7 +126,6 @@ const Dashboard = () => {
 						text="My Bookings"
 					/>
 				)}
-
 				<div className="pt-4 border-t dark:border-gray-700">
 					<MenuItem to="/" icon={FaHome} text="Back To Home" />
 					<button

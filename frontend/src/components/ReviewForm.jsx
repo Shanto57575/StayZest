@@ -8,7 +8,7 @@ import {
 } from "react-icons/fa";
 import { MdOutlineAccessTimeFilled } from "react-icons/md";
 import { useSelector } from "react-redux";
-import useAxiosInterceptor from "../hooks/useAxiosInterceptor";
+import { axiosInstance } from "../hooks/useAxiosInterceptor";
 
 const ReviewForm = ({ place }) => {
 	const [reviews, setReviews] = useState([]);
@@ -16,8 +16,6 @@ const ReviewForm = ({ place }) => {
 	const [editingId, setEditingId] = useState(null);
 	const [loading, setLoading] = useState(false);
 	const user = useSelector((state) => state.auth.currentUser);
-
-	const axiosInstance = useAxiosInterceptor();
 
 	const fetchReviews = async () => {
 		try {

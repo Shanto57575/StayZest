@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
 import {
 	CalendarToday,
 	Person,
@@ -12,19 +11,18 @@ import {
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
+import useAxiosInterceptor from "../../../hooks/useAxiosInterceptor";
 
 const ManagePayments = () => {
 	const [allPayments, setAllPayments] = useState([]);
 	const [loading, setLoading] = useState(true);
 	const [activeTab, setActiveTab] = useState("overview");
+	const axiosInstance = useAxiosInterceptor();
 
 	useEffect(() => {
 		const GetAllPayments = async () => {
 			try {
-				const response = await axios.get(
-					"https://stayzest-backend.onrender.com/api/payment/all-payments",
-					{ withCredentials: true }
-				);
+				const response = await axiosInstance.get("/api/payment/allpayments");
 				setAllPayments(response.data);
 				setLoading(false);
 			} catch (err) {

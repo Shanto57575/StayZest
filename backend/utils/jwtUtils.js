@@ -7,15 +7,16 @@ const generateTokens = (user) => {
             role: user.role,
         },
         process.env.JWT_ACCESS_SECRET,
-        { expiresIn: '15m' }
+        { expiresIn: '1h' }
     );
 
     const refreshToken = jwt.sign(
         {
             userId: user._id,
+            role: user.role,
         },
         process.env.JWT_REFRESH_SECRET,
-        { expiresIn: '7d' }
+        { expiresIn: '15d' }
     );
 
     return { accessToken, refreshToken };
@@ -41,14 +42,14 @@ const verifyToken = (req, res, next) => {
     const accessToken = req.cookies.accessToken;
 
     if (!accessToken) {
-        return res.status(401).json({ error: 'Unauthorized access: No token provided' });
+        return res.status(401).json({ error: 'Unauthorized Access' });
     }
 
     try {
         const decoded = verifyAccessToken(accessToken);
         if (!decoded) {
             setTimeout(() => {
-                res.status(401).json({ error: 'Unauthorized: Invalid or expired token' });
+                res.status(401).json({ error: 'Unauthorized Access' });
             }, 100);
             return;
         }
@@ -56,7 +57,7 @@ const verifyToken = (req, res, next) => {
         next();
     } catch (error) {
         setTimeout(() => {
-            res.status(401).json({ error: 'Unauthorized: Invalid token' });
+            res.status(401).json({ error: 'Unauthorized Access' });
         }, 100);
     }
 };

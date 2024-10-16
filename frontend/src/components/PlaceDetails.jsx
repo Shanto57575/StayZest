@@ -60,7 +60,9 @@ const PlaceDetails = () => {
 				`/api/review/reviews-by-place/${placeId}`
 			);
 			setReviews(response.data);
-		} catch (error) {}
+		} catch (error) {
+			toast.error("Failed to fetch reviews");
+		}
 	};
 
 	const handleGuestsChange = (type, operation) => {

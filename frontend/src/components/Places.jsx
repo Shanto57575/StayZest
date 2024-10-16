@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
 	deletePlace,
 	fetchPlaces,
@@ -19,15 +19,19 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { FaExclamationTriangle } from "react-icons/fa";
+import { logout } from "../features/auth/authSlice";
+import { Navigate } from "react-router-dom";
 
 const Places = () => {
 	const dispatch = useDispatch();
 	const { places, placeLoading, error, totalPages, currentPage } = useSelector(
 		(state) => state.places
 	);
-	const { currentUser } = useSelector((state) => state.auth);
 
-	const [sortBy, setSortBy] = useState("price_asc");
+	const { currentUser } = useSelector((state) => state.auth);
+	const navigate = useNavigate();
+
+	const [sortBy, setSortBy] = useState("price_desc");
 	const [filterCountry, setFilterCountry] = useState("");
 	const [searchTitle, setSearchTitle] = useState("");
 	const [searchTitleInput, setSearchTitleInput] = useState("");
@@ -47,7 +51,13 @@ const Places = () => {
 				filterCountry,
 				searchTitle,
 			})
-		);
+		)
+			.unwrap()
+			.catch((error) => {
+				console.error("Error fetching places:", error);
+				dispatch(logout());
+				navigate("/signin");
+			});
 	}, [dispatch, currentPage, sortBy, filterCountry, searchTitle]);
 
 	const handleSortChange = (e) => {
@@ -130,7 +140,9 @@ const Places = () => {
 										})
 									);
 								}
-							} catch (err) {}
+							} catch (err) {
+								console.log(err);
+							}
 						}}
 						className="bg-blue-500 text-white px-4 py-2 rounded-lg"
 					>
@@ -159,7 +171,20 @@ const Places = () => {
 		fade: true,
 	};
 
-	if (error)
+	if (placeLoading) {
+		return (
+			<div className="flex justify-center items-center h-screen">
+				<div className="relative w-24 h-24">
+					<div className="absolute top-0 left-0 w-full h-full border-4 border-blue-500 rounded-full animate-ping"></div>
+					<div className="absolute top-0 left-0 w-full h-full border-4 border-blue-500 rounded-full animate-pulse"></div>
+					<FlightTakeoffIcon className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-blue-500 text-4xl animate-bounce" />
+				</div>
+			</div>
+		);
+	}
+
+	if (error) {
+		console.log("Inside places", error);
 		return (
 			<div className="h-screen flex items-center text-center justify-center font-serif">
 				<div className="text-center">
@@ -176,6 +201,7 @@ const Places = () => {
 				</div>
 			</div>
 		);
+	}
 
 	return (
 		<div className="py-3 font-serif min-h-screen">
@@ -225,140 +251,130 @@ const Places = () => {
 						</div>
 					</div>
 				</div>
-				{placeLoading ? (
-					<div className="flex justify-center items-center h-screen">
-						<div className="relative w-24 h-24">
-							<div className="absolute top-0 left-0 w-full h-full border-4 border-blue-500 rounded-full animate-ping"></div>
-							<div className="absolute top-0 left-0 w-full h-full border-4 border-blue-500 rounded-full animate-pulse"></div>
-							<FlightTakeoffIcon className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-blue-500 text-4xl animate-bounce" />
-						</div>
-					</div>
-				) : (
-					<div className="">
-						{places.length === 0 ? (
-							<p className="flex items-center justify-center bg-blue-500 p-4 border-l-8 border-rose-500 max-w-xl mx-auto text-white text-xl font-bold">
-								No places found. Time to explore new horizons!
-							</p>
-						) : (
-							<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-								{places.map((place) => (
-									<div
-										key={place._id}
-										className="group w-full relative overflow-hidden rounded-2xl hover:scale-105 transition duration-300"
-									>
-										<Slider {...settings}>
-											{place.photos.map((photo, index) => (
-												<div key={index} className="relative w-full">
-													<img
-														className="w-full h-64 -mb-4 object-cover rounded-lg cursor-pointer filter group-hover:brightness-75 transition duration-300 shadow-2xl shadow-white dark:shadow-black"
-														src={photo}
-														alt={`${place.location} - ${index + 1}`}
-													/>
-												</div>
-											))}
-										</Slider>
-										<div className="absolute inset-0 flex flex-col justify-end p-6 bg-gradient-to-t from-black to-transparent opacity-0 group-hover:opacity-100 transition duration-300">
-											<h3 className="text-lg md:text-2xl font-bold text-white mb-1">
-												{place.location}
-											</h3>
-											<p className="text-lg font-semibold text-sky-300 mb-2">
-												{place.country}
-											</p>
-											<p className="text-xl md:text-3xl font-extrabold text-yellow-400 mb-2">
-												${place.price}
-												<span className="text-sm font-normal text-yellow-200">
-													{" "}
-													/ Night
-												</span>
-											</p>
-											<p className="text-sm text-gray-300">
-												{formatDate(place.availability[0].startDate)} -{" "}
-												{formatDate(place.availability[0].endDate)}
-											</p>
-											{currentUser.role == "GUEST" && (
-												<Link
-													className="text-center mt-2 bg-transparent border-b-4 w-32 mx-auto rounded-xl py-2 text-white hover:border-t-2 font-bold duration-700"
-													to={`details/${place._id}`}
-												>
-													View Details
-												</Link>
-											)}
-											{(currentUser.role === "ADMIN" ||
-												currentUser.role == "SUPER_ADMIN") && (
-												<div className="flex justify-end mt-4 space-x-2">
-													<Tooltip title="View Details" placement="top" arrow>
-														<Link
-															className="p-2 rounded-full bg-sky-500 duration-300 text-white"
-															to={`details/${place._id}`}
-														>
-															<InfoIcon fontSize="medium" />
-														</Link>
-													</Tooltip>
-													<Tooltip title="Edit" placement="top" arrow>
-														<button
-															onClick={() => handlePlaceEdit(place)}
-															className="p-2 bg-blue-500 rounded-full text-white hover:bg-blue-600 duration-300"
-														>
-															<ModeEditIcon fontSize="medium" />
-														</button>
-													</Tooltip>
-													<Tooltip title="Delete" placement="top" arrow>
-														<button
-															onClick={() => handlePlaceDelete(place._id)}
-															className="p-2 bg-rose-600 rounded-full hover:bg-rose-500 text-white duration-300"
-														>
-															<DeleteForeverIcon fontSize="medium" />
-														</button>
-													</Tooltip>
-												</div>
-											)}
-										</div>
+				<div className="">
+					{places.length === 0 ? (
+						<p className="flex items-center md:mt-40 justify-center bg-blue-600 p-4 border-l-[16px] border-rose-600 max-w-xl mx-auto text-white text-xl font-bold">
+							No places found. Try Changing Filters
+						</p>
+					) : (
+						<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+							{places.map((place) => (
+								<div
+									key={place._id}
+									className="group w-full relative overflow-hidden rounded-2xl hover:scale-105 transition duration-300"
+								>
+									<Slider {...settings}>
+										{place.photos.map((photo, index) => (
+											<div key={index} className="relative w-full">
+												<img
+													className="w-full h-64 -mb-4 object-cover rounded-lg cursor-pointer filter group-hover:brightness-75 transition duration-300 shadow-2xl shadow-white dark:shadow-black"
+													src={photo}
+													alt={`${place.location} - ${index + 1}`}
+												/>
+											</div>
+										))}
+									</Slider>
+									<div className="absolute inset-0 flex flex-col justify-end p-6 bg-gradient-to-t from-black to-transparent opacity-0 group-hover:opacity-100 transition duration-300">
+										<h3 className="text-lg md:text-2xl font-bold text-white mb-1">
+											{place.location}
+										</h3>
+										<p className="text-lg font-semibold text-sky-300 mb-2">
+											{place.country}
+										</p>
+										<p className="text-xl md:text-3xl font-extrabold text-yellow-400 mb-2">
+											${place.price}
+											<span className="text-sm font-normal text-yellow-200">
+												{" "}
+												/ Night
+											</span>
+										</p>
+										<p className="text-sm text-gray-300">
+											{formatDate(place.availability[0].startDate)} -{" "}
+											{formatDate(place.availability[0].endDate)}
+										</p>
+										{currentUser?.role === "GUEST" && (
+											<Link
+												className="text-center mt-2 bg-transparent border-b-4 w-32 mx-auto rounded-xl py-2 text-white hover:border-t-2 font-bold duration-700"
+												to={`details/${place._id}`}
+											>
+												View Details
+											</Link>
+										)}
+										{(currentUser?.role === "ADMIN" ||
+											currentUser?.role === "SUPER_ADMIN") && (
+											<div className="flex justify-end mt-4 space-x-2">
+												<Tooltip title="View Details" placement="top" arrow>
+													<Link
+														className="p-2 rounded-full bg-sky-500 duration-300 text-white"
+														to={`details/${place._id}`}
+													>
+														<InfoIcon fontSize="medium" />
+													</Link>
+												</Tooltip>
+												<Tooltip title="Edit" placement="top" arrow>
+													<button
+														onClick={() => handlePlaceEdit(place)}
+														className="p-2 bg-blue-500 rounded-full text-white hover:bg-blue-600 duration-300"
+													>
+														<ModeEditIcon fontSize="medium" />
+													</button>
+												</Tooltip>
+												<Tooltip title="Delete" placement="top" arrow>
+													<button
+														onClick={() => handlePlaceDelete(place._id)}
+														className="p-2 bg-rose-600 rounded-full hover:bg-rose-500 text-white duration-300"
+													>
+														<DeleteForeverIcon fontSize="medium" />
+													</button>
+												</Tooltip>
+											</div>
+										)}
 									</div>
-								))}
-							</div>
-						)}
-					</div>
-				)}
-
-				{totalPages > 1 && (
-					<div className="flex flex-wrap justify-center mt-10">
-						{Array.from({ length: totalPages }, (_, index) => (
-							<button
-								onClick={() => handlePageChange(index + 1)}
-								key={index + 1}
-								className={`rounded-full w-10 h-10 m-1 flex items-center justify-center transition shadow-lg shadow-gray-500 dark:shadow-black duration-300 ${
-									currentPage === index + 1
-										? "bg-sky-500 text-white"
-										: "bg-white text-sky-500 border border-sky-500 hover:bg-sky-200"
-								}`}
-							>
-								{index + 1}
-							</button>
-						))}
-					</div>
-				)}
-
-				{editingPlace && (
-					<EditPlaceModal
-						isOpen={isModalOpen}
-						onClose={handleCloseModal}
-						onSubmit={handleSubmit}
-						initialData={{
-							title: editingPlace.title,
-							description: editingPlace.description,
-							location: editingPlace.location,
-							country: editingPlace.country,
-							price: editingPlace.price,
-							averageRating: editingPlace.averageRating,
-							bedrooms: editingPlace.bedrooms,
-							bathrooms: editingPlace.bathrooms,
-							totalGuests: editingPlace.totalGuests,
-							photos: editingPlace.photos,
-							availability: editingPlace.availability[0],
-						}}
-					/>
-				)}
+								</div>
+							))}
+						</div>
+					)}
+				</div>
 			</div>
+
+			{totalPages > 1 && (
+				<div className="flex flex-wrap justify-center mt-10">
+					{Array.from({ length: totalPages }, (_, index) => (
+						<button
+							onClick={() => handlePageChange(index + 1)}
+							key={index + 1}
+							className={`rounded-full w-10 h-10 m-1 flex items-center justify-center transition shadow-lg shadow-gray-500 dark:shadow-black duration-300 ${
+								currentPage === index + 1
+									? "bg-sky-500 text-white"
+									: "bg-white text-sky-500 border border-sky-500 hover:bg-sky-200"
+							}`}
+						>
+							{index + 1}
+						</button>
+					))}
+				</div>
+			)}
+
+			{editingPlace && (
+				<EditPlaceModal
+					isOpen={isModalOpen}
+					onClose={handleCloseModal}
+					onSubmit={handleSubmit}
+					initialData={{
+						title: editingPlace.title,
+						description: editingPlace.description,
+						location: editingPlace.location,
+						country: editingPlace.country,
+						price: editingPlace.price,
+						averageRating: editingPlace.averageRating,
+						bedrooms: editingPlace.bedrooms,
+						bathrooms: editingPlace.bathrooms,
+						totalGuests: editingPlace.totalGuests,
+						photos: editingPlace.photos,
+						availability: editingPlace.availability[0],
+					}}
+				/>
+			)}
 		</div>
 	);
 };

@@ -12,7 +12,6 @@ import { errorHandler, notFound } from './middlewares/errorHandler.js';
 import tripPlannerRoutes from './routes/gemini.routes.js';
 import paymentRoutes from './routes/payment.routes.js';
 import reviewRoutes from './routes/review.routes.js';
-import https from 'https';
 
 dotenv.config();
 
@@ -20,17 +19,11 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Middleware
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use('/uploads', express.static('uploads'));
 app.use(cookieParser());
-app.use(compression());
-
-// CORS configuration
 const allowedOrigins = [
     process.env.CLIENT_URL,
-    'https://stay-zest-view.vercel.app',
-    'http://localhost:5173'
+    'https://stayzest-cbf59.web.app',
+    'https://stay-zest-view.vercel.app'
 ];
 
 app.use(cors({
@@ -43,6 +36,11 @@ app.use(cors({
     },
     credentials: true,
 }));
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use('/uploads', express.static('uploads'));
+app.use(compression());
 
 // Routes
 app.use('/api/auth', authRoutes);

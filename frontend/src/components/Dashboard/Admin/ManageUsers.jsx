@@ -1,14 +1,12 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
-import toast from "react-hot-toast";
 import { Fade } from "react-awesome-reveal";
 import { Person, Group } from "@mui/icons-material";
 import { FaUsers, FaUserShield, FaExclamationTriangle } from "react-icons/fa";
 import { IoMdBookmarks } from "react-icons/io";
-import useAxiosInterceptor from "../../../hooks/useAxiosInterceptor";
 import Tooltip from "@mui/material/Tooltip";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../../features/auth/authSlice";
+import useAxiosInterceptor from "../../../hooks/useAxiosInterceptor";
 
 const StatCard = ({ icon: Icon, title, value, bgColor, color }) => (
 	<Fade>
@@ -27,8 +25,8 @@ const ManageUsers = () => {
 	const [users, setUsers] = useState([]);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState(null);
-	const axiosInstance = useAxiosInterceptor();
 	const { currentUser } = useSelector((state) => state.auth);
+	const axiosInstance = useAxiosInterceptor();
 	const dispatch = useDispatch();
 
 	useEffect(() => {

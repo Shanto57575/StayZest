@@ -42,6 +42,7 @@ const Navbar = () => {
 	const handleLogOut = async () => {
 		try {
 			await dispatch(logout());
+			localStorage.clear();
 			navigate("/signin");
 		} catch (error) {}
 	};
@@ -168,7 +169,7 @@ const Navbar = () => {
 									{user && (
 										<p className="px-4 py-2 text-sm flex items-center space-x-2 border-b dark:border-gray-700 bg-gradient-to-r from-sky-100 to-indigo-100 dark:from-sky-900 dark:to-indigo-900">
 											<EmailIcon className="w-4 h-4 text-sky-500" />
-											<span className="truncate">{user.email}</span>
+											<span className="truncate">{user?.email}</span>
 										</p>
 									)}
 									{navLinks.map((link, index) =>
@@ -224,7 +225,7 @@ const Navbar = () => {
 								<div className="flex items-center gap-x-2">
 									<FaUser size={16} />
 									<p className="text-lg font-serif text-wrap">
-										{user.username}
+										{user?.username}
 									</p>
 								</div>
 								<button

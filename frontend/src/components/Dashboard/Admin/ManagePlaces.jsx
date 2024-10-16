@@ -4,10 +4,12 @@ import AddCircleIcon from "@mui/icons-material/AddCircle";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import { Fade } from "react-awesome-reveal";
 import toast from "react-hot-toast";
-import axios from "axios";
+import useAxiosInterceptor from "../../../hooks/useAxiosInterceptor";
 
 const ManagePlaces = () => {
 	const [loading, setLoading] = useState(false);
+	const axiosInstance = useAxiosInterceptor();
+
 	const {
 		register,
 		control,
@@ -52,11 +54,7 @@ const ManagePlaces = () => {
 	const onSubmit = async (data) => {
 		try {
 			setLoading(true);
-			const response = await axios.post(
-				"https://stayzest-backend.onrender.com/api/place/add-place",
-				data,
-				{ withCredentials: true }
-			);
+			const response = await axiosInstance.post("/api/place/add-place", data);
 			if (response.data) {
 				toast.success(<h1 className="font-serif">New Place added 👌</h1>, {
 					position: "top-center",

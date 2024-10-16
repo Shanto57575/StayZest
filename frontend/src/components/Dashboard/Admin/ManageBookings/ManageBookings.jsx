@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import { Fade } from "react-awesome-reveal";
 import toast from "react-hot-toast";
 import FlightTakeoffIcon from "@mui/icons-material/FlightTakeoff";
@@ -9,6 +8,7 @@ import PendingIcon from "@mui/icons-material/Pending";
 import StatCard from "./StatCard";
 import BookingTable from "./BookingTable";
 import { FaExclamationTriangle } from "react-icons/fa";
+import useAxiosInterceptor from "../../../../hooks/useAxiosInterceptor";
 
 const ManageBookings = () => {
 	const [bookings, setBookings] = useState([]);
@@ -16,13 +16,11 @@ const ManageBookings = () => {
 	const [error, setError] = useState(null);
 	const [selectedBookingId, setSelectedBookingId] = useState(null);
 	const [searchTerm, setSearchTerm] = useState("");
+	const axiosInstance = useAxiosInterceptor();
 
 	const fetchBookings = async () => {
 		try {
-			const response = await axios.get(
-				`https://stayzest-backend.onrender.com/api/booking/all-Bookings`,
-				{ withCredentials: true }
-			);
+			const response = await axiosInstance.get(`/api/booking/allBookings`);
 			setBookings(response.data);
 			setLoading(false);
 		} catch (err) {
@@ -38,11 +36,9 @@ const ManageBookings = () => {
 	const handleStatus = async (bookingId, newStatus) => {
 		setSelectedBookingId(bookingId);
 		try {
-			await axios.put(
-				`https://stayzest-backend.onrender.com/api/booking/${bookingId}`,
-				{ status: newStatus },
-				{ withCredentials: true }
-			);
+			await axiosInstance.put(`/api/booking/${bookingId}`, {
+				status: newStatus,
+			});
 
 			setBookings(
 				bookings.map((booking) =>
@@ -77,11 +73,9 @@ const ManageBookings = () => {
 	// TODO: KEEP IT FOR DELETE
 	const handleCancellation = async () => {
 		try {
-			await axios.put(
-				`https://stayzest-backend.onrender.com/api/booking/${selectedBookingId}`,
-				{ status: "CANCELLED" },
-				{ withCredentials: true }
-			);
+			await axiosInstance.put(`/api/booking/${selectedBookingId}`, {
+				status: "CANCELLED",
+			});
 
 			setBookings(
 				bookings.map((booking) =>

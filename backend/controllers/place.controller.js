@@ -45,7 +45,7 @@ const addPlace = async (req, res) => {
 }
 
 const getAllPlace = async (req, res) => {
-    const { page = 1, limit = 8, sortBy = 'price_asc', filterCountry, searchTitle } = req.query;
+    const { page = 1, limit = 8, sortBy = 'price_desc', filterCountry, searchTitle } = req.query;
 
     const query = {};
 
@@ -54,7 +54,10 @@ const getAllPlace = async (req, res) => {
     }
 
     if (searchTitle) {
-        query.location = { $regex: searchTitle, $options: 'i' }
+        query.location = {
+            $regex: searchTitle,
+            $options: 'i'
+        }
     }
 
     let sort = {};

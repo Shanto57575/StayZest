@@ -6,7 +6,7 @@ import { isAdmin } from '../utils/protectedRoutes.js';
 
 const paymentRoutes = express.Router();
 
-paymentRoutes.get('/all-payments', verifyToken, isAdmin, getAllBookings);
+paymentRoutes.get('/allpayments', verifyToken, isAdmin, getAllBookings);
 paymentRoutes.post('/create-booking-intent', verifyToken, createBookingIntent);
 paymentRoutes.post('/confirm-booking', verifyToken, confirmBooking);
 paymentRoutes.get('/:email', verifyToken, getPaymentByEmail);

@@ -11,7 +11,7 @@ import { isAdmin } from '../utils/protectedRoutes.js';
 
 const bookingRoutes = express.Router();
 
-bookingRoutes.get('/all-Bookings', verifyToken, isAdmin, getAllBookings);
+bookingRoutes.get('/allBookings', verifyToken, isAdmin, getAllBookings);
 bookingRoutes.get('/:email', verifyToken, getBookingByEmail);
 bookingRoutes.get('/:id', verifyToken, getBookingById);
 bookingRoutes.put('/:id', verifyToken, isAdmin, updateBooking);
