@@ -49,8 +49,8 @@ const ProfilePage = () => {
 		if (isDataChanged) {
 			setIsUpdating(true);
 			const formData = new FormData();
-			formData.append("username", data.username);
-			formData.append("email", data.email);
+			formData.append("username", data?.username);
+			formData.append("email", data?.email);
 
 			if (newImage) {
 				formData.append("profilePicture", newImage);

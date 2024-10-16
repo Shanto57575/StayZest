@@ -111,7 +111,7 @@ const ManageReviews = () => {
 									<div className="flex items-center gap-x-1">
 										<FaUserCircle className="mr-2" size={20} />
 										<span className="font-semibold">
-											{review.user.username}
+											{review.user?.username}
 										</span>
 									</div>
 									<div>

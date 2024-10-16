@@ -54,7 +54,6 @@ const Places = () => {
 		)
 			.unwrap()
 			.catch((error) => {
-				console.error("Error fetching places:", error);
 				dispatch(logout());
 				navigate("/signin");
 			});

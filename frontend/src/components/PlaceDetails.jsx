@@ -464,7 +464,7 @@ const PlaceDetails = () => {
 									Username
 								</label>
 								<input
-									defaultValue={user.username}
+									defaultValue={user?.username}
 									type="text"
 									name="username"
 									id="username"
@@ -516,8 +516,8 @@ const PlaceDetails = () => {
 								>
 									<div className="flex items-center mb-4">
 										<FaUserCircle className="mr-2" size={24} />
-										<span className="font-medium">{review.user.username}</span>
-										{(review.user.username === user.username ||
+										<span className="font-medium">{review.user?.username}</span>
+										{(review.user.username === user?.username ||
 											user.role === "ADMIN") && (
 											<div className="ml-auto flex space-x-2">
 												<button

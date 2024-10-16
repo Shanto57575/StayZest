@@ -16,7 +16,6 @@ const UserBookings = () => {
 	const location = useLocation();
 	const user =
 		location.state?.user || useSelector((state) => state.auth.currentUser);
-	console.log("Inside userbookings =>", location.state, user);
 
 	const [bookings, setBookings] = useState([]);
 	const [loading, setLoading] = useState(false);

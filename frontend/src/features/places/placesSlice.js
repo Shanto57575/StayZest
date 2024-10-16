@@ -52,19 +52,16 @@ const placesSlice = createSlice({
         builder
             .addCase(fetchPlaces.pending, (state) => {
                 state.placeLoading = true
-                console.log("action Inside fetchPlaces", state)
                 state.error = null
             })
             .addCase(fetchPlaces.fulfilled, (state, action) => {
                 state.placeLoading = false
-                console.log("action Inside fetchPlaces", action)
                 state.places = action.payload.places
                 state.totalPages = action.payload.totalPages
                 state.currentPage = action.payload.currentPage
             })
             .addCase(fetchPlaces.rejected, (state, action) => {
                 state.placeLoading = false
-                console.log("action Inside fetchPlaces", action)
                 state.error = action.payload
             })
             .addCase(fetchPlaceDetails.pending, (state) => {

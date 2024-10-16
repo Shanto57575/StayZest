@@ -18,8 +18,6 @@ const useAxiosInterceptor = () => {
 	useEffect(() => {
 		const responseInterceptor = axiosInstance.interceptors.response.use(
 			(response) => {
-				console.log("Interceptor response : ", response);
-
 				if (response.data.message == "Access token refreshed successfully") {
 					return response;
 				}

@@ -137,14 +137,12 @@ const refreshAccessToken = async (req, res) => {
 
         res.status(200).json({ message: 'Access token refreshed successfully' });
     } catch (error) {
-        console.error('Error refreshing token:', error);
         res.status(500).json({ error: 'Error refreshing token' });
     }
 };
 
 const checkAuth = async (req, res) => {
     const accessToken = req.cookies?.accessToken;
-    console.log("Inside checkAuth", accessToken)
 
     if (!accessToken) {
         return res.status(401).json({ error: 'No Access Token' });

@@ -14,7 +14,6 @@ const PrivateRoutes = ({ children }) => {
 		try {
 			const response = await axiosInstance.get("/api/auth/check");
 			if (response.status === 200) {
-				console.log("response in private route: ", response);
 				setAuth(true);
 			}
 		} catch (error) {
