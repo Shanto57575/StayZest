@@ -6,14 +6,14 @@ const setTokens = (res, accessToken, refreshToken) => {
     res.cookie('accessToken', accessToken, {
         httpOnly: true,
         secure: true,
-        sameSite: 'Strict',
+        sameSite: 'Lax',
         maxAge: 60 * 60 * 1000,
     });
 
     res.cookie('refreshToken', refreshToken, {
         httpOnly: true,
         secure: true,
-        sameSite: 'Strict',
+        sameSite: 'Lax',
         maxAge: 15 * 24 * 60 * 60 * 1000,
     });
 };
@@ -175,13 +175,13 @@ const logOut = (req, res) => {
     res.clearCookie('accessToken', {
         httpOnly: true,
         secure: true,
-        sameSite: 'Strict',
+        sameSite: 'Lax',
     });
 
     res.clearCookie('refreshToken', {
         httpOnly: true,
         secure: true,
-        sameSite: 'Strict',
+        sameSite: 'Lax',
     });
 
     res.status(200).json({ message: "Successfully Logged Out!" });

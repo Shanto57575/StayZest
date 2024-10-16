@@ -12,6 +12,7 @@ import { errorHandler, notFound } from './middlewares/errorHandler.js';
 import tripPlannerRoutes from './routes/gemini.routes.js';
 import paymentRoutes from './routes/payment.routes.js';
 import reviewRoutes from './routes/review.routes.js';
+import https from 'https';
 
 dotenv.config();
 
